@@ -487,15 +487,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <script type="module">
 /* =========================================================
    FIREBASE SETUP
-   =========================================================
-   👉 Replace the placeholder values below with the config
-   from your Firebase Console:
-     Project Settings → Your apps → Web app → SDK setup
-   Also: in the Firebase Console enable
-     - Authentication → Sign-in method → Email/Password
-     - Authentication → Sign-in method → Google
-     - Firestore Database → Create database (start in test mode for dev)
-   ========================================================= */
+   =========================================================*/
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth, onAuthStateChanged,
@@ -509,12 +501,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "REPLACE_WITH_YOUR_API_KEY",
-  authDomain: "REPLACE_WITH_YOUR_PROJECT.firebaseapp.com",
-  projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
-  storageBucket: "REPLACE_WITH_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
-  appId: "REPLACE_WITH_YOUR_APP_ID"
+  apiKey: "AIzaSyAwFpDNSHGWQYoXbe4UWBNggFYCHJ-K-4Q",
+  authDomain: "fixify-1.firebaseapp.com",
+  projectId: "fixify-1",
+  storageBucket: "fixify-1.firebasestorage.app",
+  messagingSenderId: "397001927220",
+  appId: "1:397001927220:web:e02c3b37c7a2ac7aa53861",
+  measurementId: "G-4BWD6R8GPB"
 };
 
 const fbApp = initializeApp(firebaseConfig);
