@@ -285,7 +285,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 </div>
 
 <!-- AUTH SCREEN -->
-<div id="auth-screen" style="display: none;">
+<div id="auth-screen" style="display: flex;">
   <div class="auth-card">
     <div class="auth-logo">
       <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
@@ -331,7 +331,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 </div>
 
 <!-- MAIN APP -->
-<div id="app" style="display: block;">
+<div id="app" style="display:none">
 <header>
   <div class="head-in">
     <div class="brand" onclick="showView('home')">
@@ -344,10 +344,10 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <button data-v="fixers" onclick="showView('fixers')">Fixers</button>
         <button data-v="myitems" onclick="showView('myitems')">My Items</button>
       </nav>
-      <div class="clubsw on" id="clubSw" onclick="toggleClub()"><span class="track"></span><span>Club</span></div>
+      <div class="clubsw" id="clubSw" onclick="toggleClub()"><span class="track"></span><span>Club</span></div>
       <div class="user-chip" onclick="signOut()" title="Sign out">
-        <div class="av" id="userAv" style="background:#E07D2B">LO</div>
-        <span class="un" id="userName">Landon</span>
+        <div class="av" id="userAv" style="background:#E07D2B">?</div>
+        <span class="un" id="userName">—</span>
       </div>
     </div>
   </div>
@@ -364,13 +364,10 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <div class="ruler"></div>
         <div class="hero-row">
           <button class="btn btn-primary" onclick="openSubmit()">＋ Submit an item</button>
-          <span class="clubhint" id="modeHint">Club mode <b>on</b> — claim repairs &amp; chat with owners.</span>
+          <span class="clubhint" id="modeHint"></span>
         </div>
       </div>
-      <div class="impact" id="impact">
-    <div class="istat amber"><div class="n">2</div><div class="l">Awaiting a fixer</div></div>
-    <div class="istat blue"><div class="n">1</div><div class="l">Being fixed now</div></div>
-    <div class="istat green"><div class="n">1</div><div class="l">Fixed &amp; kept from landfill</div></div></div>
+      <div class="impact" id="impact"></div>
       <div class="filterbar">
         <div class="tabs" id="tabs">
           <button data-f="all" class="on" onclick="setFilter('all')">All</button>
@@ -378,9 +375,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
           <button data-f="progress" onclick="setFilter('progress')">In progress</button>
           <button data-f="ready" onclick="setFilter('ready')">Ready</button>
         </div>
-        <select class="catsel" id="catSel" onchange="renderItems()"><option value="all">All categories</option><option>Electronics</option><option>Clothing &amp; textiles</option><option>Bags &amp; zippers</option><option>Furniture</option><option>Bikes &amp; wheels</option><option>Toys &amp; games</option><option>Jewelry &amp; accessories</option><option>Other</option></select>
+        <select class="catsel" id="catSel" onchange="renderItems()"></select>
       </div>
-      <div class="grid" id="grid"><div class="card"><div class="photo">🔌<span class="tag awaiting">Awaiting fixer</span></div><div class="body"><span class="catpill">🔌 Electronics</span><h3>Gooseneck desk lamp</h3><div class="note"><span class="nlabel">What's wrong</span>Flickers and cuts out unless you wiggle the cord near the base.</div><div class="meta"><span>From Jordan L. · yesterday</span></div><div class="act"><button class="claim" onclick="openClaim('pkabgsl0')">Claim repair</button></div></div></div><div class="card"><div class="photo">🪑<span class="tag awaiting">Awaiting fixer</span></div><div class="body"><span class="catpill">🪑 Furniture</span><h3>Wooden chair</h3><div class="note"><span class="nlabel">What's wrong</span>One leg is loose and wobbles, the glue joint failed.</div><div class="meta"><span>From Mr. Davis · 2 days ago</span></div><div class="act"><button class="claim" onclick="openClaim('pfzytona')">Claim repair</button></div></div></div><div class="card"><div class="photo">🎒<span class="tag progress">In progress</span></div><div class="body"><span class="catpill">🎒 Bags &amp; zippers</span><h3>Black backpack</h3><div class="note"><span class="nlabel">What's wrong</span>Main zipper pull snapped off, can't open the big pocket.</div><div class="meta"><span>From Mia R. · 3 days ago</span></div><div class="timeline-box">🛠️ <b>Mia R.</b> is on it · est. <b>About a week</b></div><div class="act"><button class="markready" onclick="markReady('8yti069p')">Mark ready</button><button class="chatbtn" onclick="showView('myitems')">💬 Chat</button></div></div></div><div class="card"><div class="photo">🔌<span class="tag ready">Ready for pickup</span></div><div class="body"><span class="catpill">🔌 Electronics</span><h3>Bluetooth speaker</h3><div class="note"><span class="nlabel">What's wrong</span>Won't charge — the charging port is wiggly and loose.</div><div class="meta"><span>From Lena T. · 6 days ago</span></div><div class="ready-box">✅ Fixed by Sam K. — ready for pickup!</div><div class="act"><button class="secondary" onclick="reopen('lyj086r4')">Reopen</button></div></div></div></div>
+      <div class="grid" id="grid"></div>
     </section>
 
     <!-- FIXERS -->
@@ -391,34 +388,10 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <div class="ruler"></div>
       </div>
       <div class="fixhead-row">
-        <span class="clubhint" id="fixHint">Club mode <b>on</b> — add or edit fixers.</span>
-        <button class="btn btn-orange" id="addFixerBtn" onclick="openFixer()" style="display: inline-flex;">＋ Add a fixer</button>
+        <span class="clubhint" id="fixHint"></span>
+        <button class="btn btn-orange" id="addFixerBtn" onclick="openFixer()" style="display:none">＋ Add a fixer</button>
       </div>
-      <div class="fixgrid" id="fixgrid"><div class="fcard"><button class="fedit" onclick="openFixer('770a1fap')">Edit</button>
-      <div class="pic"><div class="avi" style="background:#1E3A52">SK</div></div><h3>Sam K.</h3>
-      <span class="fspec">Electronics &amp; soldering</span>
-      <p class="fbio">Has been taking radios apart since he was nine. Best with chargers, speakers, and anything that won't turn on.</p>
-      <div class="fstat">🔧 1 repair completed</div></div><div class="fcard"><button class="fedit" onclick="openFixer('fv6wa2yd')">Edit</button>
-      <div class="pic"><div class="avi" style="background:#2E6E9E">PN</div></div><h3>Priya N.</h3>
-      <span class="fspec">Bikes &amp; mechanical</span>
-      <p class="fbio">Fixes pretty much every bike on campus — flats, brakes, gears, wobbly wheels.</p>
-      <div class="fstat">✋ ready for a project</div></div><div class="fcard"><button class="fedit" onclick="openFixer('mggvol8i')">Edit</button>
-      <div class="pic"><div class="avi" style="background:#E07D2B">MR</div></div><h3>Mia R.</h3>
-      <span class="fspec">Sewing &amp; textiles</span>
-      <p class="fbio">Runs the sewing station. Zippers, rips, buttons, straps. Can rescue a backpack everyone else gave up on.</p>
-      <div class="fstat">🛠️ 1 in progress</div></div><div class="fcard"><button class="fedit" onclick="openFixer('zyv8bx1h')">Edit</button>
-      <div class="pic"><div class="avi" style="background:#4E8D5B">AP</div></div><h3>Andre P.</h3>
-      <span class="fspec">Woodwork &amp; furniture</span>
-      <p class="fbio">Loose chair legs, cracked shelves, sticky drawers. Handles anything wood.</p>
-      <div class="fstat">✋ ready for a project</div></div><div class="fcard"><button class="fedit" onclick="openFixer('5pxq2eqm')">Edit</button>
-      <div class="pic"><div class="avi" style="background:#CF9412">LT</div></div><h3>Lena T.</h3>
-      <span class="fspec">3D printing &amp; plastics</span>
-      <p class="fbio">Designs and prints replacement parts for things you can't buy parts for anymore.</p>
-      <div class="fstat">✋ ready for a project</div></div><div class="fcard"><button class="fedit" onclick="openFixer('byelta1m')">Edit</button>
-      <div class="pic"><div class="avi" style="background:#5B5470">MD</div></div><h3>Mr. Davis</h3>
-      <span class="fspec">Club advisor</span>
-      <p class="fbio">Runs Fixify and keeps the toolbox stocked.</p>
-      <div class="fstat">✋ ready for a project</div></div></div>
+      <div class="fixgrid" id="fixgrid"></div>
     </section>
 
     <!-- MY ITEMS -->
@@ -464,7 +437,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="ai-banner" id="summaryBanner" style="display:none"></div>
     <div class="field"><label>What's wrong with it?</label><textarea id="s-prob" placeholder="Describe the problem…"></textarea></div>
     <div class="two">
-      <div class="field"><label>Category</label><select id="s-cat"><option>Electronics</option><option>Clothing &amp; textiles</option><option>Bags &amp; zippers</option><option>Furniture</option><option>Bikes &amp; wheels</option><option>Toys &amp; games</option><option>Jewelry &amp; accessories</option><option>Other</option></select></div>
+      <div class="field"><label>Category</label><select id="s-cat"></select></div>
       <div class="field"><label>Drop-off <span class="opt">— optional</span></label><input id="s-drop" placeholder="e.g. front office"></div>
     </div>
     <div class="err" id="s-err2"></div>
@@ -511,7 +484,44 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script type="module">
+/* =========================================================
+   FIREBASE SETUP
+   =========================================================
+   👉 Replace the placeholder values below with the config
+   from your Firebase Console:
+     Project Settings → Your apps → Web app → SDK setup
+   Also: in the Firebase Console enable
+     - Authentication → Sign-in method → Email/Password
+     - Authentication → Sign-in method → Google
+     - Firestore Database → Create database (start in test mode for dev)
+   ========================================================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  GoogleAuthProvider, signInWithPopup,
+  signOut as fbSignOut, updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, addDoc, onSnapshot, query, where, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "REPLACE_WITH_YOUR_API_KEY",
+  authDomain: "REPLACE_WITH_YOUR_PROJECT.firebaseapp.com",
+  projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
+  storageBucket: "REPLACE_WITH_YOUR_PROJECT.appspot.com",
+  messagingSenderId: "REPLACE_WITH_YOUR_SENDER_ID",
+  appId: "REPLACE_WITH_YOUR_APP_ID"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
+const googleProvider = new GoogleAuthProvider();
+
 /* =========================================================
    CONSTANTS & STATE
    ========================================================= */
@@ -526,27 +536,12 @@ let items=[],fixers=[],filter='all',clubMode=false;
 let claimTarget=null,pendingPhoto=null,pendingFPhoto=null,editFixerId=null;
 let aiAnalysis=null,aiAnswers={},lastCode='';
 let openChats={}; // itemId → bool
+let msgsByCode={}; // code → [messages]
+let unsubItems=null,unsubFixers=null,unsubMsgs=null;
 
 /* =========================================================
-   STORAGE (localStorage — works on fixifyit.org)
+   AUTH  (Firebase Authentication)
    ========================================================= */
-function lsGet(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){toast('Storage full — try removing old items');return false;}}
-function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
-
-/* =========================================================
-   AUTH
-   ========================================================= */
-function hashPw(pw){let h=5381;for(let i=0;i<pw.length;i++)h=(h<<5)+h+pw.charCodeAt(i)|0;return(h>>>0).toString(36);}
-
-function checkSession(){
-  const s=lsGet('fixify:session');
-  if(s&&s.id){
-    currentUser=s;
-    bootApp();
-  }
-}
-
 function switchAuthTab(t){
   document.getElementById('tab-signin').classList.toggle('on',t==='signin');
   document.getElementById('tab-signup').classList.toggle('on',t==='signup');
@@ -561,48 +556,104 @@ function pickRole(r){
   document.getElementById('role-fixer').classList.toggle('on',r==='fixer');
 }
 
-function signIn(){
+// Friendly Firebase error messages
+function authErrMsg(e){
+  const c=e&&e.code||'';
+  if(c.includes('invalid-credential')||c.includes('wrong-password')||c.includes('user-not-found'))return 'No account found with those details.';
+  if(c.includes('email-already-in-use'))return 'An account with that email already exists.';
+  if(c.includes('invalid-email'))return 'That doesn\'t look like a valid email.';
+  if(c.includes('weak-password'))return 'Password must be at least 6 characters.';
+  if(c.includes('popup-closed-by-user'))return 'Google sign-in cancelled.';
+  if(c.includes('network-request-failed'))return 'Network error — check your connection.';
+  return (e&&e.message)||'Something went wrong. Try again.';
+}
+
+// Create/fetch the per-user profile doc in Firestore (stores name/role/color)
+async function ensureUserDoc(fbUser, opts={}){
+  const ref=doc(db,'users',fbUser.uid);
+  const snap=await getDoc(ref);
+  if(snap.exists()){
+    return snap.data();
+  }
+  // First time we've seen this user → create profile
+  const profile={
+    name: opts.name || fbUser.displayName || (fbUser.email||'').split('@')[0] || 'Member',
+    email: fbUser.email || '',
+    role: opts.role || selectedRole || 'customer',
+    color: AV_PALETTE[Math.floor(Math.random()*AV_PALETTE.length)],
+    createdAt: new Date().toISOString()
+  };
+  await setDoc(ref, profile);
+  return profile;
+}
+
+async function signIn(){
   const email=document.getElementById('si-email').value.trim().toLowerCase();
   const pw=document.getElementById('si-pw').value;
   const err=document.getElementById('si-err');
+  err.textContent='';
   if(!email||!pw){err.textContent='Fill in email and password.';return;}
-  const users=lsGet('fixify:users')||[];
-  const user=users.find(u=>u.email===email&&u.pwHash===hashPw(pw));
-  if(!user){err.textContent='No account found with those details.';return;}
-  currentUser={id:user.id,name:user.name,email:user.email,role:user.role,color:user.color};
-  lsSet('fixify:session',currentUser);
-  bootApp();
+  try{
+    await signInWithEmailAndPassword(auth,email,pw);
+    // onAuthStateChanged will boot the app
+  }catch(e){ err.textContent=authErrMsg(e); }
 }
 
-function signUp(){
+async function signUp(){
   const name=document.getElementById('su-name').value.trim();
   const email=document.getElementById('su-email').value.trim().toLowerCase();
   const pw=document.getElementById('su-pw').value;
   const err=document.getElementById('su-err');
+  err.textContent='';
   if(!name||!email||!pw){err.textContent='Fill in all fields.';return;}
   if(pw.length<6){err.textContent='Password must be at least 6 characters.';return;}
-  const users=lsGet('fixify:users')||[];
-  if(users.find(u=>u.email===email)){err.textContent='An account with that email already exists.';return;}
-  const color=AV_PALETTE[users.length%AV_PALETTE.length];
-  const newUser={id:uid(),name,email,pwHash:hashPw(pw),role:selectedRole,color,createdAt:new Date().toISOString()};
-  users.push(newUser);
-  lsSet('fixify:users',users);
-  currentUser={id:newUser.id,name:newUser.name,email:newUser.email,role:newUser.role,color:newUser.color};
-  lsSet('fixify:session',currentUser);
-  bootApp();
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,email,pw);
+    try{ await updateProfile(cred.user,{displayName:name}); }catch(_){}
+    await ensureUserDoc(cred.user,{name,role:selectedRole});
+    // onAuthStateChanged will boot the app
+  }catch(e){ err.textContent=authErrMsg(e); }
 }
 
-function googleSignIn(){
-  toast('Google sign-in needs Firebase — coming soon. Use email for now.');
+async function googleSignIn(){
+  const err=document.getElementById('si-err');
+  if(err)err.textContent='';
+  try{
+    const cred=await signInWithPopup(auth,googleProvider);
+    await ensureUserDoc(cred.user,{name:cred.user.displayName,role:selectedRole});
+    // onAuthStateChanged will boot the app
+  }catch(e){
+    if(err)err.textContent=authErrMsg(e);
+    else toast(authErrMsg(e));
+  }
 }
 
-function signOut(){
+async function signOut(){
   if(!confirm('Sign out of Fixify?'))return;
-  lsDel('fixify:session');
-  currentUser=null;
-  document.getElementById('app').style.display='none';
-  document.getElementById('auth-screen').style.display='flex';
+  try{ await fbSignOut(auth); }catch(e){ toast('Sign out failed: '+authErrMsg(e)); }
 }
+
+// Central auth listener — drives the auth screen vs. app screen
+onAuthStateChanged(auth, async (fbUser)=>{
+  if(fbUser){
+    try{
+      const profile=await ensureUserDoc(fbUser);
+      currentUser={id:fbUser.uid,name:profile.name,email:fbUser.email||profile.email||'',role:profile.role||'customer',color:profile.color||'#E07D2B'};
+      bootApp();
+    }catch(e){
+      console.error(e);
+      toast('Could not load your profile: '+authErrMsg(e));
+    }
+  }else{
+    // Signed out — clear listeners and show auth screen
+    if(unsubItems){unsubItems();unsubItems=null;}
+    if(unsubFixers){unsubFixers();unsubFixers=null;}
+    if(unsubMsgs){unsubMsgs();unsubMsgs=null;}
+    currentUser=null; items=[]; fixers=[]; msgsByCode={};
+    document.getElementById('app').style.display='none';
+    document.getElementById('auth-screen').style.display='flex';
+  }
+});
 
 /* =========================================================
    BOOT
@@ -619,53 +670,82 @@ function bootApp(){
     clubMode=true;
     document.getElementById('clubSw').classList.add('on');
   }
+  // footer sync note
+  const sn=document.getElementById('syncNote');
+  if(sn)sn.textContent='data syncs across all users via Firestore';
   fillCatSelects();
-  loadItems();
-  loadFixers();
-  renderItems();
-  renderFixers();
+  startListeners();
   renderModeUI();
 }
 
 /* =========================================================
-   DATA
+   DATA  (Firestore real-time listeners)
+   =========================================================
+   Collections:
+     items     — every submitted item, doc id = item.id
+     fixers    — every fixer, doc id = fixer.id
+     messages  — every chat message, fields {code, role, who, text, ts}
+     users     — profile per uid (see ensureUserDoc above)
    ========================================================= */
-function loadItems(){
-  const stored=lsGet('fixify:items');
-  items=stored||seedItems();
-  if(!stored)lsSet('fixify:items',items);
-}
-function saveItems(){lsSet('fixify:items',items.slice(0,80));}
+function startListeners(){
+  // ITEMS — live board
+  if(unsubItems)unsubItems();
+  unsubItems=onSnapshot(collection(db,'items'),snap=>{
+    items=snap.docs.map(d=>d.data());
+    renderItems();
+    renderFixers();
+    if(document.querySelector('#view-myitems.on'))renderMyItems();
+  },err=>{console.error('items listener',err);toast('Could not load items: '+err.message);});
 
-function loadFixers(){
-  const stored=lsGet('fixify:fixers');
-  fixers=stored||seedFixers();
-  if(!stored)lsSet('fixify:fixers',fixers);
-}
-function saveFixers(){lsSet('fixify:fixers',fixers.slice(0,40));}
+  // FIXERS — live crew
+  if(unsubFixers)unsubFixers();
+  unsubFixers=onSnapshot(collection(db,'fixers'),snap=>{
+    fixers=snap.docs.map(d=>d.data());
+    renderFixers();
+  },err=>{console.error('fixers listener',err);});
 
-function loadMsgs(code){return lsGet('fixify:msgs:'+code)||[];}
-function saveMsgs(code,msgs){lsSet('fixify:msgs:'+code,msgs.slice(-300));}
+  // MESSAGES — every chat message in one stream, grouped client-side by code
+  if(unsubMsgs)unsubMsgs();
+  unsubMsgs=onSnapshot(collection(db,'messages'),snap=>{
+    const next={};
+    snap.docs.forEach(d=>{
+      const m=d.data();
+      if(!m.code)return;
+      (next[m.code]=next[m.code]||[]).push(m);
+    });
+    // sort each thread by timestamp
+    Object.keys(next).forEach(c=>next[c].sort((a,b)=>new Date(a.ts)-new Date(b.ts)));
+    msgsByCode=next;
+    // re-render any open chats and my-items unread counts
+    if(document.querySelector('#view-myitems.on'))renderMyItems();
+    Object.keys(openChats).forEach(code=>{ if(openChats[code]) renderMsgs(code); });
+  },err=>{console.error('messages listener',err);});
+}
 
-function seedItems(){
-  const now=Date.now(),d=864e5;
-  return [
-    {id:uid(),code:genCode(),name:"Gooseneck desk lamp",cat:"Electronics",prob:"Flickers and cuts out unless you wiggle the cord near the base.",sub:"Jordan L.",submitterId:'demo',photo:null,status:"awaiting",fixer:null,fixerId:null,timeline:null,submittedAt:new Date(now-1*d).toISOString(),claimedAt:null,readyAt:null},
-    {id:uid(),code:genCode(),name:"Black backpack",cat:"Bags & zippers",prob:"Main zipper pull snapped off, can't open the big pocket.",sub:"Mia R.",submitterId:'demo',photo:null,status:"progress",fixer:"Mia R.",fixerId:'demo2',timeline:"About a week",submittedAt:new Date(now-3*d).toISOString(),claimedAt:new Date(now-1*d).toISOString(),readyAt:null},
-    {id:uid(),code:genCode(),name:"Wooden chair",cat:"Furniture",prob:"One leg is loose and wobbles, the glue joint failed.",sub:"Mr. Davis",submitterId:'demo',photo:null,status:"awaiting",fixer:null,fixerId:null,timeline:null,submittedAt:new Date(now-2*d).toISOString(),claimedAt:null,readyAt:null},
-    {id:uid(),code:genCode(),name:"Bluetooth speaker",cat:"Electronics",prob:"Won't charge — the charging port is wiggly and loose.",sub:"Lena T.",submitterId:'demo',photo:null,status:"ready",fixer:"Sam K.",fixerId:'demo2',timeline:"A few days",submittedAt:new Date(now-6*d).toISOString(),claimedAt:new Date(now-4*d).toISOString(),readyAt:new Date(now-1*d).toISOString()}
-  ];
+// Per-record writes — replace the old "save the whole array" model
+async function saveItem(it){
+  try{ await setDoc(doc(db,'items',it.id), it); }
+  catch(e){ console.error(e); toast('Could not save item: '+e.message); }
 }
-function seedFixers(){
-  return [
-    {id:uid(),name:"Sam K.",spec:"Electronics & soldering",bio:"Has been taking radios apart since he was nine. Best with chargers, speakers, and anything that won't turn on.",photo:null,color:AV_COLORS[0]},
-    {id:uid(),name:"Priya N.",spec:"Bikes & mechanical",bio:"Fixes pretty much every bike on campus — flats, brakes, gears, wobbly wheels.",photo:null,color:AV_COLORS[2]},
-    {id:uid(),name:"Mia R.",spec:"Sewing & textiles",bio:"Runs the sewing station. Zippers, rips, buttons, straps. Can rescue a backpack everyone else gave up on.",photo:null,color:AV_COLORS[1]},
-    {id:uid(),name:"Andre P.",spec:"Woodwork & furniture",bio:"Loose chair legs, cracked shelves, sticky drawers. Handles anything wood.",photo:null,color:AV_COLORS[3]},
-    {id:uid(),name:"Lena T.",spec:"3D printing & plastics",bio:"Designs and prints replacement parts for things you can't buy parts for anymore.",photo:null,color:AV_COLORS[4]},
-    {id:uid(),name:"Mr. Davis",spec:"Club advisor",bio:"Runs Fixify and keeps the toolbox stocked.",photo:null,color:AV_COLORS[5]}
-  ];
+async function updateItem(id, patch){
+  try{ await updateDoc(doc(db,'items',id), patch); }
+  catch(e){ console.error(e); toast('Could not update item: '+e.message); }
 }
+async function saveFixerDoc(f){
+  try{ await setDoc(doc(db,'fixers',f.id), f); }
+  catch(e){ console.error(e); toast('Could not save fixer: '+e.message); }
+}
+async function deleteFixerDoc(id){
+  try{ await deleteDoc(doc(db,'fixers',id)); }
+  catch(e){ console.error(e); toast('Could not remove fixer: '+e.message); }
+}
+async function addMsg(code, msg){
+  try{ await addDoc(collection(db,'messages'), {...msg, code}); }
+  catch(e){ console.error(e); toast('Could not send: '+e.message); }
+}
+
+function loadMsgs(code){return msgsByCode[code]||[];}
+
 function uid(){return Math.random().toString(36).slice(2,10)}
 function genCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<6;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
 
@@ -777,6 +857,7 @@ function toggleChat(code){
   const isOpen=wrap.classList.contains('open');
   wrap.classList.toggle('open',!isOpen);
   btn.classList.toggle('open',!isOpen);
+  openChats[code]=!isOpen;
   if(!isOpen)renderMsgs(code);
   const input=document.getElementById('ci-'+code);
   if(input)input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg(code);});
@@ -793,7 +874,7 @@ function renderMsgs(code){
   }).join('');
   body.scrollTop=body.scrollHeight;
 }
-function sendMsg(code){
+async function sendMsg(code){
   const input=document.getElementById('ci-'+code);
   if(!input)return;
   const text=input.value.trim();
@@ -801,11 +882,9 @@ function sendMsg(code){
   const item=items.find(i=>i.code===code);
   if(!item)return;
   const isFixer=currentUser.role==='fixer'||clubMode||item.fixerId===currentUser.id;
-  const msgs=loadMsgs(code);
-  msgs.push({id:uid(),role:isFixer?'fixer':'sub',who:currentUser.name,text,ts:new Date().toISOString()});
-  saveMsgs(code,msgs);
   input.value='';
-  renderMsgs(code);
+  await addMsg(code,{id:uid(),role:isFixer?'fixer':'sub',who:currentUser.name,text,ts:new Date().toISOString()});
+  // listener will renderMsgs automatically
 }
 
 /* =========================================================
@@ -880,7 +959,7 @@ async function submitAnswers(){
   setSubStep('contact');
 }
 function backFromContact(){setSubStep(aiAnalysis?'questions':'entry');}
-function submitItem(){
+async function submitItem(){
   const name=val('s-name'),prob=val('s-prob');
   const err=document.getElementById('s-err2');
   if(!name||!prob){err.textContent='Fill in the item name and the problem.';return;}
@@ -896,13 +975,12 @@ function submitItem(){
     status:'awaiting',fixer:null,fixerId:null,timeline:null,
     submittedAt:new Date().toISOString(),claimedAt:null,readyAt:null
   };
-  items.unshift(newItem);
-  saveItems();
-  saveMsgs(code,[{id:uid(),role:'sys',text:'Repair submitted. Your fixer will message you here once they claim it.',ts:new Date().toISOString()}]);
+  await saveItem(newItem);
+  await addMsg(code,{id:uid(),role:'sys',text:'Repair submitted. Your fixer will message you here once they claim it.',ts:new Date().toISOString()});
   lastCode=code;
   document.getElementById('newCode').textContent=code;
   setSubStep('success');
-  renderItems();
+  // listener will refresh items list automatically
 }
 function copyCode(){if(navigator.clipboard){navigator.clipboard.writeText(lastCode).then(()=>toast('Code copied!'));}else{toast('Code: '+lastCode);}}
 
@@ -917,30 +995,28 @@ function openClaim(id){
   document.getElementById('c-err').textContent='';
   open_('claimOverlay');
 }
-function confirmClaim(){
+async function confirmClaim(){
   const i=items.find(x=>x.id===claimTarget);if(!i)return;
   const timeline=document.getElementById('c-timeline').value;
   const note=val('c-note');
-  i.status='progress';i.fixer=currentUser.name;i.fixerId=currentUser.id;i.timeline=timeline;i.claimedAt=new Date().toISOString();
-  saveItems();
-  const msgs=loadMsgs(i.code);
-  msgs.push({id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · est. ${timeline}`,ts:new Date().toISOString()});
-  msgs.push({id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Message me here if you have any questions.`,ts:new Date(Date.now()+500).toISOString()});
-  if(note)msgs.push({id:uid(),role:'fixer',who:currentUser.name,text:note,ts:new Date(Date.now()+1000).toISOString()});
-  saveMsgs(i.code,msgs);
-  close_('claimOverlay');renderItems();renderFixers();toast('Claimed — owner notified via chat');
+  await updateItem(i.id,{status:'progress',fixer:currentUser.name,fixerId:currentUser.id,timeline,claimedAt:new Date().toISOString()});
+  await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · est. ${timeline}`,ts:new Date().toISOString()});
+  await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Message me here if you have any questions.`,ts:new Date(Date.now()+500).toISOString()});
+  if(note)await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:note,ts:new Date(Date.now()+1000).toISOString()});
+  close_('claimOverlay');toast('Claimed — owner notified via chat');
 }
-function markReady(id){
+async function markReady(id){
   const i=items.find(x=>x.id===id);if(!i)return;
-  i.status='ready';i.readyAt=new Date().toISOString();
-  saveItems();
-  const msgs=loadMsgs(i.code);
-  msgs.push({id:uid(),role:'sys',text:'Your item is fixed and ready for pickup! 🎉',ts:new Date().toISOString()});
-  msgs.push({id:uid(),role:'fixer',who:currentUser.name,text:`All done! Your ${i.name} is repaired and ready to collect.`,ts:new Date(Date.now()+500).toISOString()});
-  saveMsgs(i.code,msgs);
-  renderItems();renderFixers();toast('Marked ready ✅');
+  await updateItem(i.id,{status:'ready',readyAt:new Date().toISOString()});
+  await addMsg(i.code,{id:uid(),role:'sys',text:'Your item is fixed and ready for pickup! 🎉',ts:new Date().toISOString()});
+  await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:`All done! Your ${i.name} is repaired and ready to collect.`,ts:new Date(Date.now()+500).toISOString()});
+  toast('Marked ready ✅');
 }
-function reopen(id){const i=items.find(x=>x.id===id);if(i){i.status='progress';i.readyAt=null;saveItems();renderItems();renderFixers();toast('Reopened');}}
+async function reopen(id){
+  const i=items.find(x=>x.id===id);if(!i)return;
+  await updateItem(i.id,{status:'progress',readyAt:null});
+  toast('Reopened');
+}
 
 /* =========================================================
    FIXER CRUD
@@ -963,14 +1039,24 @@ function openFixer(id){
   open_('fixerOverlay');
 }
 document.getElementById('f-photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{pendingFPhoto=await resizeImage(f,360,.6);document.getElementById('fPhotoPreviewImg').src=pendingFPhoto;document.getElementById('fPhotoPreview').style.display='block';}catch(_){toast("Couldn't read image");}});
-function saveFixer(){
+async function saveFixer(){
   const name=val('f-name'),spec=val('f-spec'),bio=val('f-bio');
   if(!name||!spec||!bio){document.getElementById('f-err').textContent='Fill in name, specialty, and bio.';return;}
-  if(editFixerId){const f=fixers.find(x=>x.id===editFixerId);f.name=name;f.spec=spec;f.bio=bio;f.photo=pendingFPhoto;}
-  else fixers.push({id:uid(),name,spec,bio,photo:pendingFPhoto,color:AV_COLORS[fixers.length%AV_COLORS.length]});
-  saveFixers();close_('fixerOverlay');renderFixers();toast(editFixerId?'Fixer updated':'Fixer added 🧰');
+  let fixerDoc;
+  if(editFixerId){
+    const cur=fixers.find(x=>x.id===editFixerId)||{};
+    fixerDoc={id:editFixerId,name,spec,bio,photo:pendingFPhoto,color:cur.color||AV_COLORS[0]};
+  }else{
+    fixerDoc={id:uid(),name,spec,bio,photo:pendingFPhoto,color:AV_COLORS[fixers.length%AV_COLORS.length]};
+  }
+  await saveFixerDoc(fixerDoc);
+  close_('fixerOverlay');toast(editFixerId?'Fixer updated':'Fixer added 🧰');
 }
-function removeFixer(){if(!editFixerId)return;fixers=fixers.filter(x=>x.id!==editFixerId);saveFixers();close_('fixerOverlay');renderFixers();toast('Fixer removed');}
+async function removeFixer(){
+  if(!editFixerId)return;
+  await deleteFixerDoc(editFixerId);
+  close_('fixerOverlay');toast('Fixer removed');
+}
 
 /* =========================================================
    UTILS
@@ -983,44 +1069,27 @@ function close_(id){document.getElementById(id).classList.remove('show')}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')}));
 let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2800);}
 
-// Live updates: re-render if another tab changes localStorage
-window.addEventListener('storage',e=>{
-  if(!e.key||!e.key.startsWith('fixify:'))return;
-  loadItems();loadFixers();
-  renderItems();renderFixers();
-  if(document.querySelector('#view-myitems.on'))renderMyItems();
-});
-
 // keyboard enter on auth inputs
 document.getElementById('si-pw').addEventListener('keydown',e=>{if(e.key==='Enter')signIn();});
 document.getElementById('su-pw').addEventListener('keydown',e=>{if(e.key==='Enter')signUp();});
 
-// boot
-checkSession();
+/* =========================================================
+   Expose handlers used by inline onclick="..." attributes.
+   (Required because <script type="module"> creates its own
+   scope — functions are NOT global by default.)
+   ========================================================= */
+Object.assign(window,{
+  switchAuthTab, pickRole, signIn, signUp, googleSignIn, signOut,
+  showView, toggleClub, setFilter, renderItems,
+  openSubmit, skipAI, startAI, setSubStep, pickOpt, submitAnswers,
+  backFromContact, submitItem, copyCode, close_,
+  openClaim, confirmClaim, markReady, reopen,
+  openFixer, saveFixer, removeFixer,
+  toggleChat, sendMsg
+});
+
+// Boot is driven by onAuthStateChanged above — nothing to do here.
 </script>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyAwFpDNSHGWQYoXbe4UWBNggFYCHJ-K-4Q",
-    authDomain: "fixify-1.firebaseapp.com",
-    projectId: "fixify-1",
-    storageBucket: "fixify-1.firebasestorage.app",
-    messagingSenderId: "397001927220",
-    appId: "1:397001927220:web:e02c3b37c7a2ac7aa53861",
-    measurementId: "G-4BWD6R8GPB"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 
 </body></html>
