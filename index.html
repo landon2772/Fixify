@@ -1,0 +1,1003 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1">
+<title>Fixify — repair, don't replace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --kraft:#F3EDDF;--paper:#FCFAF3;--ink:#26323C;--muted:#7A7567;--line:#E3DAC6;
+  --navy:#1E3A52;--navy-2:#16293b;--navy-soft:#E0E7EC;
+  --orange:#E07D2B;--orange-2:#c96d22;--orange-soft:#FAE7D2;
+  --amber:#CF9412;--amber-soft:#F6E8C5;
+  --blue:#2E6E9E;--blue-soft:#DBE8F1;
+  --green:#4E8D5B;--green-soft:#DEEBDF;--green-deep:#2F5A41;
+  --r:14px;--shadow:0 18px 38px -26px rgba(38,50,60,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Hanken Grotesk',sans-serif;color:var(--ink);
+  background-color:var(--kraft);
+  background-image:
+    radial-gradient(circle at 6% 4%,rgba(224,125,43,.20),transparent 30%),
+    radial-gradient(circle at 94% 3%,rgba(46,110,158,.18),transparent 32%),
+    radial-gradient(circle at 90% 97%,rgba(78,141,91,.20),transparent 34%),
+    radial-gradient(circle at 3% 94%,rgba(207,148,18,.18),transparent 30%),
+    radial-gradient(rgba(38,50,60,.08) 1.4px,transparent 1.4px);
+  background-size:auto,auto,auto,auto,22px 22px;
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
+  background-attachment:fixed,fixed,fixed,fixed,scroll;
+  line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px}
+h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
+.ruler{height:9px;background:repeating-linear-gradient(90deg,var(--orange) 0 1.5px,transparent 1.5px 14px);opacity:.55;border-radius:2px;margin:10px 0 0}
+
+/* ===== AUTH SCREEN ===== */
+#auth-screen{
+  position:fixed;inset:0;z-index:200;
+  background:var(--kraft);
+  background-image:
+    radial-gradient(circle at 6% 4%,rgba(224,125,43,.22),transparent 30%),
+    radial-gradient(circle at 94% 3%,rgba(46,110,158,.18),transparent 32%),
+    radial-gradient(circle at 90% 97%,rgba(78,141,91,.22),transparent 34%),
+    radial-gradient(circle at 3% 94%,rgba(207,148,18,.18),transparent 30%),
+    radial-gradient(rgba(38,50,60,.08) 1.4px,transparent 1.4px);
+  background-size:auto,auto,auto,auto,22px 22px;
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
+  background-attachment:fixed,fixed,fixed,fixed,scroll;
+  display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;
+}
+.auth-card{
+  background:var(--paper);border:1.5px solid var(--line);border-radius:22px;
+  padding:36px 32px;width:100%;max-width:440px;
+  box-shadow:0 24px 60px -24px rgba(38,50,60,.5);
+  animation:pop .3s ease;
+}
+.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.auth-logo svg{width:44px;height:44px;flex:none}
+.auth-logo .name{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.7rem;letter-spacing:-.02em;color:var(--ink)}
+.auth-tagline{color:var(--muted);font-size:.92rem;margin-bottom:28px}
+.auth-tabs{display:flex;gap:0;margin-bottom:22px;background:var(--kraft);border-radius:11px;padding:4px}
+.auth-tabs button{flex:1;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.96rem;border:none;background:none;cursor:pointer;padding:10px;border-radius:9px;color:var(--muted);transition:.15s}
+.auth-tabs button.on{background:var(--paper);color:var(--ink);box-shadow:0 2px 8px -4px rgba(38,50,60,.25)}
+.afield{margin-bottom:14px}
+.afield label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px;color:var(--ink)}
+.afield input{width:100%;font-family:inherit;font-size:.98rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+.afield input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(224,125,43,.16)}
+.role-pick{display:flex;gap:10px;margin-bottom:16px}
+.role-opt{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:13px;cursor:pointer;text-align:center;transition:.15s;background:#fff}
+.role-opt:hover{border-color:var(--orange-2)}
+.role-opt.on{border-color:var(--orange);background:var(--orange-soft)}
+.role-opt .ri{font-size:1.6rem;display:block;margin-bottom:4px}
+.role-opt .rl{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.9rem;display:block}
+.role-opt .rs{font-size:.77rem;color:var(--muted);display:block;margin-top:2px}
+.google-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;
+  padding:12px;border-radius:11px;border:1.5px solid var(--line);background:#fff;
+  cursor:pointer;transition:.15s;color:var(--ink);margin-bottom:12px;
+}
+.google-btn:hover{border-color:#c0b8a8;background:var(--kraft)}
+.google-btn svg{width:20px;height:20px;flex:none}
+.or-div{display:flex;align-items:center;gap:10px;margin-bottom:12px;color:var(--muted);font-size:.82rem}
+.or-div::before,.or-div::after{content:"";flex:1;height:1px;background:var(--line)}
+.auth-btn{width:100%;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;padding:13px;border:none;border-radius:11px;cursor:pointer;background:var(--navy);color:#fff;box-shadow:0 8px 20px -8px rgba(30,58,82,.65);transition:.15s;margin-top:4px}
+.auth-btn:hover{background:var(--navy-2)}
+.auth-err{color:#b23a26;font-size:.85rem;margin-top:10px;min-height:1.2em;text-align:center}
+.auth-switch{text-align:center;margin-top:16px;font-size:.88rem;color:var(--muted)}
+.auth-switch b{color:var(--navy);cursor:pointer;font-weight:700}
+.auth-switch b:hover{text-decoration:underline}
+
+/* ===== HEADER ===== */
+header{position:sticky;top:0;z-index:40;background:var(--green-deep);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.18)}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--blue) 28%,var(--green) 52%,var(--amber) 74%,var(--orange));opacity:.95}
+.head-in{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:920px;margin:0 auto;padding:0 18px;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.brand svg{width:36px;height:36px;flex:none}
+.brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:#FCFAF3}
+.brand small{font-size:.65rem;color:#EFD9A6;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.head-right{display:flex;align-items:center;gap:10px}
+nav.main{display:flex;gap:2px}
+nav.main button{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:.9rem;color:#FCFAF3;background:none;border:none;cursor:pointer;padding:7px 11px;border-radius:9px;transition:.15s;opacity:.78}
+nav.main button:hover{opacity:1;background:rgba(255,255,255,.16)}
+nav.main button.on{opacity:1;color:var(--green-deep);background:#FCFAF3}
+.user-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border-radius:999px;padding:5px 12px 5px 6px;cursor:pointer}
+.user-chip .av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.76rem;color:#fff;flex:none}
+.user-chip .un{font-size:.82rem;font-weight:700;color:#FCFAF3;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clubsw{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;color:#E9E1CE;cursor:pointer;user-select:none}
+.clubsw .track{width:38px;height:22px;border-radius:999px;background:rgba(255,255,255,.28);position:relative;transition:.2s;flex:none}
+.clubsw .track::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.clubsw.on .track{background:var(--orange)}.clubsw.on .track::after{left:19px}.clubsw.on{color:#FFCE94}
+
+/* ===== MAIN ===== */
+main{padding:28px 0 80px;position:relative;z-index:1}
+.view{display:none;animation:fade .3s ease}.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+
+.hero h1{font-weight:800;font-size:clamp(1.9rem,5.5vw,2.7rem);letter-spacing:-.02em;line-height:1.04;max-width:17ch}
+.hero p{color:var(--muted);font-size:1.04rem;margin-top:9px;max-width:56ch}
+.hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.btn{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;border:none;padding:12px 22px;border-radius:11px;transition:.16s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--navy);color:#fff;box-shadow:0 9px 20px -8px rgba(30,58,82,.65)}
+.btn-primary:hover{background:var(--navy-2);transform:translateY(-1px)}
+.btn-orange{background:var(--orange);color:#fff}.btn-orange:hover{background:var(--orange-2)}
+.btn-ghost{background:var(--paper);color:var(--navy);border:1.5px solid var(--line)}.btn-ghost:hover{border-color:var(--navy)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.clubhint{font-size:.84rem;color:var(--muted)}.clubhint b{color:var(--orange-2)}
+
+.impact{display:flex;gap:10px;margin:22px 0;flex-wrap:wrap}
+.istat{flex:1;min-width:110px;background:var(--paper);border:1.5px solid var(--line);border-radius:13px;padding:14px 16px}
+.istat .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.8rem;line-height:1}
+.istat .l{font-size:.77rem;color:var(--muted);font-weight:600;margin-top:4px}
+.istat.amber .n{color:var(--amber)}.istat.blue .n{color:var(--blue)}.istat.green .n{color:var(--green)}
+
+.filterbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--muted);transition:.15s}
+.tabs button:hover{border-color:#cdbf9f}.tabs button.on{background:var(--ink);color:var(--kraft);border-color:var(--ink)}
+.catsel{font-family:inherit;font-size:.85rem;font-weight:600;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:18px}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 22px -20px var(--shadow);transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 18px 32px -22px var(--shadow)}
+.photo{height:152px;background:repeating-linear-gradient(45deg,#efe7d6,#efe7d6 10px,#ece3d0 10px,#ece3d0 20px);display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:6px;font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px 4px 16px;border-radius:5px;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.18)}
+.tag::before{content:"";position:absolute;left:6px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.85)}
+.tag.awaiting{background:var(--amber)}.tag.progress{background:var(--blue)}.tag.ready{background:var(--green)}
+.body{padding:14px 15px 15px;display:flex;flex-direction:column;gap:9px;flex:1}
+.catpill{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.card h3{font-size:1.15rem;font-weight:700;line-height:1.1}
+.note{background:#E7EFD6;border:1px dashed #C2D2A0;border-left:4px solid #79A23C;border-radius:8px;padding:9px 11px;font-size:.88rem;color:#3f4a32;flex:1}
+.note .nlabel{font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5f7e2c;display:block;margin-bottom:2px}
+.meta{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.timeline-box{background:var(--blue-soft);border-radius:9px;padding:8px 11px;font-size:.82rem}.timeline-box b{color:#1f5179}
+.ready-box{background:var(--green-soft);border-radius:9px;padding:8px 11px;font-size:.82rem;color:#316b3d;font-weight:600}
+.act{display:flex;gap:7px;flex-wrap:wrap}
+.act button{flex:1;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:.84rem;cursor:pointer;border:none;padding:9px;border-radius:9px;transition:.15s}
+.act .claim{background:var(--orange);color:#fff}.act .claim:hover{background:var(--orange-2)}
+.act .markready{background:var(--green);color:#fff}.act .markready:hover{background:#3f7a4b}
+.act .chatbtn{background:var(--navy);color:#fff}.act .chatbtn:hover{background:var(--navy-2)}
+.act .secondary{background:var(--kraft);color:var(--muted)}
+.locked{font-size:.78rem;color:var(--muted);text-align:center;padding:6px;background:var(--kraft);border-radius:8px}
+.empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);border:2px dashed var(--line);border-radius:var(--r)}
+.empty .big{font-size:2.4rem;margin-bottom:8px}
+
+/* fixers */
+.page-head{margin-bottom:6px}
+.page-head h2{font-size:2rem;font-weight:800;letter-spacing:-.02em}
+.page-head p{color:var(--muted);margin-top:4px;max-width:58ch}
+.fixhead-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:18px 0}
+.fixgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px}
+.fcard{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;text-align:center;box-shadow:0 10px 22px -20px var(--shadow);transition:.2s;position:relative}
+.fcard:hover{transform:translateY(-3px)}
+.fcard .pic{width:92px;height:92px;border-radius:50%;margin:0 auto 13px;overflow:hidden;border:3px solid var(--paper);box-shadow:0 0 0 3px var(--orange-soft)}
+.fcard .pic img{width:100%;height:100%;object-fit:cover}
+.avi{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2rem}
+.fcard h3{font-size:1.2rem;font-weight:700}
+.fspec{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--orange-2);background:var(--orange-soft);padding:4px 11px;border-radius:999px;margin:6px 0 10px}
+.fbio{font-size:.9rem;color:#4a4f52;text-align:left}
+.fstat{margin-top:12px;font-size:.82rem;font-weight:700;color:var(--green);display:flex;align-items:center;justify-content:center;gap:6px}
+.fedit{position:absolute;top:12px;right:12px;background:var(--kraft);border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:.75rem;font-weight:700;color:var(--muted);cursor:pointer;padding:5px 9px;transition:.15s}
+.fedit:hover{border-color:var(--navy);color:var(--navy)}
+
+/* my items */
+.myitems-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:18px}
+.mi-card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 10px 22px -20px var(--shadow)}
+.mi-card .mi-head{padding:16px;border-bottom:1px solid var(--line)}
+.mi-card .mi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.mi-card h3{font-size:1.15rem;font-weight:700;line-height:1.1}
+.code-pill{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;background:var(--kraft);color:var(--ink);padding:4px 10px;border-radius:8px;letter-spacing:.14em;flex:none}
+.mi-stat{font-size:.86rem;font-weight:700;margin-top:4px}
+.mi-stat.awaiting{color:var(--amber)}.mi-stat.progress{color:var(--blue)}.mi-stat.ready{color:var(--green)}
+.mi-timeline{font-size:.84rem;color:var(--muted);margin-top:3px}
+.chat-toggle{display:flex;align-items:center;gap:8px;padding:11px 16px;background:none;border:none;width:100%;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.9rem;color:var(--navy);cursor:pointer;border-top:1px solid var(--line);transition:.14s}
+.chat-toggle:hover{background:var(--blue-soft)}
+.chat-toggle .arr{margin-left:auto;transition:transform .2s}
+.chat-toggle.open .arr{transform:rotate(180deg)}
+.chat-body-wrap{display:none;border-top:1px solid var(--line)}
+.chat-body-wrap.open{display:block}
+
+/* chat */
+.chat-msgs{padding:14px 16px;min-height:140px;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:9px;background:var(--kraft)}
+.msg{max-width:80%;padding:9px 13px;border-radius:13px;font-size:.9rem;line-height:1.4;word-wrap:break-word}
+.msg.sys{align-self:center;background:var(--green-soft);color:#316b3d;font-size:.78rem;font-weight:600;text-align:center;border-radius:999px;padding:5px 14px;max-width:92%}
+.msg.fixer{align-self:flex-start;background:var(--navy);color:#fff;border-bottom-left-radius:4px}
+.msg.sub{align-self:flex-end;background:var(--orange);color:#fff;border-bottom-right-radius:4px}
+.msg .who{font-size:.68rem;font-weight:700;opacity:.85;display:block;margin-bottom:2px}
+.msg .ts{font-size:.64rem;opacity:.7;margin-top:3px;display:block}
+.chat-input-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line);background:var(--paper)}
+.chat-input-row input{flex:1;font-family:inherit;font-size:.93rem;padding:9px 12px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+.chat-input-row input:focus{outline:none;border-color:var(--navy)}
+.chat-input-row button{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.88rem;background:var(--navy);color:#fff;border:none;border-radius:9px;padding:0 16px;cursor:pointer;transition:.14s}
+.chat-input-row button:hover{background:var(--navy-2)}
+.no-items{text-align:center;padding:48px 20px;color:var(--muted);background:var(--paper);border:2px dashed var(--line);border-radius:var(--r);margin-top:18px}
+.no-items .big{font-size:2.2rem;margin-bottom:8px}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(38,50,60,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90;padding:16px}
+.overlay.show{display:flex}
+.modal{background:var(--paper);border-radius:18px;width:100%;max-width:510px;max-height:92vh;overflow-y:auto;padding:24px;animation:pop .25s ease;box-shadow:var(--shadow);border-top:5px solid var(--orange)}
+.modal-head{display:flex;align-items:center;justify-content:space-between}
+.modal h3{font-size:1.3rem;font-weight:800}
+.modal .x{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted);line-height:1}
+.msub{font-size:.85rem;color:var(--muted);margin:2px 0 16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px}.field label .opt{color:var(--muted);font-weight:500}
+.field input,.field textarea,.field select{width:100%;font-family:inherit;font-size:.95rem;color:var(--ink);padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;background:#fff}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(224,125,43,.16)}
+.field textarea{resize:vertical;min-height:72px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.photo-pick{border:1.5px dashed var(--line);border-radius:11px;padding:12px;text-align:center;cursor:pointer;color:var(--muted);font-size:.88rem;transition:.15s}
+.photo-pick:hover{border-color:var(--orange);color:var(--orange-2)}.photo-pick input{display:none}
+.photo-preview{margin-top:10px;border-radius:10px;overflow:hidden;display:none}.photo-preview img{width:100%;max-height:160px;object-fit:cover;display:block}
+.err{color:#b23a26;font-size:.84rem;margin-top:2px;min-height:1em}
+.modal-foot{display:flex;gap:10px;margin-top:6px}.modal-foot .btn{flex:1}
+
+/* AI intake */
+.ai-banner{background:linear-gradient(135deg,var(--orange-soft),var(--green-soft));border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:.88rem;color:#3f4a32;border:1px solid #d8e2c2}
+.qbox{background:var(--kraft);border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px}
+.qbox .qt{font-weight:700;font-size:.93rem;margin-bottom:8px;color:var(--ink)}
+.qbox .qnum{color:var(--orange-2);font-family:'Bricolage Grotesque',sans-serif;font-weight:800;margin-right:5px}
+.qopts{display:flex;flex-wrap:wrap;gap:6px}
+.qopts button{font-family:inherit;font-size:.84rem;font-weight:600;cursor:pointer;padding:7px 13px;border-radius:9px;border:1.5px solid var(--line);background:#fff;color:#444c52;transition:.14s}
+.qopts button:hover{border-color:var(--orange)}.qopts button.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+.ai-loading{text-align:center;padding:28px 18px}
+.ai-loading .sp{display:inline-block;width:32px;height:32px;border:3px solid var(--line);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-loading b{display:block;margin-top:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700}
+.ai-loading span{color:var(--muted);font-size:.88rem}
+
+/* success code */
+.success-screen{text-align:center;padding:16px 4px 4px}
+.success-screen .check{width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 13px;box-shadow:0 8px 22px -8px rgba(78,141,91,.6)}
+.success-screen h3{font-size:1.4rem;font-weight:800;margin-bottom:5px}
+.success-screen p{color:var(--muted);font-size:.92rem;margin-bottom:16px}
+.code-display{background:var(--kraft);border:2px dashed var(--orange);border-radius:13px;padding:16px;margin:0 0 14px}
+.code-display .clabel{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange-2);margin-bottom:5px}
+.code-display .cval{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2rem;letter-spacing:.22em;color:var(--ink)}
+.code-display .copy{font-family:inherit;font-size:.82rem;font-weight:700;background:none;border:none;cursor:pointer;color:var(--navy);margin-top:7px}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(150%);background:var(--ink);color:var(--kraft);padding:12px 22px;border-radius:12px;font-weight:600;font-size:.9rem;z-index:210;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:var(--shadow)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border-top:2px solid var(--line)}
+
+.tooldeco{position:fixed;inset:0;pointer-events:none;z-index:0}
+.tool{position:fixed;color:#2c4a63;opacity:.12;pointer-events:none}
+@media(max-width:1140px){.tooldeco{display:none}}
+@media(max-width:580px){.two{grid-template-columns:1fr}.brand small{display:none}nav.main button{padding:6px 8px;font-size:.84rem}}
+</style>
+</head>
+<body>
+
+<!-- TOOL SKETCHES -->
+<div class="tooldeco" aria-hidden="true">
+  <svg class="tool" style="left:18px;top:104px;width:106px;transform:rotate(-6deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"><path d="M73 19c-4.6-1.6-10-.6-13.6 3-3.8 3.8-4.7 9.4-2.8 14.1L22.5 70.2c-2 2-2 5.2 0 7.2s5.2 2 7.2 0l34-34c4.7 1.9 10.3 1 14.1-2.8 3.6-3.6 4.6-9 3-13.6l-8.2 8.2-7.6-2-2-7.6z"></path></svg>
+  <svg class="tool" style="left:30px;top:50%;width:78px;transform:rotate(12deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="19"></circle><circle cx="50" cy="50" r="7"></circle><path d="M50 23V13M50 87V77M23 50H13M87 50H77M31 31l-7-7M69 31l7-7M31 69l-7 7M69 69l7 7"></path></svg>
+  <svg class="tool" style="left:6px;bottom:96px;width:124px;transform:rotate(-10deg)" viewBox="0 0 110 90" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 28h44a7 7 0 0 1 7 7v12a7 7 0 0 1-7 7H40l-5 13H22a8 8 0 0 1-8-8z"></path><path d="M65 35h11v15H65z"></path><path d="M76 40h28v5H76z"></path></svg>
+  <svg class="tool" style="right:20px;top:128px;width:94px;transform:rotate(20deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><rect x="60" y="14" width="16" height="28" rx="6" transform="rotate(45 68 28)"></rect><path d="M59 35 33 61"></path><path d="M30 58l-7 13 13-7z"></path></svg>
+  <svg class="tool" style="right:34px;top:48%;width:74px" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"><polygon points="50,20 76,35 76,65 50,80 24,65 24,35"></polygon><circle cx="50" cy="50" r="11"></circle></svg>
+  <svg class="tool" style="right:8px;bottom:108px;width:110px;transform:rotate(28deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"><path d="M73 19c-4.6-1.6-10-.6-13.6 3-3.8 3.8-4.7 9.4-2.8 14.1L22.5 70.2c-2 2-2 5.2 0 7.2s5.2 2 7.2 0l34-34c4.7 1.9 10.3 1 14.1-2.8 3.6-3.6 4.6-9 3-13.6l-8.2 8.2-7.6-2-2-7.6z"></path></svg>
+</div>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen" style="display: none;">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
+      <span class="name">Fixify</span>
+    </div>
+    <div class="auth-tagline">Repair, don't replace — submit a broken item or claim a repair.</div>
+    <div class="auth-tabs">
+      <button id="tab-signin" class="on" onclick="switchAuthTab('signin')">Sign in</button>
+      <button id="tab-signup" onclick="switchAuthTab('signup')">Create account</button>
+    </div>
+
+    <!-- Google button -->
+    <button class="google-btn" onclick="googleSignIn()">
+      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.8 2.4 30.2 0 24 0 14.8 0 6.9 5.4 3 13.3l7.9 6.1C12.7 13.2 17.9 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.6 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.9 7.2l7.7 6c4.5-4.2 7.1-10.4 7.1-17.2z"></path><path fill="#FBBC05" d="M10.9 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6L2.4 13.3A23.8 23.8 0 0 0 0 24c0 3.9.9 7.5 2.5 10.8l8.4-6.2z"></path><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.7-6c-2 1.4-4.7 2.2-7.5 2.2-6.1 0-11.3-3.7-13.2-9l-8 6.1C6.9 42.6 14.8 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
+      Continue with Google
+    </button>
+    <div class="or-div">or</div>
+
+    <!-- Sign in form -->
+    <div id="form-signin">
+      <div class="afield"><label>Email</label><input type="email" id="si-email" placeholder="you@email.com"></div>
+      <div class="afield"><label>Password</label><input type="password" id="si-pw" placeholder="••••••••"></div>
+      <div class="auth-err" id="si-err"></div>
+      <button class="auth-btn" onclick="signIn()">Sign in</button>
+      <div class="auth-switch">Don't have an account? <b onclick="switchAuthTab('signup')">Create one</b></div>
+    </div>
+
+    <!-- Sign up form -->
+    <div id="form-signup" style="display:none">
+      <div class="afield"><label>Your name</label><input type="text" id="su-name" placeholder="e.g. Jordan Lee"></div>
+      <div class="afield"><label>Email</label><input type="email" id="su-email" placeholder="you@email.com"></div>
+      <div class="afield"><label>Password</label><input type="password" id="su-pw" placeholder="Create a password"></div>
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.88rem;margin-bottom:10px;color:var(--ink)">I'm joining as a…</div>
+      <div class="role-pick">
+        <div class="role-opt on" id="role-customer" onclick="pickRole('customer')"><span class="ri">📦</span><span class="rl">Customer</span><span class="rs">Submit broken items</span></div>
+        <div class="role-opt" id="role-fixer" onclick="pickRole('fixer')"><span class="ri">🔧</span><span class="rl">Fixer</span><span class="rs">Claim &amp; repair items</span></div>
+      </div>
+      <div class="auth-err" id="su-err"></div>
+      <button class="auth-btn" onclick="signUp()">Create account</button>
+      <div class="auth-switch">Already have an account? <b onclick="switchAuthTab('signin')">Sign in</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display: block;">
+<header>
+  <div class="head-in">
+    <div class="brand" onclick="showView('home')">
+      <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
+      <div><b>Fixify</b><small>Repair, don't replace</small></div>
+    </div>
+    <div class="head-right">
+      <nav class="main" id="nav">
+        <button data-v="home" class="on" onclick="showView('home')">Home</button>
+        <button data-v="fixers" onclick="showView('fixers')">Fixers</button>
+        <button data-v="myitems" onclick="showView('myitems')">My Items</button>
+      </nav>
+      <div class="clubsw on" id="clubSw" onclick="toggleClub()"><span class="track"></span><span>Club</span></div>
+      <div class="user-chip" onclick="signOut()" title="Sign out">
+        <div class="av" id="userAv" style="background:#E07D2B">LO</div>
+        <span class="un" id="userName">Landon</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- HOME -->
+    <section class="view on" id="view-home">
+      <div class="hero">
+        <h1>Got something broken? We'll fix it.</h1>
+        <p>Post your broken item. The Fixify crew claims repairs, gives you a timeline, and you can chat directly until it's ready.</p>
+        <div class="ruler"></div>
+        <div class="hero-row">
+          <button class="btn btn-primary" onclick="openSubmit()">＋ Submit an item</button>
+          <span class="clubhint" id="modeHint">Club mode <b>on</b> — claim repairs &amp; chat with owners.</span>
+        </div>
+      </div>
+      <div class="impact" id="impact">
+    <div class="istat amber"><div class="n">2</div><div class="l">Awaiting a fixer</div></div>
+    <div class="istat blue"><div class="n">1</div><div class="l">Being fixed now</div></div>
+    <div class="istat green"><div class="n">1</div><div class="l">Fixed &amp; kept from landfill</div></div></div>
+      <div class="filterbar">
+        <div class="tabs" id="tabs">
+          <button data-f="all" class="on" onclick="setFilter('all')">All</button>
+          <button data-f="awaiting" onclick="setFilter('awaiting')">Awaiting</button>
+          <button data-f="progress" onclick="setFilter('progress')">In progress</button>
+          <button data-f="ready" onclick="setFilter('ready')">Ready</button>
+        </div>
+        <select class="catsel" id="catSel" onchange="renderItems()"><option value="all">All categories</option><option>Electronics</option><option>Clothing &amp; textiles</option><option>Bags &amp; zippers</option><option>Furniture</option><option>Bikes &amp; wheels</option><option>Toys &amp; games</option><option>Jewelry &amp; accessories</option><option>Other</option></select>
+      </div>
+      <div class="grid" id="grid"><div class="card"><div class="photo">🔌<span class="tag awaiting">Awaiting fixer</span></div><div class="body"><span class="catpill">🔌 Electronics</span><h3>Gooseneck desk lamp</h3><div class="note"><span class="nlabel">What's wrong</span>Flickers and cuts out unless you wiggle the cord near the base.</div><div class="meta"><span>From Jordan L. · yesterday</span></div><div class="act"><button class="claim" onclick="openClaim('pkabgsl0')">Claim repair</button></div></div></div><div class="card"><div class="photo">🪑<span class="tag awaiting">Awaiting fixer</span></div><div class="body"><span class="catpill">🪑 Furniture</span><h3>Wooden chair</h3><div class="note"><span class="nlabel">What's wrong</span>One leg is loose and wobbles, the glue joint failed.</div><div class="meta"><span>From Mr. Davis · 2 days ago</span></div><div class="act"><button class="claim" onclick="openClaim('pfzytona')">Claim repair</button></div></div></div><div class="card"><div class="photo">🎒<span class="tag progress">In progress</span></div><div class="body"><span class="catpill">🎒 Bags &amp; zippers</span><h3>Black backpack</h3><div class="note"><span class="nlabel">What's wrong</span>Main zipper pull snapped off, can't open the big pocket.</div><div class="meta"><span>From Mia R. · 3 days ago</span></div><div class="timeline-box">🛠️ <b>Mia R.</b> is on it · est. <b>About a week</b></div><div class="act"><button class="markready" onclick="markReady('8yti069p')">Mark ready</button><button class="chatbtn" onclick="showView('myitems')">💬 Chat</button></div></div></div><div class="card"><div class="photo">🔌<span class="tag ready">Ready for pickup</span></div><div class="body"><span class="catpill">🔌 Electronics</span><h3>Bluetooth speaker</h3><div class="note"><span class="nlabel">What's wrong</span>Won't charge — the charging port is wiggly and loose.</div><div class="meta"><span>From Lena T. · 6 days ago</span></div><div class="ready-box">✅ Fixed by Sam K. — ready for pickup!</div><div class="act"><button class="secondary" onclick="reopen('lyj086r4')">Reopen</button></div></div></div></div>
+    </section>
+
+    <!-- FIXERS -->
+    <section class="view" id="view-fixers">
+      <div class="page-head">
+        <h2>Meet the Fixers</h2>
+        <p>The crew behind the bench. Submit under the right category and the right fixer will grab it.</p>
+        <div class="ruler"></div>
+      </div>
+      <div class="fixhead-row">
+        <span class="clubhint" id="fixHint">Club mode <b>on</b> — add or edit fixers.</span>
+        <button class="btn btn-orange" id="addFixerBtn" onclick="openFixer()" style="display: inline-flex;">＋ Add a fixer</button>
+      </div>
+      <div class="fixgrid" id="fixgrid"><div class="fcard"><button class="fedit" onclick="openFixer('770a1fap')">Edit</button>
+      <div class="pic"><div class="avi" style="background:#1E3A52">SK</div></div><h3>Sam K.</h3>
+      <span class="fspec">Electronics &amp; soldering</span>
+      <p class="fbio">Has been taking radios apart since he was nine. Best with chargers, speakers, and anything that won't turn on.</p>
+      <div class="fstat">🔧 1 repair completed</div></div><div class="fcard"><button class="fedit" onclick="openFixer('fv6wa2yd')">Edit</button>
+      <div class="pic"><div class="avi" style="background:#2E6E9E">PN</div></div><h3>Priya N.</h3>
+      <span class="fspec">Bikes &amp; mechanical</span>
+      <p class="fbio">Fixes pretty much every bike on campus — flats, brakes, gears, wobbly wheels.</p>
+      <div class="fstat">✋ ready for a project</div></div><div class="fcard"><button class="fedit" onclick="openFixer('mggvol8i')">Edit</button>
+      <div class="pic"><div class="avi" style="background:#E07D2B">MR</div></div><h3>Mia R.</h3>
+      <span class="fspec">Sewing &amp; textiles</span>
+      <p class="fbio">Runs the sewing station. Zippers, rips, buttons, straps. Can rescue a backpack everyone else gave up on.</p>
+      <div class="fstat">🛠️ 1 in progress</div></div><div class="fcard"><button class="fedit" onclick="openFixer('zyv8bx1h')">Edit</button>
+      <div class="pic"><div class="avi" style="background:#4E8D5B">AP</div></div><h3>Andre P.</h3>
+      <span class="fspec">Woodwork &amp; furniture</span>
+      <p class="fbio">Loose chair legs, cracked shelves, sticky drawers. Handles anything wood.</p>
+      <div class="fstat">✋ ready for a project</div></div><div class="fcard"><button class="fedit" onclick="openFixer('5pxq2eqm')">Edit</button>
+      <div class="pic"><div class="avi" style="background:#CF9412">LT</div></div><h3>Lena T.</h3>
+      <span class="fspec">3D printing &amp; plastics</span>
+      <p class="fbio">Designs and prints replacement parts for things you can't buy parts for anymore.</p>
+      <div class="fstat">✋ ready for a project</div></div><div class="fcard"><button class="fedit" onclick="openFixer('byelta1m')">Edit</button>
+      <div class="pic"><div class="avi" style="background:#5B5470">MD</div></div><h3>Mr. Davis</h3>
+      <span class="fspec">Club advisor</span>
+      <p class="fbio">Runs Fixify and keeps the toolbox stocked.</p>
+      <div class="fstat">✋ ready for a project</div></div></div>
+    </section>
+
+    <!-- MY ITEMS -->
+    <section class="view" id="view-myitems">
+      <div class="page-head">
+        <h2>My Items</h2>
+        <p id="myItemsSub"></p>
+        <div class="ruler"></div>
+      </div>
+      <div id="myitems-content"></div>
+    </section>
+
+  </div>
+</main>
+<footer>Fixify · a school repair club · repair, don't replace · <span id="syncNote">data saves to this browser — sign in on the same device to see your items</span></footer>
+</div>
+
+<!-- SUBMIT MODAL -->
+<div class="overlay" id="submitOverlay"><div class="modal">
+  <div class="modal-head"><h3 id="submitTitle">Submit an item</h3><button class="x" onclick="close_('submitOverlay')">×</button></div>
+  <div class="sst" data-step="entry">
+    <p class="msub">Name the item and add a photo. Our AI will ask a few diagnostic questions.</p>
+    <div class="field"><label>What is it?</label><input id="s-name" placeholder="e.g. desk lamp, backpack, speaker"></div>
+    <div class="field"><label>Photo <span class="opt">— optional, helps a lot</span></label>
+      <label class="photo-pick"><input type="file" accept="image/*" id="s-photo">📷 Add a photo</label>
+      <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt=""></div>
+    </div>
+    <div class="err" id="s-err"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="skipAI()">Skip, fill manually</button>
+      <button class="btn btn-orange" onclick="startAI()">✨ Diagnose with AI</button>
+    </div>
+  </div>
+  <div class="sst" data-step="analyzing" style="display:none"><div class="ai-loading"><div class="sp"></div><b>Analyzing your item…</b><span>Figuring out the right questions</span></div></div>
+  <div class="sst" data-step="questions" style="display:none">
+    <div class="ai-banner" id="aiBanner"></div>
+    <div id="qlist"></div>
+    <div class="err" id="q-err"></div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="setSubStep('entry')">Back</button><button class="btn btn-orange" id="qNextBtn" onclick="submitAnswers()" disabled="">Continue</button></div>
+  </div>
+  <div class="sst" data-step="summarizing" style="display:none"><div class="ai-loading"><div class="sp"></div><b>Writing up your repair…</b><span>Summarizing your answers</span></div></div>
+  <div class="sst" data-step="contact" style="display:none">
+    <div class="ai-banner" id="summaryBanner" style="display:none"></div>
+    <div class="field"><label>What's wrong with it?</label><textarea id="s-prob" placeholder="Describe the problem…"></textarea></div>
+    <div class="two">
+      <div class="field"><label>Category</label><select id="s-cat"><option>Electronics</option><option>Clothing &amp; textiles</option><option>Bags &amp; zippers</option><option>Furniture</option><option>Bikes &amp; wheels</option><option>Toys &amp; games</option><option>Jewelry &amp; accessories</option><option>Other</option></select></div>
+      <div class="field"><label>Drop-off <span class="opt">— optional</span></label><input id="s-drop" placeholder="e.g. front office"></div>
+    </div>
+    <div class="err" id="s-err2"></div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="backFromContact()">Back</button><button class="btn btn-primary" onclick="submitItem()">Post to board</button></div>
+  </div>
+  <div class="sst" data-step="success" style="display:none">
+    <div class="success-screen">
+      <div class="check">✓</div>
+      <h3>Posted!</h3>
+      <p>Your item is live on the board. See it in <b>My Items</b> — your fixer will message you there when they claim it.</p>
+      <div class="code-display"><div class="clabel">Your repair code</div><div class="cval" id="newCode">——</div><button class="copy" onclick="copyCode()">📋 Copy code</button></div>
+      <button class="btn btn-primary" style="width:100%" onclick="close_('submitOverlay');showView('myitems')">Go to My Items →</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- CLAIM MODAL -->
+<div class="overlay" id="claimOverlay"><div class="modal">
+  <div class="modal-head"><h3 id="claimTitle">Claim repair</h3><button class="x" onclick="close_('claimOverlay')">×</button></div>
+  <p class="msub">You're taking this on. Give the owner a rough idea of timing — it'll be sent as a message.</p>
+  <div class="field"><label>Estimated timeline</label><select id="c-timeline"><option>A few days</option><option>About a week</option><option>1–2 weeks</option><option>2–3 weeks</option><option>Longer / not sure yet</option></select></div>
+  <div class="field"><label>Note to the owner <span class="opt">— optional</span></label><textarea id="c-note" placeholder="e.g. Need to order a part first."></textarea></div>
+  <div class="err" id="c-err"></div>
+  <div class="modal-foot"><button class="btn btn-ghost" onclick="close_('claimOverlay')">Cancel</button><button class="btn btn-primary" onclick="confirmClaim()">Claim &amp; message owner</button></div>
+</div></div>
+
+<!-- FIXER MODAL -->
+<div class="overlay" id="fixerOverlay"><div class="modal">
+  <div class="modal-head"><h3 id="fixerTitle">Add a fixer</h3><button class="x" onclick="close_('fixerOverlay')">×</button></div>
+  <p class="msub">Add a club member with a photo and bio.</p>
+  <div class="two">
+    <div class="field"><label>Name</label><input id="f-name" placeholder="e.g. Sam K."></div>
+    <div class="field"><label>Specialty</label><input id="f-spec" placeholder="e.g. Electronics"></div>
+  </div>
+  <div class="field"><label>Bio</label><textarea id="f-bio" placeholder="What they're good at fixing…"></textarea></div>
+  <div class="field"><label>Photo <span class="opt">— optional</span></label>
+    <label class="photo-pick"><input type="file" accept="image/*" id="f-photo">📷 Add photo</label>
+    <div class="photo-preview" id="fPhotoPreview"><img id="fPhotoPreviewImg" alt=""></div>
+  </div>
+  <div class="err" id="f-err"></div>
+  <div class="modal-foot"><button class="btn btn-ghost" onclick="close_('fixerOverlay')">Cancel</button><button class="btn btn-primary" onclick="saveFixer()">Save</button></div>
+  <button class="removebtn" id="removeFixerBtn" onclick="removeFixer()" style="display:none;background:none;border:none;color:#b23a26;font-family:inherit;font-weight:700;font-size:.84rem;cursor:pointer;margin-top:10px">Remove fixer</button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   CONSTANTS & STATE
+   ========================================================= */
+const CATS=["Electronics","Clothing & textiles","Bags & zippers","Furniture","Bikes & wheels","Toys & games","Jewelry & accessories","Other"];
+const CAT_ICON={"Electronics":"🔌","Clothing & textiles":"👕","Bags & zippers":"🎒","Furniture":"🪑","Bikes & wheels":"🚲","Toys & games":"🧸","Jewelry & accessories":"💍","Other":"🔧"};
+const STATUS_LABEL={awaiting:"Awaiting fixer",progress:"In progress",ready:"Ready for pickup"};
+const AV_COLORS=["#1E3A52","#E07D2B","#2E6E9E","#4E8D5B","#CF9412","#5B5470"];
+const AV_PALETTE=["#E07D2B","#2E6E9E","#4E8D5B","#CF9412","#9B59B6","#1E3A52"];
+
+let currentUser=null; // {id,name,email,role,color}
+let items=[],fixers=[],filter='all',clubMode=false;
+let claimTarget=null,pendingPhoto=null,pendingFPhoto=null,editFixerId=null;
+let aiAnalysis=null,aiAnswers={},lastCode='';
+let openChats={}; // itemId → bool
+
+/* =========================================================
+   STORAGE (localStorage — works on fixifyit.org)
+   ========================================================= */
+function lsGet(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){toast('Storage full — try removing old items');return false;}}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
+
+/* =========================================================
+   AUTH
+   ========================================================= */
+function hashPw(pw){let h=5381;for(let i=0;i<pw.length;i++)h=(h<<5)+h+pw.charCodeAt(i)|0;return(h>>>0).toString(36);}
+
+function checkSession(){
+  const s=lsGet('fixify:session');
+  if(s&&s.id){
+    currentUser=s;
+    bootApp();
+  }
+}
+
+function switchAuthTab(t){
+  document.getElementById('tab-signin').classList.toggle('on',t==='signin');
+  document.getElementById('tab-signup').classList.toggle('on',t==='signup');
+  document.getElementById('form-signin').style.display=t==='signin'?'block':'none';
+  document.getElementById('form-signup').style.display=t==='signup'?'block':'none';
+}
+
+let selectedRole='customer';
+function pickRole(r){
+  selectedRole=r;
+  document.getElementById('role-customer').classList.toggle('on',r==='customer');
+  document.getElementById('role-fixer').classList.toggle('on',r==='fixer');
+}
+
+function signIn(){
+  const email=document.getElementById('si-email').value.trim().toLowerCase();
+  const pw=document.getElementById('si-pw').value;
+  const err=document.getElementById('si-err');
+  if(!email||!pw){err.textContent='Fill in email and password.';return;}
+  const users=lsGet('fixify:users')||[];
+  const user=users.find(u=>u.email===email&&u.pwHash===hashPw(pw));
+  if(!user){err.textContent='No account found with those details.';return;}
+  currentUser={id:user.id,name:user.name,email:user.email,role:user.role,color:user.color};
+  lsSet('fixify:session',currentUser);
+  bootApp();
+}
+
+function signUp(){
+  const name=document.getElementById('su-name').value.trim();
+  const email=document.getElementById('su-email').value.trim().toLowerCase();
+  const pw=document.getElementById('su-pw').value;
+  const err=document.getElementById('su-err');
+  if(!name||!email||!pw){err.textContent='Fill in all fields.';return;}
+  if(pw.length<6){err.textContent='Password must be at least 6 characters.';return;}
+  const users=lsGet('fixify:users')||[];
+  if(users.find(u=>u.email===email)){err.textContent='An account with that email already exists.';return;}
+  const color=AV_PALETTE[users.length%AV_PALETTE.length];
+  const newUser={id:uid(),name,email,pwHash:hashPw(pw),role:selectedRole,color,createdAt:new Date().toISOString()};
+  users.push(newUser);
+  lsSet('fixify:users',users);
+  currentUser={id:newUser.id,name:newUser.name,email:newUser.email,role:newUser.role,color:newUser.color};
+  lsSet('fixify:session',currentUser);
+  bootApp();
+}
+
+function googleSignIn(){
+  toast('Google sign-in needs Firebase — coming soon. Use email for now.');
+}
+
+function signOut(){
+  if(!confirm('Sign out of Fixify?'))return;
+  lsDel('fixify:session');
+  currentUser=null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('auth-screen').style.display='flex';
+}
+
+/* =========================================================
+   BOOT
+   ========================================================= */
+function bootApp(){
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  // update header
+  document.getElementById('userName').textContent=currentUser.name.split(' ')[0];
+  document.getElementById('userAv').textContent=currentUser.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  document.getElementById('userAv').style.background=currentUser.color||'#E07D2B';
+  // fixers who are logged in: auto club mode
+  if(currentUser.role==='fixer'){
+    clubMode=true;
+    document.getElementById('clubSw').classList.add('on');
+  }
+  fillCatSelects();
+  loadItems();
+  loadFixers();
+  renderItems();
+  renderFixers();
+  renderModeUI();
+}
+
+/* =========================================================
+   DATA
+   ========================================================= */
+function loadItems(){
+  const stored=lsGet('fixify:items');
+  items=stored||seedItems();
+  if(!stored)lsSet('fixify:items',items);
+}
+function saveItems(){lsSet('fixify:items',items.slice(0,80));}
+
+function loadFixers(){
+  const stored=lsGet('fixify:fixers');
+  fixers=stored||seedFixers();
+  if(!stored)lsSet('fixify:fixers',fixers);
+}
+function saveFixers(){lsSet('fixify:fixers',fixers.slice(0,40));}
+
+function loadMsgs(code){return lsGet('fixify:msgs:'+code)||[];}
+function saveMsgs(code,msgs){lsSet('fixify:msgs:'+code,msgs.slice(-300));}
+
+function seedItems(){
+  const now=Date.now(),d=864e5;
+  return [
+    {id:uid(),code:genCode(),name:"Gooseneck desk lamp",cat:"Electronics",prob:"Flickers and cuts out unless you wiggle the cord near the base.",sub:"Jordan L.",submitterId:'demo',photo:null,status:"awaiting",fixer:null,fixerId:null,timeline:null,submittedAt:new Date(now-1*d).toISOString(),claimedAt:null,readyAt:null},
+    {id:uid(),code:genCode(),name:"Black backpack",cat:"Bags & zippers",prob:"Main zipper pull snapped off, can't open the big pocket.",sub:"Mia R.",submitterId:'demo',photo:null,status:"progress",fixer:"Mia R.",fixerId:'demo2',timeline:"About a week",submittedAt:new Date(now-3*d).toISOString(),claimedAt:new Date(now-1*d).toISOString(),readyAt:null},
+    {id:uid(),code:genCode(),name:"Wooden chair",cat:"Furniture",prob:"One leg is loose and wobbles, the glue joint failed.",sub:"Mr. Davis",submitterId:'demo',photo:null,status:"awaiting",fixer:null,fixerId:null,timeline:null,submittedAt:new Date(now-2*d).toISOString(),claimedAt:null,readyAt:null},
+    {id:uid(),code:genCode(),name:"Bluetooth speaker",cat:"Electronics",prob:"Won't charge — the charging port is wiggly and loose.",sub:"Lena T.",submitterId:'demo',photo:null,status:"ready",fixer:"Sam K.",fixerId:'demo2',timeline:"A few days",submittedAt:new Date(now-6*d).toISOString(),claimedAt:new Date(now-4*d).toISOString(),readyAt:new Date(now-1*d).toISOString()}
+  ];
+}
+function seedFixers(){
+  return [
+    {id:uid(),name:"Sam K.",spec:"Electronics & soldering",bio:"Has been taking radios apart since he was nine. Best with chargers, speakers, and anything that won't turn on.",photo:null,color:AV_COLORS[0]},
+    {id:uid(),name:"Priya N.",spec:"Bikes & mechanical",bio:"Fixes pretty much every bike on campus — flats, brakes, gears, wobbly wheels.",photo:null,color:AV_COLORS[2]},
+    {id:uid(),name:"Mia R.",spec:"Sewing & textiles",bio:"Runs the sewing station. Zippers, rips, buttons, straps. Can rescue a backpack everyone else gave up on.",photo:null,color:AV_COLORS[1]},
+    {id:uid(),name:"Andre P.",spec:"Woodwork & furniture",bio:"Loose chair legs, cracked shelves, sticky drawers. Handles anything wood.",photo:null,color:AV_COLORS[3]},
+    {id:uid(),name:"Lena T.",spec:"3D printing & plastics",bio:"Designs and prints replacement parts for things you can't buy parts for anymore.",photo:null,color:AV_COLORS[4]},
+    {id:uid(),name:"Mr. Davis",spec:"Club advisor",bio:"Runs Fixify and keeps the toolbox stocked.",photo:null,color:AV_COLORS[5]}
+  ];
+}
+function uid(){return Math.random().toString(36).slice(2,10)}
+function genCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<6;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+function showView(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(v==='myitems')renderMyItems();
+}
+function toggleClub(){clubMode=!clubMode;document.getElementById('clubSw').classList.toggle('on',clubMode);renderItems();renderFixers();renderModeUI();}
+function renderModeUI(){
+  document.getElementById('modeHint').innerHTML=clubMode?'Club mode <b>on</b> — claim repairs &amp; chat with owners.':'In the club? Flip <b>Club</b> on (top right) to claim repairs.';
+  document.getElementById('fixHint').innerHTML=clubMode?'Club mode <b>on</b> — add or edit fixers.':'Flip on <b>Club</b> to add or edit fixers.';
+  document.getElementById('addFixerBtn').style.display=clubMode?'inline-flex':'none';
+}
+function setFilter(f){filter=f;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));renderItems();}
+function esc(s){return (s||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function ago(iso){if(!iso)return '';const days=Math.floor((Date.now()-new Date(iso))/864e5);return days<=0?'today':days===1?'yesterday':days+' days ago';}
+function shortTs(iso){const d=new Date(iso),now=new Date();return d.toDateString()===now.toDateString()?d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}):d.toLocaleDateString([],{month:'short',day:'numeric'});}
+
+/* =========================================================
+   RENDER ITEMS (home board)
+   ========================================================= */
+function renderItems(){
+  document.getElementById('impact').innerHTML=`
+    <div class="istat amber"><div class="n">${items.filter(i=>i.status==='awaiting').length}</div><div class="l">Awaiting a fixer</div></div>
+    <div class="istat blue"><div class="n">${items.filter(i=>i.status==='progress').length}</div><div class="l">Being fixed now</div></div>
+    <div class="istat green"><div class="n">${items.filter(i=>i.status==='ready').length}</div><div class="l">Fixed &amp; kept from landfill</div></div>`;
+  const cat=document.getElementById('catSel').value||'all';
+  let list=items.filter(i=>(filter==='all'||i.status===filter)&&(cat==='all'||i.cat===cat));
+  const order={awaiting:0,progress:1,ready:2};
+  list.sort((a,b)=>(order[a.status]-order[b.status])||(new Date(b.submittedAt)-new Date(a.submittedAt)));
+  const grid=document.getElementById('grid');
+  if(!list.length){grid.innerHTML=`<div class="empty"><div class="big">🛠️</div><b>Nothing here yet.</b><br>${filter==='all'?'Submit the first broken item.':'No items with this status.'}</div>`;return;}
+  grid.innerHTML=list.map(itemCard).join('');
+}
+function itemCard(i){
+  const photo=i.photo?`<div class="photo"><img src="${i.photo}" alt=""/><span class="tag ${i.status}">${STATUS_LABEL[i.status]}</span></div>`:`<div class="photo">${CAT_ICON[i.cat]||'🔧'}<span class="tag ${i.status}">${STATUS_LABEL[i.status]}</span></div>`;
+  const isMyItem=currentUser&&(i.submitterId===currentUser.id);
+  const isMyRepair=currentUser&&(i.fixerId===currentUser.id);
+  let block='';
+  if(i.status==='awaiting')block=clubMode?`<div class="act"><button class="claim" onclick="openClaim('${i.id}')">Claim repair</button></div>`:isMyItem?`<div class="locked">Waiting for a fixer to claim it</div>`:`<div class="locked">Awaiting a club member</div>`;
+  else if(i.status==='progress'){
+    block=`<div class="timeline-box">🛠️ <b>${esc(i.fixer)}</b> is on it · est. <b>${esc(i.timeline)}</b></div>`;
+    const canChat=clubMode||isMyItem||isMyRepair;
+    const acts=[];
+    if(clubMode)acts.push(`<button class="markready" onclick="markReady('${i.id}')">Mark ready</button>`);
+    if(canChat)acts.push(`<button class="chatbtn" onclick="showView('myitems')">💬 Chat</button>`);
+    if(acts.length)block+=`<div class="act">${acts.join('')}</div>`;
+  }else{
+    block=`<div class="ready-box">✅ Fixed by ${esc(i.fixer)} — ready for pickup!</div>`;
+    if(clubMode)block+=`<div class="act"><button class="secondary" onclick="reopen('${i.id}')">Reopen</button></div>`;
+  }
+  return `<div class="card">${photo}<div class="body"><span class="catpill">${CAT_ICON[i.cat]||''} ${esc(i.cat)}</span><h3>${esc(i.name)}</h3><div class="note"><span class="nlabel">What's wrong</span>${esc(i.prob)}</div><div class="meta"><span>From ${esc(i.sub)} · ${ago(i.submittedAt)}</span></div>${block}</div></div>`;
+}
+
+/* =========================================================
+   MY ITEMS (auto from logged-in user)
+   ========================================================= */
+function renderMyItems(){
+  if(!currentUser)return;
+  const isFixer=currentUser.role==='fixer'||clubMode;
+  let myItems;
+  if(isFixer){
+    myItems=items.filter(i=>i.fixerId===currentUser.id||i.fixer===currentUser.name);
+    document.getElementById('myItemsSub').textContent='Your claimed repairs — chat with the owners here.';
+  }else{
+    myItems=items.filter(i=>i.submitterId===currentUser.id);
+    document.getElementById('myItemsSub').textContent='Your submitted items — track status and chat with your fixer here.';
+  }
+  const root=document.getElementById('myitems-content');
+  if(!myItems.length){
+    root.innerHTML=`<div class="no-items"><div class="big">${isFixer?'🔧':'📦'}</div><b>${isFixer?'No repairs claimed yet.':'No items submitted yet.'}</b><br><span>${isFixer?'Head to the Home board and claim a repair.':'Submit a broken item using the button on the Home page.'}</span></div>`;
+    return;
+  }
+  root.innerHTML=`<div class="myitems-grid">${myItems.map(miCard).join('')}</div>`;
+}
+function miCard(i){
+  const statusTxt={awaiting:'● Awaiting a fixer',progress:`● In progress with ${i.fixer||'a fixer'}`,ready:'● Ready for pickup'}[i.status];
+  const msgs=loadMsgs(i.code);
+  const unread=msgs.length>0;
+  return `<div class="mi-card">
+    <div class="mi-head">
+      <div class="mi-top"><h3>${esc(i.name)}</h3><span class="code-pill">${esc(i.code)}</span></div>
+      <div class="mi-stat ${i.status}">${statusTxt}</div>
+      ${i.timeline?`<div class="mi-timeline">⏱️ Est. ${esc(i.timeline)}</div>`:''}
+      <div class="mi-timeline" style="margin-top:4px">${esc(i.sub)} · submitted ${ago(i.submittedAt)}</div>
+    </div>
+    <button class="chat-toggle" id="ct-${i.code}" onclick="toggleChat('${i.code}')">
+      💬 Chat ${unread?'<span style="background:var(--orange);color:#fff;font-size:.7rem;padding:2px 7px;border-radius:999px;margin-left:4px">'+msgs.length+' msgs</span>':''}
+      <span class="arr">▾</span>
+    </button>
+    <div class="chat-body-wrap" id="cw-${i.code}">
+      <div class="chat-msgs" id="cm-${i.code}"></div>
+      <div class="chat-input-row">
+        <input id="ci-${i.code}" placeholder="Type a message…"/>
+        <button onclick="sendMsg('${i.code}')">Send</button>
+      </div>
+    </div>
+  </div>`;
+}
+function toggleChat(code){
+  const wrap=document.getElementById('cw-'+code);
+  const btn=document.getElementById('ct-'+code);
+  const isOpen=wrap.classList.contains('open');
+  wrap.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+  if(!isOpen)renderMsgs(code);
+  const input=document.getElementById('ci-'+code);
+  if(input)input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg(code);});
+}
+function renderMsgs(code){
+  const msgs=loadMsgs(code);
+  const body=document.getElementById('cm-'+code);
+  if(!body)return;
+  if(!msgs.length){body.innerHTML=`<div class="msg sys">No messages yet — once a fixer claims this, they'll say hi here.</div>`;return;}
+  body.innerHTML=msgs.map(m=>{
+    if(m.role==='sys')return `<div class="msg sys">${esc(m.text)}</div>`;
+    const cls=m.role==='fixer'?'fixer':'sub';
+    return `<div class="msg ${cls}"><span class="who">${esc(m.who)}${m.role==='fixer'?' · fixer':''}</span>${esc(m.text)}<span class="ts">${shortTs(m.ts)}</span></div>`;
+  }).join('');
+  body.scrollTop=body.scrollHeight;
+}
+function sendMsg(code){
+  const input=document.getElementById('ci-'+code);
+  if(!input)return;
+  const text=input.value.trim();
+  if(!text)return;
+  const item=items.find(i=>i.code===code);
+  if(!item)return;
+  const isFixer=currentUser.role==='fixer'||clubMode||item.fixerId===currentUser.id;
+  const msgs=loadMsgs(code);
+  msgs.push({id:uid(),role:isFixer?'fixer':'sub',who:currentUser.name,text,ts:new Date().toISOString()});
+  saveMsgs(code,msgs);
+  input.value='';
+  renderMsgs(code);
+}
+
+/* =========================================================
+   RENDER FIXERS
+   ========================================================= */
+function renderFixers(){
+  const grid=document.getElementById('fixgrid');
+  if(!fixers.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="big">🧰</div><b>No fixers listed yet.</b></div>`;return;}
+  grid.innerHTML=fixers.map(f=>{
+    const done=items.filter(i=>i.status==='ready'&&(i.fixerId===f.id||i.fixer===f.name)).length;
+    const inprog=items.filter(i=>i.status==='progress'&&(i.fixerId===f.id||i.fixer===f.name)).length;
+    const initials=f.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const pic=f.photo?`<img src="${f.photo}" alt=""/>`:`<div class="avi" style="background:${f.color||'#1E3A52'}">${esc(initials)}</div>`;
+    const stat=done?`🔧 ${done} repair${done>1?'s':''} completed`:inprog?`🛠️ ${inprog} in progress`:`✋ ready for a project`;
+    return `<div class="fcard">${clubMode?`<button class="fedit" onclick="openFixer('${f.id}')">Edit</button>`:''}
+      <div class="pic">${pic}</div><h3>${esc(f.name)}</h3>
+      <span class="fspec">${esc(f.spec)}</span>
+      <p class="fbio">${esc(f.bio)}</p>
+      <div class="fstat">${stat}</div></div>`;
+  }).join('');
+}
+
+/* =========================================================
+   SUBMIT (multi-step + AI)
+   ========================================================= */
+function openSubmit(){
+  ['s-name','s-prob','s-drop'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('s-err').textContent='';
+  document.getElementById('photoPreview').style.display='none';
+  pendingPhoto=null;aiAnalysis=null;aiAnswers={};lastCode='';
+  document.getElementById('summaryBanner').style.display='none';
+  setSubStep('entry');open_('submitOverlay');
+}
+function setSubStep(s){document.querySelectorAll('.sst').forEach(el=>el.style.display=el.dataset.step===s?'block':'none');}
+document.getElementById('s-photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{pendingPhoto=await resizeImage(f,500,.55);document.getElementById('photoPreviewImg').src=pendingPhoto;document.getElementById('photoPreview').style.display='block';}catch(_){toast("Couldn't read that image");}});
+function skipAI(){setSubStep('contact');document.getElementById('summaryBanner').style.display='none';}
+async function startAI(){
+  const name=val('s-name');
+  if(!name&&!pendingPhoto){document.getElementById('s-err').textContent='Add a name or photo first.';return;}
+  setSubStep('analyzing');
+  try{
+    const prompt=`You are the intake assistant for Fixify, a school repair-club platform. Generate 3-5 short diagnostic questions for this broken item: "${name||'unknown'}". Always include a timeline question. Each question needs 2-5 short answer options. Respond ONLY with JSON: {"itemName":"<name>","category":"Electronics"|"Clothing & textiles"|"Bags & zippers"|"Furniture"|"Bikes & wheels"|"Toys & games"|"Jewelry & accessories"|"Other","emoji":"<emoji>","greeting":"<one friendly sentence>","questions":[{"id":"q1","text":"...","options":["...","..."]}]}`;
+    const content=pendingPhoto?[{type:"image",source:{type:"base64",media_type:"image/jpeg",data:pendingPhoto.split(',')[1]}},{type:"text",text:prompt}]:prompt;
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1200,messages:[{role:"user",content}]})});
+    if(!res.ok)throw new Error(res.status);
+    const data=await res.json();
+    const txt=data.content.filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    const parsed=extractJSON(txt);
+    if(!parsed||!parsed.questions)throw new Error('Bad reply');
+    aiAnalysis=parsed;aiAnswers={};renderQs();setSubStep('questions');
+  }catch(e){setSubStep('contact');toast('AI unavailable — fill in manually');}
+}
+function extractJSON(t){if(!t)return null;t=t.replace(/```json/gi,'').replace(/```/g,'').trim();try{return JSON.parse(t);}catch(_){}const s=t.indexOf('{'),e=t.lastIndexOf('}');if(s>=0&&e>s){try{return JSON.parse(t.slice(s,e+1));}catch(_){}}return null;}
+function renderQs(){
+  document.getElementById('aiBanner').innerHTML=`<b>${esc(aiAnalysis.emoji||'🔧')} ${esc(aiAnalysis.itemName||'Your item')}.</b> ${esc(aiAnalysis.greeting||'')}`;
+  document.getElementById('qlist').innerHTML=aiAnalysis.questions.map((q,i)=>`<div class="qbox"><div class="qt"><span class="qnum">${i+1}.</span>${esc(q.text)}</div><div class="qopts">${(q.options||[]).map(o=>`<button onclick="pickOpt('${esc(q.id)}','${esc(o)}',this)">${esc(o)}</button>`).join('')}</div></div>`).join('');
+  updateQBtn();
+}
+function pickOpt(qid,opt,btn){aiAnswers[qid]=opt;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');updateQBtn();}
+function updateQBtn(){const done=aiAnalysis.questions.every(q=>aiAnswers[q.id]);document.getElementById('qNextBtn').disabled=!done;document.getElementById('qNextBtn').textContent=done?'Continue →':`Answer all ${aiAnalysis.questions.length} questions`;}
+async function submitAnswers(){
+  setSubStep('summarizing');
+  try{
+    const qa=aiAnalysis.questions.map(q=>`Q: ${q.text} A: ${aiAnswers[q.id]}`).join('\n');
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:300,messages:[{role:"user",content:`Item: ${aiAnalysis.itemName}. Answers:\n${qa}\nWrite a clear 1-2 sentence problem description for a repair technician. ONLY JSON: {"summary":"..."}`}]})});
+    const data=await res.json();
+    const parsed=extractJSON(data.content.filter(b=>b.type==='text').map(b=>b.text).join(''));
+    if(parsed&&parsed.summary){document.getElementById('s-prob').value=parsed.summary;document.getElementById('summaryBanner').innerHTML=`<b>✨ AI summary</b> — edit if needed.`;document.getElementById('summaryBanner').style.display='block';}
+    if(aiAnalysis.category)document.getElementById('s-cat').value=aiAnalysis.category;
+    if(aiAnalysis.itemName)document.getElementById('s-name').value=aiAnalysis.itemName;
+  }catch(e){toast('Skipped AI summary — fill in manually');}
+  setSubStep('contact');
+}
+function backFromContact(){setSubStep(aiAnalysis?'questions':'entry');}
+function submitItem(){
+  const name=val('s-name'),prob=val('s-prob');
+  const err=document.getElementById('s-err2');
+  if(!name||!prob){err.textContent='Fill in the item name and the problem.';return;}
+  const code=genCode();
+  const newItem={
+    id:uid(),code,name,
+    cat:document.getElementById('s-cat').value,
+    prob,
+    sub:currentUser.name,
+    submitterId:currentUser.id,
+    drop:val('s-drop'),
+    photo:pendingPhoto,
+    status:'awaiting',fixer:null,fixerId:null,timeline:null,
+    submittedAt:new Date().toISOString(),claimedAt:null,readyAt:null
+  };
+  items.unshift(newItem);
+  saveItems();
+  saveMsgs(code,[{id:uid(),role:'sys',text:'Repair submitted. Your fixer will message you here once they claim it.',ts:new Date().toISOString()}]);
+  lastCode=code;
+  document.getElementById('newCode').textContent=code;
+  setSubStep('success');
+  renderItems();
+}
+function copyCode(){if(navigator.clipboard){navigator.clipboard.writeText(lastCode).then(()=>toast('Code copied!'));}else{toast('Code: '+lastCode);}}
+
+/* =========================================================
+   CLAIM
+   ========================================================= */
+function openClaim(id){
+  claimTarget=id;
+  const i=items.find(x=>x.id===id);
+  document.getElementById('claimTitle').textContent='Claim: '+i.name;
+  document.getElementById('c-note').value='';
+  document.getElementById('c-err').textContent='';
+  open_('claimOverlay');
+}
+function confirmClaim(){
+  const i=items.find(x=>x.id===claimTarget);if(!i)return;
+  const timeline=document.getElementById('c-timeline').value;
+  const note=val('c-note');
+  i.status='progress';i.fixer=currentUser.name;i.fixerId=currentUser.id;i.timeline=timeline;i.claimedAt=new Date().toISOString();
+  saveItems();
+  const msgs=loadMsgs(i.code);
+  msgs.push({id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · est. ${timeline}`,ts:new Date().toISOString()});
+  msgs.push({id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Message me here if you have any questions.`,ts:new Date(Date.now()+500).toISOString()});
+  if(note)msgs.push({id:uid(),role:'fixer',who:currentUser.name,text:note,ts:new Date(Date.now()+1000).toISOString()});
+  saveMsgs(i.code,msgs);
+  close_('claimOverlay');renderItems();renderFixers();toast('Claimed — owner notified via chat');
+}
+function markReady(id){
+  const i=items.find(x=>x.id===id);if(!i)return;
+  i.status='ready';i.readyAt=new Date().toISOString();
+  saveItems();
+  const msgs=loadMsgs(i.code);
+  msgs.push({id:uid(),role:'sys',text:'Your item is fixed and ready for pickup! 🎉',ts:new Date().toISOString()});
+  msgs.push({id:uid(),role:'fixer',who:currentUser.name,text:`All done! Your ${i.name} is repaired and ready to collect.`,ts:new Date(Date.now()+500).toISOString()});
+  saveMsgs(i.code,msgs);
+  renderItems();renderFixers();toast('Marked ready ✅');
+}
+function reopen(id){const i=items.find(x=>x.id===id);if(i){i.status='progress';i.readyAt=null;saveItems();renderItems();renderFixers();toast('Reopened');}}
+
+/* =========================================================
+   FIXER CRUD
+   ========================================================= */
+function openFixer(id){
+  editFixerId=id||null;pendingFPhoto=null;
+  document.getElementById('f-err').textContent='';
+  document.getElementById('fPhotoPreview').style.display='none';
+  if(id){
+    const f=fixers.find(x=>x.id===id);
+    document.getElementById('fixerTitle').textContent='Edit fixer';
+    document.getElementById('f-name').value=f.name;document.getElementById('f-spec').value=f.spec;document.getElementById('f-bio').value=f.bio;
+    document.getElementById('removeFixerBtn').style.display='block';
+    if(f.photo){pendingFPhoto=f.photo;document.getElementById('fPhotoPreviewImg').src=f.photo;document.getElementById('fPhotoPreview').style.display='block';}
+  }else{
+    document.getElementById('fixerTitle').textContent='Add a fixer';
+    ['f-name','f-spec','f-bio'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('removeFixerBtn').style.display='none';
+  }
+  open_('fixerOverlay');
+}
+document.getElementById('f-photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{pendingFPhoto=await resizeImage(f,360,.6);document.getElementById('fPhotoPreviewImg').src=pendingFPhoto;document.getElementById('fPhotoPreview').style.display='block';}catch(_){toast("Couldn't read image");}});
+function saveFixer(){
+  const name=val('f-name'),spec=val('f-spec'),bio=val('f-bio');
+  if(!name||!spec||!bio){document.getElementById('f-err').textContent='Fill in name, specialty, and bio.';return;}
+  if(editFixerId){const f=fixers.find(x=>x.id===editFixerId);f.name=name;f.spec=spec;f.bio=bio;f.photo=pendingFPhoto;}
+  else fixers.push({id:uid(),name,spec,bio,photo:pendingFPhoto,color:AV_COLORS[fixers.length%AV_COLORS.length]});
+  saveFixers();close_('fixerOverlay');renderFixers();toast(editFixerId?'Fixer updated':'Fixer added 🧰');
+}
+function removeFixer(){if(!editFixerId)return;fixers=fixers.filter(x=>x.id!==editFixerId);saveFixers();close_('fixerOverlay');renderFixers();toast('Fixer removed');}
+
+/* =========================================================
+   UTILS
+   ========================================================= */
+function resizeImage(file,maxDim,q){return new Promise((res,rej)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{const sc=Math.min(1,maxDim/Math.max(img.width,img.height));const w=Math.round(img.width*sc),h=Math.round(img.height*sc);const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',q));};img.onerror=rej;img.src=url;});}
+function fillCatSelects(){document.getElementById('catSel').innerHTML='<option value="all">All categories</option>'+CATS.map(c=>`<option>${c}</option>`).join('');document.getElementById('s-cat').innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');}
+function val(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function open_(id){document.getElementById(id).classList.add('show')}
+function close_(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')}));
+let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2800);}
+
+// Live updates: re-render if another tab changes localStorage
+window.addEventListener('storage',e=>{
+  if(!e.key||!e.key.startsWith('fixify:'))return;
+  loadItems();loadFixers();
+  renderItems();renderFixers();
+  if(document.querySelector('#view-myitems.on'))renderMyItems();
+});
+
+// keyboard enter on auth inputs
+document.getElementById('si-pw').addEventListener('keydown',e=>{if(e.key==='Enter')signIn();});
+document.getElementById('su-pw').addEventListener('keydown',e=>{if(e.key==='Enter')signUp();});
+
+// boot
+checkSession();
+</script>
+
+
+</body></html>
