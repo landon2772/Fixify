@@ -203,6 +203,12 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .mi-stat{font-size:.86rem;font-weight:700;margin-top:4px}
 .mi-stat.awaiting{color:var(--amber)}.mi-stat.progress{color:var(--blue)}.mi-stat.ready{color:var(--green)}
 .mi-timeline{font-size:.84rem;color:var(--muted);margin-top:3px}
+.mi-actions{padding:12px 16px;border-top:1px solid var(--line)}
+.mi-markready,.mi-reopen{width:100%;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.93rem;padding:10px;border-radius:9px;cursor:pointer;transition:.14s;display:flex;align-items:center;justify-content:center;gap:6px}
+.mi-markready{background:var(--green);color:#fff;border:none;box-shadow:0 6px 14px -8px rgba(78,141,91,.6)}
+.mi-markready:hover{background:#3f7a4b;transform:translateY(-1px)}
+.mi-reopen{background:var(--kraft);color:var(--ink);border:1.5px solid var(--line)}
+.mi-reopen:hover{border-color:var(--navy);color:var(--navy)}
 .chat-toggle{display:flex;align-items:center;gap:8px;padding:11px 16px;background:none;border:none;width:100%;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.9rem;color:var(--navy);cursor:pointer;border-top:1px solid var(--line);transition:.14s}
 .chat-toggle:hover{background:var(--blue-soft)}
 .chat-toggle .arr{margin-left:auto;transition:transform .2s}
@@ -914,7 +920,10 @@ function renderMyItems(){
   }
   // newest first
   myItems.sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  const draftInputs=snapshotChatInputs();
   root.innerHTML=`<div class="myitems-grid">${myItems.map(miCard).join('')}</div>`;
+  refillOpenChats();
+  restoreChatInputs(draftInputs);
 }
 
 /* =========================================================
@@ -934,14 +943,26 @@ function renderMyRepairs(){
     root.innerHTML=`<div class="no-items"><div class="big">🔧</div><b>No repairs claimed yet.</b><br><span>Head to the Home board and claim a repair.</span></div>`;
     return;
   }
+  const draftInputs=snapshotChatInputs();
   root.innerHTML=`<div class="myitems-grid">${myRepairs.map(miCard).join('')}</div>`;
+  refillOpenChats();
+  restoreChatInputs(draftInputs);
 }
 function miCard(i){
   const statusTxt={awaiting:'● Awaiting a fixer',progress:`● In progress with ${i.fixer||'a fixer'}`,ready:'● Ready for pickup'}[i.status];
   const newCount=unreadCount(i.code);
-  const badge=newCount>0
-    ? `<span class="chat-badge">${newCount} new</span>`
-    : '';
+  const isChatOpen=!!openChats[i.code];
+  // Hide the badge while the chat is open (you're looking at the messages already)
+  const showBadge=newCount>0 && !isChatOpen;
+  const badge=showBadge ? `<span class="chat-badge">${newCount} new</span>` : '';
+  // Fixer-only action row: shown on My Repairs cards for the user who claimed the item.
+  const isMyFixerCard=currentUser && i.fixerId===currentUser.id;
+  let actionRow='';
+  if(isMyFixerCard && i.status==='progress'){
+    actionRow=`<div class="mi-actions"><button class="mi-markready" onclick="markReady('${i.id}')">✓ Mark complete</button></div>`;
+  } else if(isMyFixerCard && i.status==='ready'){
+    actionRow=`<div class="mi-actions"><button class="mi-reopen" onclick="reopen('${i.id}')">↻ Reopen</button></div>`;
+  }
   return `<div class="mi-card">
     <div class="mi-head">
       <div class="mi-top"><h3>${esc(i.name)}</h3></div>
@@ -949,11 +970,12 @@ function miCard(i){
       ${i.timeline?`<div class="mi-timeline">⏱️ Est. ${esc(i.timeline)}</div>`:''}
       <div class="mi-timeline" style="margin-top:4px">${esc(i.sub)} · submitted ${ago(i.submittedAt)}</div>
     </div>
-    <button class="chat-toggle ${newCount>0?'has-new':''}" id="ct-${i.code}" onclick="toggleChat('${i.code}')">
+    ${actionRow}
+    <button class="chat-toggle ${isChatOpen?'open':''} ${showBadge?'has-new':''}" id="ct-${i.code}" onclick="toggleChat('${i.code}')">
       💬 Chat ${badge}
       <span class="arr">▾</span>
     </button>
-    <div class="chat-body-wrap" id="cw-${i.code}">
+    <div class="chat-body-wrap ${isChatOpen?'open':''}" id="cw-${i.code}">
       <div class="chat-msgs" id="cm-${i.code}"></div>
       <div class="chat-input-row">
         <input id="ci-${i.code}" placeholder="Type a message…"/>
@@ -962,23 +984,53 @@ function miCard(i){
     </div>
   </div>`;
 }
-function toggleChat(code){
-  const wrap=document.getElementById('cw-'+code);
-  const btn=document.getElementById('ct-'+code);
-  const isOpen=wrap.classList.contains('open');
-  wrap.classList.toggle('open',!isOpen);
-  btn.classList.toggle('open',!isOpen);
-  openChats[code]=!isOpen;
-  if(!isOpen){
-    renderMsgs(code);
-    markSeen(code);
-    // Refresh badges on whichever list view is open
-    if(document.querySelector('#view-myitems.on'))renderMyItems();
-    if(document.querySelector('#view-myrepairs.on'))renderMyRepairs();
-  }
-  const input=document.getElementById('ci-'+code);
-  if(input)input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg(code);});
+
+// After re-rendering a list, repopulate any open chat panels' message bodies.
+function refillOpenChats(){
+  Object.keys(openChats).forEach(code=>{ if(openChats[code]) renderMsgs(code); });
 }
+
+// Snapshot/restore in-flight chat input values so a message arriving in any
+// thread doesn't wipe what you're typing.
+function snapshotChatInputs(){
+  const out={};
+  document.querySelectorAll('.chat-input-row input').forEach(inp=>{
+    const code=inp.id.replace(/^ci-/,'');
+    if(inp.value) out[code]=inp.value;
+  });
+  return out;
+}
+function restoreChatInputs(snap){
+  Object.keys(snap).forEach(code=>{
+    const inp=document.getElementById('ci-'+code);
+    if(inp) inp.value=snap[code];
+  });
+}
+function toggleChat(code){
+  const wasOpen=!!openChats[code];
+  openChats[code]=!wasOpen;
+  if(!wasOpen) markSeen(code);
+  // Re-render the active list — miCard now reads openChats so the panel stays open
+  // and refillOpenChats() repopulates the message body. The badge updates naturally.
+  if(document.querySelector('#view-myitems.on'))      renderMyItems();
+  else if(document.querySelector('#view-myrepairs.on')) renderMyRepairs();
+  // After re-render, focus the input. (Enter-to-send is wired globally below.)
+  if(!wasOpen){
+    const input=document.getElementById('ci-'+code);
+    if(input) input.focus();
+  }
+}
+
+// Delegated Enter-to-send for chat inputs. Survives re-renders (the inputs
+// themselves are replaced when the list re-paints, so a per-input listener
+// would stop working after the first message arrives).
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const t=e.target;
+  if(!t||!t.id||!t.id.startsWith('ci-'))return;
+  if(!t.parentElement||!t.parentElement.classList.contains('chat-input-row'))return;
+  sendMsg(t.id.slice(3)); // strip "ci-"
+});
 function renderMsgs(code){
   const msgs=loadMsgs(code);
   const body=document.getElementById('cm-'+code);
