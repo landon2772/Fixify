@@ -343,6 +343,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <button data-v="home" class="on" onclick="showView('home')">Home</button>
         <button data-v="fixers" onclick="showView('fixers')">Fixers</button>
         <button data-v="myitems" onclick="showView('myitems')">My Items</button>
+        <button data-v="myrepairs" id="navMyRepairs" onclick="showView('myrepairs')" style="display:none">My Repairs</button>
       </nav>
       <div class="clubsw" id="clubSw" onclick="toggleClub()"><span class="track"></span><span>Club</span></div>
       <div class="user-chip" onclick="signOut()" title="Sign out">
@@ -402,6 +403,16 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <div class="ruler"></div>
       </div>
       <div id="myitems-content"></div>
+    </section>
+
+    <!-- MY REPAIRS (club mode only) -->
+    <section class="view" id="view-myrepairs">
+      <div class="page-head">
+        <h2>My Repairs</h2>
+        <p id="myRepairsSub">Items you've claimed — chat with the owners here.</p>
+        <div class="ruler"></div>
+      </div>
+      <div id="myrepairs-content"></div>
     </section>
 
   </div>
@@ -689,6 +700,7 @@ function startListeners(){
     renderItems();
     renderFixers();
     if(document.querySelector('#view-myitems.on'))renderMyItems();
+    if(document.querySelector('#view-myrepairs.on'))renderMyRepairs();
   },err=>{console.error('items listener',err);toast('Could not load items: '+err.message);});
 
   // FIXERS — live crew
@@ -710,8 +722,9 @@ function startListeners(){
     // sort each thread by timestamp
     Object.keys(next).forEach(c=>next[c].sort((a,b)=>new Date(a.ts)-new Date(b.ts)));
     msgsByCode=next;
-    // re-render any open chats and my-items unread counts
+    // re-render any open chats and unread counts on whichever list view is open
     if(document.querySelector('#view-myitems.on'))renderMyItems();
+    if(document.querySelector('#view-myrepairs.on'))renderMyRepairs();
     Object.keys(openChats).forEach(code=>{ if(openChats[code]) renderMsgs(code); });
   },err=>{console.error('messages listener',err);});
 }
@@ -747,17 +760,40 @@ function genCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i
    NAV
    ========================================================= */
 function showView(v){
+  // If user tries to open My Repairs without club mode, kick them back home
+  if(v==='myrepairs' && !clubMode) v='home';
   document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
   document.getElementById('view-'+v).classList.add('on');
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   window.scrollTo({top:0,behavior:'smooth'});
-  if(v==='myitems')renderMyItems();
+  if(v==='myitems')   renderMyItems();
+  if(v==='myrepairs') renderMyRepairs();
 }
-function toggleClub(){clubMode=!clubMode;document.getElementById('clubSw').classList.toggle('on',clubMode);renderItems();renderFixers();renderModeUI();}
+
+// Jump from a board card to the right list view AND auto-expand that chat
+function gotoChat(code, target){
+  showView(target);
+  // After the view renders, expand the chat panel for this code
+  setTimeout(()=>{
+    const wrap=document.getElementById('cw-'+code);
+    if(wrap && !wrap.classList.contains('open')) toggleChat(code);
+    const card=document.getElementById('ct-'+code);
+    if(card)card.scrollIntoView({behavior:'smooth',block:'center'});
+  },50);
+}
+function toggleClub(){
+  clubMode=!clubMode;
+  document.getElementById('clubSw').classList.toggle('on',clubMode);
+  // If we're sitting on My Repairs and just turned club off, leave the view
+  if(!clubMode && document.querySelector('#view-myrepairs.on')) showView('home');
+  renderItems();renderFixers();renderModeUI();
+}
 function renderModeUI(){
   document.getElementById('modeHint').innerHTML=clubMode?'Club mode <b>on</b> — claim repairs &amp; chat with owners.':'In the club? Flip <b>Club</b> on (top right) to claim repairs.';
   document.getElementById('fixHint').innerHTML=clubMode?'Club mode <b>on</b> — add or edit fixers.':'Flip on <b>Club</b> to add or edit fixers.';
   document.getElementById('addFixerBtn').style.display=clubMode?'inline-flex':'none';
+  const nav=document.getElementById('navMyRepairs');
+  if(nav) nav.style.display=clubMode?'inline-flex':'none';
 }
 function setFilter(f){filter=f;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));renderItems();}
 function esc(s){return (s||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -788,10 +824,12 @@ function itemCard(i){
   if(i.status==='awaiting')block=clubMode?`<div class="act"><button class="claim" onclick="openClaim('${i.id}')">Claim repair</button></div>`:isMyItem?`<div class="locked">Waiting for a fixer to claim it</div>`:`<div class="locked">Awaiting a club member</div>`;
   else if(i.status==='progress'){
     block=`<div class="timeline-box">🛠️ <b>${esc(i.fixer)}</b> is on it · est. <b>${esc(i.timeline)}</b></div>`;
-    const canChat=clubMode||isMyItem||isMyRepair;
+    // Only the submitter or the actual fixer should see Chat — they're the only ones who'll find this thread on their list page.
+    const canChat=isMyItem||isMyRepair;
+    const chatTarget=isMyItem?'myitems':'myrepairs';
     const acts=[];
     if(clubMode)acts.push(`<button class="markready" onclick="markReady('${i.id}')">Mark ready</button>`);
-    if(canChat)acts.push(`<button class="chatbtn" onclick="showView('myitems')">💬 Chat</button>`);
+    if(canChat)acts.push(`<button class="chatbtn" onclick="gotoChat('${i.code}','${chatTarget}')">💬 Chat</button>`);
     if(acts.length)block+=`<div class="act">${acts.join('')}</div>`;
   }else{
     block=`<div class="ready-box">✅ Fixed by ${esc(i.fixer)} — ready for pickup!</div>`;
@@ -801,25 +839,40 @@ function itemCard(i){
 }
 
 /* =========================================================
-   MY ITEMS (auto from logged-in user)
+   MY ITEMS — always shows items YOU submitted, regardless of role
    ========================================================= */
 function renderMyItems(){
   if(!currentUser)return;
-  const isFixer=currentUser.role==='fixer'||clubMode;
-  let myItems;
-  if(isFixer){
-    myItems=items.filter(i=>i.fixerId===currentUser.id||i.fixer===currentUser.name);
-    document.getElementById('myItemsSub').textContent='Your claimed repairs — chat with the owners here.';
-  }else{
-    myItems=items.filter(i=>i.submitterId===currentUser.id);
-    document.getElementById('myItemsSub').textContent='Your submitted items — track status and chat with your fixer here.';
-  }
+  const myItems=items.filter(i=>i.submitterId===currentUser.id);
+  document.getElementById('myItemsSub').textContent='Your submitted items — track status and chat with your fixer here.';
   const root=document.getElementById('myitems-content');
   if(!myItems.length){
-    root.innerHTML=`<div class="no-items"><div class="big">${isFixer?'🔧':'📦'}</div><b>${isFixer?'No repairs claimed yet.':'No items submitted yet.'}</b><br><span>${isFixer?'Head to the Home board and claim a repair.':'Submit a broken item using the button on the Home page.'}</span></div>`;
+    root.innerHTML=`<div class="no-items"><div class="big">📦</div><b>No items submitted yet.</b><br><span>Submit a broken item using the button on the Home page.</span></div>`;
     return;
   }
+  // newest first
+  myItems.sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
   root.innerHTML=`<div class="myitems-grid">${myItems.map(miCard).join('')}</div>`;
+}
+
+/* =========================================================
+   MY REPAIRS — items YOU claimed as a fixer (club mode only)
+   ========================================================= */
+function renderMyRepairs(){
+  if(!currentUser)return;
+  const myRepairs=items.filter(i=>i.fixerId===currentUser.id);
+  // Active (in progress) come first, then ready, then anything else
+  const order={progress:0,ready:1,awaiting:2};
+  myRepairs.sort((a,b)=>(order[a.status]??9)-(order[b.status]??9)||(new Date(b.claimedAt||b.submittedAt)-new Date(a.claimedAt||a.submittedAt)));
+  const active=myRepairs.filter(i=>i.status==='progress').length;
+  const done=myRepairs.filter(i=>i.status==='ready').length;
+  document.getElementById('myRepairsSub').innerHTML=`Items you've claimed — chat with the owners here. <b>${active}</b> in progress · <b>${done}</b> ready for pickup.`;
+  const root=document.getElementById('myrepairs-content');
+  if(!myRepairs.length){
+    root.innerHTML=`<div class="no-items"><div class="big">🔧</div><b>No repairs claimed yet.</b><br><span>Head to the Home board and claim a repair.</span></div>`;
+    return;
+  }
+  root.innerHTML=`<div class="myitems-grid">${myRepairs.map(miCard).join('')}</div>`;
 }
 function miCard(i){
   const statusTxt={awaiting:'● Awaiting a fixer',progress:`● In progress with ${i.fixer||'a fixer'}`,ready:'● Ready for pickup'}[i.status];
@@ -1074,7 +1127,7 @@ document.getElementById('su-pw').addEventListener('keydown',e=>{if(e.key==='Ente
    ========================================================= */
 Object.assign(window,{
   switchAuthTab, pickRole, signIn, signUp, googleSignIn, signOut,
-  showView, toggleClub, setFilter, renderItems,
+  showView, toggleClub, setFilter, renderItems, gotoChat,
   openSubmit, skipAI, startAI, setSubStep, pickOpt, submitAnswers,
   backFromContact, submitItem, copyCode, close_,
   openClaim, confirmClaim, markReady, reopen,
