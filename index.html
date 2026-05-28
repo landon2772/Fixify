@@ -990,8 +990,8 @@ function renderModeUI(){
   // Home page hint — explains how club access works now
   const hint=document.getElementById('modeHint');
   if(hint){
-    if(isAdmin())       hint.innerHTML='Signed in as <b>admin</b> — you can manage fixers and claim repairs.';
-    else if(clubMode)   hint.innerHTML='Signed in as a <b>fixer</b> — you can claim repairs and chat with submitters.';
+    if(isAdmin())       hint.innerHTML='Signed in as <b>admin</b>.';
+    else if(clubMode)   hint.innerHTML='Signed in as a <b>fixer</b>.';
     else                hint.innerHTML='Submit broken items and let the Fixify crew take it from there.';
   }
   // Fixers tab hint
