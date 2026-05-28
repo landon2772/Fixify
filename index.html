@@ -428,12 +428,12 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="field"><label>What is it?</label><input id="s-name" placeholder="e.g. desk lamp, backpack, speaker"></div>
     <div class="field"><label>Photo <span class="opt">— optional, helps a lot</span></label>
       <label class="photo-pick"><input type="file" accept="image/*" id="s-photo">📷 Add a photo</label>
-      <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt="">Diagnose the issue</div>
+      <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt=""></div>
     </div>
     <div class="err" id="s-err"></div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="skipAI()">Skip, fill manually</button>
-      <button class="btn btn-orange" onclick="startAI()">Details</button>
+      <button class="btn btn-orange" onclick="startAI()">Diagnose the issue</button>
     </div>
   </div>
   <div class="sst" data-step="analyzing" style="display:none"><div class="ai-loading"><div class="sp"></div><b>Analyzing your item…</b><span>Figuring out the right questions</span></div></div>
