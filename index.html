@@ -964,7 +964,7 @@ document.getElementById('s-photo').addEventListener('change',async e=>{const f=e
 function skipAI(){setSubStep('contact');document.getElementById('summaryBanner').style.display='none';}
 async function startAI(){
   const name=val('s-name');
-  if(!name||!pendingPhoto){document.getElementById('s-err').textContent='Add a name and photo first.';return;}
+  if(!name||!pendingPhoto){document.getElementById('s-err').textContent='Please fill all fields.';return;}
   setSubStep('analyzing');
   try{
     const prompt=`You are the intake assistant for Fixify, a school repair-club platform. Generate 3-5 short diagnostic questions for this broken item: "${name||'unknown'}". Always include a timeline question. Each question needs 2-5 short answer options. Respond ONLY with JSON: {"itemName":"<name>","category":"Electronics"|"Clothing & textiles"|"Bags & zippers"|"Furniture"|"Bikes & wheels"|"Toys & games"|"Jewelry & accessories"|"Other","emoji":"<emoji>","greeting":"<one friendly sentence>","questions":[{"id":"q1","text":"...","options":["...","..."]}]}`;
