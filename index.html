@@ -67,6 +67,10 @@ h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
 .afield label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px;color:var(--ink)}
 .afield input{width:100%;font-family:inherit;font-size:.98rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
 .afield input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(224,125,43,.16)}
+.pwwrap{position:relative}
+.pwwrap input{padding-right:64px}
+.pweye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;color:var(--navy);padding:6px 9px;border-radius:7px;transition:.14s}
+.pweye:hover{background:var(--navy-soft)}
 .role-pick{display:flex;gap:10px;margin-bottom:16px}
 .role-opt{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:13px;cursor:pointer;text-align:center;transition:.15s;background:#fff}
 .role-opt:hover{border-color:var(--orange-2)}
@@ -134,6 +138,11 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .istat .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.8rem;line-height:1}
 .istat .l{font-size:.77rem;color:var(--muted);font-weight:600;margin-top:4px}
 .istat.amber .n{color:var(--amber)}.istat.blue .n{color:var(--blue)}.istat.green .n{color:var(--green)}
+.istat.hero{display:flex;align-items:center;gap:16px;padding:18px 22px;background:linear-gradient(135deg,var(--green-soft),var(--paper));border-color:#c6dbc7}
+.istat.hero .n{font-size:2.6rem;color:var(--green-deep)}
+.istat.hero .l{font-size:.92rem;color:var(--green-deep);font-weight:700;margin-top:6px;letter-spacing:.01em}
+.istat.hero .ico{font-size:2.2rem}
+.board-label{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.92rem;color:var(--muted);letter-spacing:.01em;text-transform:uppercase}
 
 .filterbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
@@ -191,7 +200,6 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .mi-card .mi-head{padding:16px;border-bottom:1px solid var(--line)}
 .mi-card .mi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
 .mi-card h3{font-size:1.15rem;font-weight:700;line-height:1.1}
-.code-pill{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;background:var(--kraft);color:var(--ink);padding:4px 10px;border-radius:8px;letter-spacing:.14em;flex:none}
 .mi-stat{font-size:.86rem;font-weight:700;margin-top:4px}
 .mi-stat.awaiting{color:var(--amber)}.mi-stat.progress{color:var(--blue)}.mi-stat.ready{color:var(--green)}
 .mi-timeline{font-size:.84rem;color:var(--muted);margin-top:3px}
@@ -199,6 +207,8 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .chat-toggle:hover{background:var(--blue-soft)}
 .chat-toggle .arr{margin-left:auto;transition:transform .2s}
 .chat-toggle.open .arr{transform:rotate(180deg)}
+.chat-toggle.has-new{background:linear-gradient(90deg,var(--orange-soft),transparent);color:var(--orange-2)}
+.chat-badge{background:var(--orange);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.7rem;padding:2px 9px;border-radius:999px;margin-left:6px;letter-spacing:.02em}
 .chat-body-wrap{display:none;border-top:1px solid var(--line)}
 .chat-body-wrap.open{display:block}
 
@@ -307,7 +317,12 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <!-- Sign in form -->
     <div id="form-signin">
       <div class="afield"><label>Email</label><input type="email" id="si-email" placeholder="you@email.com"></div>
-      <div class="afield"><label>Password</label><input type="password" id="si-pw" placeholder="••••••••"></div>
+      <div class="afield"><label>Password</label>
+        <div class="pwwrap">
+          <input type="password" id="si-pw" placeholder="••••••••">
+          <button type="button" class="pweye" id="si-pw-eye" onclick="togglePw('si-pw','si-pw-eye')" aria-label="Show password">Show</button>
+        </div>
+      </div>
       <div class="auth-err" id="si-err"></div>
       <button class="auth-btn" onclick="signIn()">Sign in</button>
       <div class="auth-switch">Don't have an account? <b onclick="switchAuthTab('signup')">Create one</b></div>
@@ -317,7 +332,12 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div id="form-signup" style="display:none">
       <div class="afield"><label>Your name</label><input type="text" id="su-name" placeholder="e.g. Jordan Lee"></div>
       <div class="afield"><label>Email</label><input type="email" id="su-email" placeholder="you@email.com"></div>
-      <div class="afield"><label>Password</label><input type="password" id="su-pw" placeholder="Create a password"></div>
+      <div class="afield"><label>Password</label>
+        <div class="pwwrap">
+          <input type="password" id="su-pw" placeholder="Create a password">
+          <button type="button" class="pweye" id="su-pw-eye" onclick="togglePw('su-pw','su-pw-eye')" aria-label="Show password">Show</button>
+        </div>
+      </div>
       <div class="auth-err" id="su-err"></div>
       <button class="auth-btn" onclick="signUp()">Create account</button>
       <div class="auth-switch">Already have an account? <b onclick="switchAuthTab('signin')">Sign in</b></div>
@@ -365,12 +385,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       </div>
       <div class="impact" id="impact"></div>
       <div class="filterbar">
-        <div class="tabs" id="tabs">
-          <button data-f="all" class="on" onclick="setFilter('all')">All</button>
-          <button data-f="awaiting" onclick="setFilter('awaiting')">Awaiting</button>
-          <button data-f="progress" onclick="setFilter('progress')">In progress</button>
-          <button data-f="ready" onclick="setFilter('ready')">Ready</button>
-        </div>
+        <div class="board-label">Awaiting a fixer</div>
         <select class="catsel" id="catSel" onchange="renderItems()"></select>
       </div>
       <div class="grid" id="grid"></div>
@@ -453,7 +468,6 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <div class="check">✓</div>
       <h3>Posted!</h3>
       <p>Your item is live on the board. See it in <b>My Items</b> — your fixer will message you there when they claim it.</p>
-      <div class="code-display"><div class="clabel">Your repair code</div><div class="cval" id="newCode">——</div><button class="copy" onclick="copyCode()">📋 Copy code</button></div>
       <button class="btn btn-primary" style="width:100%" onclick="close_('submitOverlay');showView('myitems')">Go to My Items →</button>
     </div>
   </div>
@@ -533,7 +547,7 @@ const AV_PALETTE=["#E07D2B","#2E6E9E","#4E8D5B","#CF9412","#9B59B6","#1E3A52"];
 let currentUser=null; // {id,name,email,role,color}
 let items=[],fixers=[],filter='all',clubMode=false;
 let claimTarget=null,pendingPhoto=null,pendingFPhoto=null,editFixerId=null;
-let aiAnalysis=null,aiAnswers={},lastCode='';
+let aiAnalysis=null,aiAnswers={};
 let openChats={}; // itemId → bool
 let msgsByCode={}; // code → [messages]
 let unsubItems=null,unsubFixers=null,unsubMsgs=null;
@@ -567,12 +581,27 @@ function authErrMsg(e){
   return (e&&e.message)||'Something went wrong. Try again.';
 }
 
-// Create/fetch the per-user profile doc in Firestore (stores name/role/color)
+// Latch — set before createUserWithEmailAndPassword / signInWithPopup so the
+// onAuthStateChanged listener (which races ahead of our await) sees the right
+// name/role when creating the profile doc.
+let pendingProfile=null;
+
+// Create/fetch the per-user profile doc in Firestore (stores name/role/color).
+// If opts.name is provided and differs from the saved name, the saved name is
+// updated — so a signup typing "John Smith" always wins over a stale email-prefix
+// fallback that might have been written by a racing onAuthStateChanged.
 async function ensureUserDoc(fbUser, opts={}){
   const ref=doc(db,'users',fbUser.uid);
   const snap=await getDoc(ref);
   if(snap.exists()){
-    return snap.data();
+    const existing=snap.data();
+    if(opts.name && existing.name!==opts.name){
+      const updated={...existing, name:opts.name};
+      if(opts.role) updated.role=opts.role;
+      await setDoc(ref, updated, {merge:true});
+      return updated;
+    }
+    return existing;
   }
   // First time we've seen this user → create profile
   const profile={
@@ -606,22 +635,28 @@ async function signUp(){
   err.textContent='';
   if(!name||!email||!pw){err.textContent='Fill in all fields.';return;}
   if(pw.length<6){err.textContent='Password must be at least 6 characters.';return;}
+  // Set the latch BEFORE the auth call — onAuthStateChanged may fire before our awaits return.
+  pendingProfile={name, role:selectedRole};
   try{
     const cred=await createUserWithEmailAndPassword(auth,email,pw);
     try{ await updateProfile(cred.user,{displayName:name}); }catch(_){}
+    // Belt and suspenders — re-assert the profile after auth completes.
     await ensureUserDoc(cred.user,{name,role:selectedRole});
-    // onAuthStateChanged will boot the app
-  }catch(e){ err.textContent=authErrMsg(e); }
+  }catch(e){
+    pendingProfile=null;
+    err.textContent=authErrMsg(e);
+  }
 }
 
 async function googleSignIn(){
   const err=document.getElementById('si-err');
   if(err)err.textContent='';
+  pendingProfile={role:selectedRole}; // name will come from cred.user.displayName
   try{
     const cred=await signInWithPopup(auth,googleProvider);
     await ensureUserDoc(cred.user,{name:cred.user.displayName,role:selectedRole});
-    // onAuthStateChanged will boot the app
   }catch(e){
+    pendingProfile=null;
     if(err)err.textContent=authErrMsg(e);
     else toast(authErrMsg(e));
   }
@@ -636,7 +671,11 @@ async function signOut(){
 onAuthStateChanged(auth, async (fbUser)=>{
   if(fbUser){
     try{
-      const profile=await ensureUserDoc(fbUser);
+      // Consume any pending profile info from signUp/googleSignIn so the right
+      // name lands in Firestore on first write.
+      const opts=pendingProfile||{};
+      pendingProfile=null;
+      const profile=await ensureUserDoc(fbUser, opts);
       currentUser={id:fbUser.uid,name:profile.name,email:fbUser.email||profile.email||'',role:profile.role||'customer',color:profile.color||'#E07D2B'};
       bootApp();
     }catch(e){
@@ -660,8 +699,10 @@ onAuthStateChanged(auth, async (fbUser)=>{
 function bootApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  // update header
-  document.getElementById('userName').textContent=currentUser.name.split(' ')[0];
+  // Header — use the exact name the user entered. CSS truncates if it overflows.
+  const userChip=document.querySelector('.user-chip');
+  if(userChip) userChip.title='Signed in as '+currentUser.name+' · click to sign out';
+  document.getElementById('userName').textContent=currentUser.name;
   document.getElementById('userAv').textContent=currentUser.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
   document.getElementById('userAv').style.background=currentUser.color||'#E07D2B';
   // fixers who are logged in: auto club mode
@@ -747,8 +788,26 @@ async function addMsg(code, msg){
 
 function loadMsgs(code){return msgsByCode[code]||[];}
 
+/* Per-browser "last seen" timestamps for chat unread tracking. */
+function lastSeenKey(code){ return 'fixify:lastSeen:'+(currentUser?currentUser.id:'anon')+':'+code; }
+function getLastSeen(code){
+  try{ return localStorage.getItem(lastSeenKey(code))||'1970-01-01'; }catch(_){ return '1970-01-01'; }
+}
+function markSeen(code){
+  try{ localStorage.setItem(lastSeenKey(code), new Date().toISOString()); }catch(_){}
+}
+function unreadCount(code){
+  if(!currentUser)return 0;
+  const since=new Date(getLastSeen(code));
+  const msgs=msgsByCode[code]||[];
+  return msgs.filter(m=>{
+    if(m.role==='sys')return false;                      // skip system notices
+    if(m.who===currentUser.name)return false;            // skip my own messages
+    return new Date(m.ts)>since;
+  }).length;
+}
+
 function uid(){return Math.random().toString(36).slice(2,10)}
-function genCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<6;i++)s+=a[Math.floor(Math.random()*a.length)];return s;}
 
 /* =========================================================
    NAV
@@ -798,16 +857,25 @@ function shortTs(iso){const d=new Date(iso),now=new Date();return d.toDateString
    RENDER ITEMS (home board)
    ========================================================= */
 function renderItems(){
+  // Single hero stat — total items rescued from the landfill.
+  const fixedCount=items.filter(i=>i.status==='ready').length;
   document.getElementById('impact').innerHTML=`
-    <div class="istat amber"><div class="n">${items.filter(i=>i.status==='awaiting').length}</div><div class="l">Awaiting a fixer</div></div>
-    <div class="istat blue"><div class="n">${items.filter(i=>i.status==='progress').length}</div><div class="l">Being fixed now</div></div>
-    <div class="istat green"><div class="n">${items.filter(i=>i.status==='ready').length}</div><div class="l">Fixed &amp; kept from landfill</div></div>`;
+    <div class="istat hero green">
+      <span class="ico">♻️</span>
+      <div>
+        <div class="n">${fixedCount}</div>
+        <div class="l">Fixed &amp; kept from landfill</div>
+      </div>
+    </div>`;
+  // Home board ONLY shows awaiting items. In-progress and ready items live on My Items / My Repairs.
   const cat=document.getElementById('catSel').value||'all';
-  let list=items.filter(i=>(filter==='all'||i.status===filter)&&(cat==='all'||i.cat===cat));
-  const order={awaiting:0,progress:1,ready:2};
-  list.sort((a,b)=>(order[a.status]-order[b.status])||(new Date(b.submittedAt)-new Date(a.submittedAt)));
+  let list=items.filter(i=>i.status==='awaiting' && (cat==='all'||i.cat===cat));
+  list.sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
   const grid=document.getElementById('grid');
-  if(!list.length){grid.innerHTML=`<div class="empty"><div class="big">🛠️</div><b>Nothing here yet.</b><br>${filter==='all'?'Submit the first broken item.':'No items with this status.'}</div>`;return;}
+  if(!list.length){
+    grid.innerHTML=`<div class="empty"><div class="big">🛠️</div><b>Nothing waiting right now.</b><br>${cat==='all'?'Be the first to submit a broken item.':'No items in this category. Try \"All categories\".'}</div>`;
+    return;
+  }
   grid.innerHTML=list.map(itemCard).join('');
 }
 function itemCard(i){
@@ -870,17 +938,19 @@ function renderMyRepairs(){
 }
 function miCard(i){
   const statusTxt={awaiting:'● Awaiting a fixer',progress:`● In progress with ${i.fixer||'a fixer'}`,ready:'● Ready for pickup'}[i.status];
-  const msgs=loadMsgs(i.code);
-  const unread=msgs.length>0;
+  const newCount=unreadCount(i.code);
+  const badge=newCount>0
+    ? `<span class="chat-badge">${newCount} new</span>`
+    : '';
   return `<div class="mi-card">
     <div class="mi-head">
-      <div class="mi-top"><h3>${esc(i.name)}</h3><span class="code-pill">${esc(i.code)}</span></div>
+      <div class="mi-top"><h3>${esc(i.name)}</h3></div>
       <div class="mi-stat ${i.status}">${statusTxt}</div>
       ${i.timeline?`<div class="mi-timeline">⏱️ Est. ${esc(i.timeline)}</div>`:''}
       <div class="mi-timeline" style="margin-top:4px">${esc(i.sub)} · submitted ${ago(i.submittedAt)}</div>
     </div>
-    <button class="chat-toggle" id="ct-${i.code}" onclick="toggleChat('${i.code}')">
-      💬 Chat ${unread?'<span style="background:var(--orange);color:#fff;font-size:.7rem;padding:2px 7px;border-radius:999px;margin-left:4px">'+msgs.length+' msgs</span>':''}
+    <button class="chat-toggle ${newCount>0?'has-new':''}" id="ct-${i.code}" onclick="toggleChat('${i.code}')">
+      💬 Chat ${badge}
       <span class="arr">▾</span>
     </button>
     <div class="chat-body-wrap" id="cw-${i.code}">
@@ -899,7 +969,13 @@ function toggleChat(code){
   wrap.classList.toggle('open',!isOpen);
   btn.classList.toggle('open',!isOpen);
   openChats[code]=!isOpen;
-  if(!isOpen)renderMsgs(code);
+  if(!isOpen){
+    renderMsgs(code);
+    markSeen(code);
+    // Refresh badges on whichever list view is open
+    if(document.querySelector('#view-myitems.on'))renderMyItems();
+    if(document.querySelector('#view-myrepairs.on'))renderMyRepairs();
+  }
   const input=document.getElementById('ci-'+code);
   if(input)input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg(code);});
 }
@@ -925,6 +1001,7 @@ async function sendMsg(code){
   const isFixer=currentUser.role==='fixer'||clubMode||item.fixerId===currentUser.id;
   input.value='';
   await addMsg(code,{id:uid(),role:isFixer?'fixer':'sub',who:currentUser.name,text,ts:new Date().toISOString()});
+  markSeen(code);
   // listener will renderMsgs automatically
 }
 
@@ -955,7 +1032,7 @@ function openSubmit(){
   ['s-name','s-prob','s-drop'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('s-err').textContent='';
   document.getElementById('photoPreview').style.display='none';
-  pendingPhoto=null;aiAnalysis=null;aiAnswers={};lastCode='';
+  pendingPhoto=null;aiAnalysis=null;aiAnswers={};
   document.getElementById('summaryBanner').style.display='none';
   setSubStep('entry');open_('submitOverlay');
 }
@@ -1004,9 +1081,11 @@ async function submitItem(){
   const name=val('s-name'),prob=val('s-prob');
   const err=document.getElementById('s-err2');
   if(!name||!prob){err.textContent='Fill in the item name and the problem.';return;}
-  const code=genCode();
+  const id=uid();
+  // The "code" field is kept for chat-thread linkage but uses the item id —
+  // no separate user-visible code anymore.
   const newItem={
-    id:uid(),code,name,
+    id, code:id, name,
     cat:document.getElementById('s-cat').value,
     prob,
     sub:currentUser.name,
@@ -1017,13 +1096,12 @@ async function submitItem(){
     submittedAt:new Date().toISOString(),claimedAt:null,readyAt:null
   };
   await saveItem(newItem);
-  await addMsg(code,{id:uid(),role:'sys',text:'Repair submitted. Your fixer will message you here once they claim it.',ts:new Date().toISOString()});
-  lastCode=code;
-  document.getElementById('newCode').textContent=code;
+  await addMsg(id,{id:uid(),role:'sys',text:'Repair submitted. Your fixer will message you here once they claim it.',ts:new Date().toISOString()});
+  // The submitter has "seen" the system message they just caused.
+  markSeen(id);
   setSubStep('success');
   // listener will refresh items list automatically
 }
-function copyCode(){if(navigator.clipboard){navigator.clipboard.writeText(lastCode).then(()=>toast('Code copied!'));}else{toast('Code: '+lastCode);}}
 
 /* =========================================================
    CLAIM
@@ -1105,6 +1183,15 @@ async function removeFixer(){
 function resizeImage(file,maxDim,q){return new Promise((res,rej)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{const sc=Math.min(1,maxDim/Math.max(img.width,img.height));const w=Math.round(img.width*sc),h=Math.round(img.height*sc);const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',q));};img.onerror=rej;img.src=url;});}
 function fillCatSelects(){document.getElementById('catSel').innerHTML='<option value="all">All categories</option>'+CATS.map(c=>`<option>${c}</option>`).join('');document.getElementById('s-cat').innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');}
 function val(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function togglePw(inputId, btnId){
+  const input=document.getElementById(inputId);
+  const btn=document.getElementById(btnId);
+  if(!input||!btn)return;
+  const showing=input.type==='text';
+  input.type=showing?'password':'text';
+  btn.textContent=showing?'Show':'Hide';
+  btn.setAttribute('aria-label',showing?'Show password':'Hide password');
+}
 function open_(id){document.getElementById(id).classList.add('show')}
 function close_(id){document.getElementById(id).classList.remove('show')}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show')}));
@@ -1120,10 +1207,10 @@ document.getElementById('su-pw').addEventListener('keydown',e=>{if(e.key==='Ente
    scope — functions are NOT global by default.)
    ========================================================= */
 Object.assign(window,{
-  switchAuthTab, pickRole, signIn, signUp, googleSignIn, signOut,
+  switchAuthTab, pickRole, signIn, signUp, googleSignIn, signOut, togglePw,
   showView, toggleClub, setFilter, renderItems, gotoChat,
   openSubmit, skipAI, startAI, setSubStep, pickOpt, submitAnswers,
-  backFromContact, submitItem, copyCode, close_,
+  backFromContact, submitItem, close_,
   openClaim, confirmClaim, markReady, reopen,
   openFixer, saveFixer, removeFixer,
   toggleChat, sendMsg
@@ -1131,6 +1218,7 @@ Object.assign(window,{
 
 // Boot is driven by onAuthStateChanged above — nothing to do here.
 </script>
+
 
 
 </body></html>
