@@ -424,16 +424,16 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <div class="overlay" id="submitOverlay"><div class="modal">
   <div class="modal-head"><h3 id="submitTitle">Submit an item</h3><button class="x" onclick="close_('submitOverlay')">×</button></div>
   <div class="sst" data-step="entry">
-    <p class="msub">Name the item and add a photo. Our AI will ask a few diagnostic questions.</p>
+    <p class="msub">Name the item and add a photo. We will ask a few diagnostic questions.</p>
     <div class="field"><label>What is it?</label><input id="s-name" placeholder="e.g. desk lamp, backpack, speaker"></div>
     <div class="field"><label>Photo <span class="opt">— optional, helps a lot</span></label>
       <label class="photo-pick"><input type="file" accept="image/*" id="s-photo">📷 Add a photo</label>
-      <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt=""></div>
+      <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt="">Diagnose the issue</div>
     </div>
     <div class="err" id="s-err"></div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="skipAI()">Skip, fill manually</button>
-      <button class="btn btn-orange" onclick="startAI()">✨ Diagnose with AI</button>
+      <button class="btn btn-orange" onclick="startAI()">Details</button>
     </div>
   </div>
   <div class="sst" data-step="analyzing" style="display:none"><div class="ai-loading"><div class="sp"></div><b>Analyzing your item…</b><span>Figuring out the right questions</span></div></div>
