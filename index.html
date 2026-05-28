@@ -964,7 +964,7 @@ document.getElementById('s-photo').addEventListener('change',async e=>{const f=e
 function skipAI(){setSubStep('contact');document.getElementById('summaryBanner').style.display='none';}
 async function startAI(){
   const name=val('s-name');
-  if(!name&&!pendingPhoto){document.getElementById('s-err').textContent='Add a name or photo first.';return;}
+  if(!name||!pendingPhoto){document.getElementById('s-err').textContent='Add a name and photo first.';return;}
   setSubStep('analyzing');
   try{
     const prompt=`You are the intake assistant for Fixify, a school repair-club platform. Generate 3-5 short diagnostic questions for this broken item: "${name||'unknown'}". Always include a timeline question. Each question needs 2-5 short answer options. Respond ONLY with JSON: {"itemName":"<name>","category":"Electronics"|"Clothing & textiles"|"Bags & zippers"|"Furniture"|"Bikes & wheels"|"Toys & games"|"Jewelry & accessories"|"Other","emoji":"<emoji>","greeting":"<one friendly sentence>","questions":[{"id":"q1","text":"...","options":["...","..."]}]}`;
@@ -976,7 +976,7 @@ async function startAI(){
     const parsed=extractJSON(txt);
     if(!parsed||!parsed.questions)throw new Error('Bad reply');
     aiAnalysis=parsed;aiAnswers={};renderQs();setSubStep('questions');
-  }catch(e){setSubStep('contact');toast('AI unavailable — fill in manually');}
+  }catch(e){setSubStep('contact');}
 }
 function extractJSON(t){if(!t)return null;t=t.replace(/```json/gi,'').replace(/```/g,'').trim();try{return JSON.parse(t);}catch(_){}const s=t.indexOf('{'),e=t.lastIndexOf('}');if(s>=0&&e>s){try{return JSON.parse(t.slice(s,e+1));}catch(_){}}return null;}
 function renderQs(){
