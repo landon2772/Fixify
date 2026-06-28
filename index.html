@@ -288,7 +288,34 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 .tooldeco{position:fixed;inset:0;pointer-events:none;z-index:0}
 .tool{position:fixed;color:#2c4a63;opacity:.12;pointer-events:none}
 @media(max-width:1140px){.tooldeco{display:none}}
-@media(max-width:580px){.two{grid-template-columns:1fr}.brand small{display:none}nav.main button{padding:6px 8px;font-size:.84rem}}
+@media(max-width:580px){.two{grid-template-columns:1fr}.brand small{display:none}nav.main button{padding:6px 8px;font-size:.84rem}.va-switch .va-txt{display:none}}
+
+/* ===== LOGO (PNG) ===== */
+.brand-logo{width:36px;height:36px;flex:none;object-fit:contain;border-radius:9px}
+.brand-logo-fallback{width:36px;height:36px;flex:none}
+.auth-logo-img{width:44px;height:44px;flex:none;object-fit:contain;border-radius:11px}
+.auth-logo-fallback{width:44px;height:44px;flex:none}
+
+/* ===== ADMIN "VIEW AS USER" SWITCH ===== */
+.va-switch{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);color:#FCFAF3;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;padding:6px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+.va-switch:hover{background:rgba(255,255,255,.26)}
+.va-switch .va-dot{width:9px;height:9px;border-radius:50%;background:#9aa6ad;transition:.15s;flex:none}
+.va-switch.on .va-dot{background:#6BBE85;box-shadow:0 0 0 3px rgba(107,190,133,.3)}
+
+/* ===== ADMIN LISTING CONTROLS ===== */
+.admin-strip{margin-top:4px;border-top:1px dashed var(--line);padding-top:9px;display:flex;flex-direction:column;gap:7px}
+.admin-strip-label{font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.admin-cat{font-size:.74rem;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+.admin-cat select{flex:1;font-family:inherit;font-size:.82rem;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+.admin-btns{display:flex;gap:7px}
+.admin-btns button{flex:1;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;border:none;padding:8px;border-radius:8px;transition:.14s}
+.admin-delist{background:var(--amber-soft);color:#8a6a17}.admin-delist:hover{background:#f0dba8}
+.admin-del{background:#f7d9d2;color:#b23a26}.admin-del:hover{background:#f0c4ba}
+.delisted-pill{display:inline-block;margin-left:7px;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#b23a26;background:#f7d9d2;padding:2px 7px;border-radius:999px;vertical-align:middle}
+.card.is-delisted{opacity:.72}
+
+/* ===== AUTO-CATEGORY DISPLAY (submit modal) ===== */
+.cat-display{font-family:inherit;font-size:.95rem;color:var(--ink);padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;background:var(--kraft);font-weight:600}
 </style>
 </head>
 <body>
@@ -307,7 +334,8 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <div id="auth-screen" style="display: flex;">
   <div class="auth-card">
     <div class="auth-logo">
-      <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
+      <img src="logo.png" alt="Fixify logo" class="auth-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" style="display: none;">
+      <svg viewBox="0 0 48 48" class="auth-logo-fallback" style="display: block;"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
       <span class="name">Fixify</span>
     </div>
     <div class="auth-tagline">Repair, don't replace — submit a broken item or claim a repair.</div>
@@ -359,7 +387,8 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <header>
   <div class="head-in">
     <div class="brand" onclick="showView('home')">
-      <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
+      <img src="logo.png" alt="Fixify logo" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" style="display: none;">
+      <svg viewBox="0 0 48 48" class="brand-logo-fallback" style="display: block;"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
       <div><b>Fixify</b><small>Repair, don't replace</small></div>
     </div>
     <div class="head-right">
@@ -369,6 +398,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <button data-v="myitems" onclick="showView('myitems')">My Items</button>
         <button data-v="myrepairs" id="navMyRepairs" onclick="showView('myrepairs')" style="display:none">My Repairs</button>
       </nav>
+      <button class="va-switch" id="vaSwitch" onclick="toggleViewAsUser()" style="display:none" title="Toggle between admin and a preview of the regular user view">
+        <span class="va-dot"></span><span class="va-txt">Admin view</span>
+      </button>
       <div class="user-chip" onclick="signOut()" title="Sign out">
         <div class="av" id="userAv" style="background:#E07D2B">?</div>
         <span class="un" id="userName">—</span>
@@ -393,8 +425,18 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       </div>
       <div class="impact" id="impact"></div>
       <div class="filterbar">
-        <div class="board-label">Awaiting a fixer</div>
-        <select class="catsel" id="catSel" onchange="renderItems()"></select>
+        <div class="board-label" id="boardLabel">Awaiting a fixer</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <select class="catsel" id="statusSel" onchange="renderItems()" style="display:none">
+            <option value="awaiting">Awaiting</option>
+            <option value="progress">In progress</option>
+            <option value="ready">Ready</option>
+            <option value="verified">Completed</option>
+            <option value="delisted">Delisted</option>
+            <option value="all">All statuses</option>
+          </select>
+          <select class="catsel" id="catSel" onchange="renderItems()"></select>
+        </div>
       </div>
       <div class="grid" id="grid"></div>
     </section>
@@ -465,7 +507,10 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="ai-banner" id="summaryBanner" style="display:none"></div>
     <div class="field"><label>What's wrong with it? <span class="opt">— Be specific</span></label><textarea id="s-prob" placeholder="Describe the problem…"></textarea></div>
     <div class="two">
-      <div class="field"><label>Category</label><select id="s-cat"></select></div>
+      <div class="field"><label>Category <span class="opt">— sorted automatically</span></label>
+        <div class="cat-display" id="catDisplay">🔧 Other</div>
+        <input type="hidden" id="s-cat" value="Other">
+      </div>
       <div class="field"><label>Drop-off <span class="opt">— optional</span></label><input id="s-drop" placeholder="e.g. front office"></div>
     </div>
     <div class="err" id="s-err2"></div>
@@ -559,6 +604,73 @@ const ADMIN_EMAILS = [
 function isAdmin(){
   if(!currentUser) return false;
   return ADMIN_EMAILS.includes((currentUser.email||'').toLowerCase());
+}
+// "View as user" lets an admin preview the regular customer experience.
+// When ON, every admin-only control is hidden and club powers are suspended,
+// so the admin sees exactly what a normal submitter sees.
+let viewAsUser=false;
+function actingAsAdmin(){ return isAdmin() && !viewAsUser; }
+
+/* =========================================================
+   AI DIAGNOSTICS FRAMEWORK
+   =========================================================
+   This is the single place that talks to an AI model. Right now
+   it is a FRAMEWORK ONLY — no model is attached, so AI_CONFIG.enabled
+   is false and the app falls back to manual entry everywhere.
+
+   ┌──────────────────────────────────────────────────────────┐
+   │ TO TURN THIS INTO A WORKING MODEL (do NOT skip step 1):    │
+   │                                                            │
+   │ 1. Stand up a tiny server-side "proxy" that holds your     │
+   │    secret API key. A browser must NEVER contain the key —  │
+   │    anyone can read page source. Good options:              │
+   │      • Firebase Cloud Function (you already use Firebase)  │
+   │      • Vercel / Netlify serverless function                │
+   │      • Cloudflare Worker                                    │
+   │    The proxy receives {system, messages, image, maxTokens},│
+   │    forwards them to your model provider (e.g. Anthropic's  │
+   │    /v1/messages) WITH the key added server-side, and        │
+   │    returns the model's plain text.                         │
+   │                                                            │
+   │ 2. Set AI_CONFIG.endpoint to your proxy URL and            │
+   │    AI_CONFIG.enabled = true. That's it — every AI feature  │
+   │    (diagnostic questions, problem summary, auto-category)  │
+   │    turns on automatically.                                 │
+   │                                                            │
+   │ A reference request/response shape and a sample Anthropic  │
+   │ proxy body are in callAI() below.                          │
+   └──────────────────────────────────────────────────────────┘ */
+const AI_CONFIG = {
+  enabled: false,                 // ← flip to true once `endpoint` points at your proxy
+  endpoint: "",                   // ← e.g. "https://your-app.vercel.app/api/diagnose"
+  model: "claude-sonnet-4-20250514"
+};
+
+// Thrown when no model is wired up yet, so callers can fall back gracefully.
+class AINotConfigured extends Error{ constructor(){ super('AI model not configured'); } }
+function aiReady(){ return !!(AI_CONFIG.enabled && AI_CONFIG.endpoint); }
+
+/* The ONE function that calls the model. Returns the model's text reply.
+   Your proxy decides the provider; this just sends a normalized payload:
+     { model, system, messages:[{role,content}], image:<dataURL|null>, maxTokens }
+   Example Anthropic-style body your proxy might build from this:
+     { model, max_tokens, system, messages:[{role:"user",
+         content:[ image?{type:"image",source:{type:"base64",
+                   media_type:"image/jpeg",data:<base64>}}:null,
+                   {type:"text",text:<message>} ].filter(Boolean) }] } */
+async function callAI({ system, messages, image=null, maxTokens=1024 }){
+  if(!aiReady()) throw new AINotConfigured();
+  const res = await fetch(AI_CONFIG.endpoint,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ model:AI_CONFIG.model, system, messages, image, maxTokens })
+  });
+  if(!res.ok) throw new Error('AI proxy error '+res.status);
+  const data = await res.json();
+  // Accept either {text:"..."} from your proxy, or a raw Anthropic response.
+  if(typeof data.text==='string') return data.text;
+  if(Array.isArray(data.content)) return data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+  return '';
 }
 function isFixerRole(){
   if(!currentUser) return false;
@@ -655,7 +767,7 @@ function deriveRole(){
 function syncUserRole(){
   if(!currentUser) return;
   const next=deriveRole();
-  const nextClub=(next==='fixer'||next==='admin');
+  const nextClub=(next==='fixer'||next==='admin') && !viewAsUser;
   if(next===currentUser.role && nextClub===clubMode) return;
   currentUser.role=next;
   clubMode=nextClub;
@@ -842,6 +954,32 @@ async function updateItem(id, patch){
   try{ await updateDoc(doc(db,'items',id), patch); }
   catch(e){ console.error(e); toast('Could not update item: '+e.message); }
 }
+async function deleteItemDoc(id){
+  try{ await deleteDoc(doc(db,'items',id)); }
+  catch(e){ console.error(e); toast('Could not delete item: '+e.message); }
+}
+
+/* ---- Admin-only listing controls (gated by actingAsAdmin + Firestore rules) ---- */
+async function adminToggleDelist(id){
+  if(!actingAsAdmin()){ toast('Admins only'); return; }
+  const i=items.find(x=>x.id===id); if(!i)return;
+  const next=!i.delisted;
+  await updateItem(id,{delisted:next});
+  toast(next?'Listing delisted':'Listing relisted');
+}
+async function adminDeleteItem(id){
+  if(!actingAsAdmin()){ toast('Admins only'); return; }
+  const i=items.find(x=>x.id===id); if(!i)return;
+  if(!confirm(`Permanently delete "${i.name}"? This removes the listing for everyone and cannot be undone.`))return;
+  await deleteItemDoc(id);
+  toast('Listing deleted');
+}
+async function adminSetCategory(id,cat){
+  if(!actingAsAdmin()){ toast('Admins only'); return; }
+  if(!CATS.includes(cat))return;
+  await updateItem(id,{cat});
+  toast('Category updated');
+}
 async function saveFixerDoc(f){
   try{ await setDoc(doc(db,'fixers',f.id), f); }
   catch(e){ console.error(e); toast('Could not save fixer: '+e.message); }
@@ -978,28 +1116,58 @@ function gotoChat(code, target){
   },50);
 }
 function renderModeUI(){
+  const admin=actingAsAdmin();
   // Home page hint — explains how club access works now
   const hint=document.getElementById('modeHint');
   if(hint){
-    if(isAdmin())       hint.innerHTML='Signed in as <b>admin</b>.';
-    else if(clubMode)   hint.innerHTML='Signed in as a <b>fixer</b>.';
-    else                hint.innerHTML='Submit broken items and let the Fixify crew take it from there.';
+    if(admin)            hint.innerHTML='Signed in as <b>admin</b> — you can manage fixers, listings, and claim repairs.';
+    else if(clubMode)    hint.innerHTML='Signed in as a <b>fixer</b> — you can claim repairs and chat with submitters.';
+    else if(isAdmin())   hint.innerHTML='Previewing the <b>user view</b> — use the switch up top to return to admin.';
+    else                 hint.innerHTML='Submit broken items and let the Fixify crew take it from there.';
   }
   // Fixers tab hint
   const fixHint=document.getElementById('fixHint');
   if(fixHint){
-    if(isAdmin())     fixHint.innerHTML='You\'re an <b>admin</b> — add or edit fixers below.';
+    if(admin)         fixHint.innerHTML='You\'re an <b>admin</b> — add or edit fixers below.';
     else if(clubMode) fixHint.innerHTML='You\'re a <b>fixer</b> on this crew.';
     else              fixHint.innerHTML='Meet the crew. Want to join? Ask the club admin to add you.';
   }
   // Add fixer button → admin only
   const addBtn=document.getElementById('addFixerBtn');
-  if(addBtn) addBtn.style.display=isAdmin()?'inline-flex':'none';
-  // My Repairs nav button → fixer or admin
+  if(addBtn) addBtn.style.display=admin?'inline-flex':'none';
+  // Admin-only board status filter + label
+  const stSel=document.getElementById('statusSel');
+  if(stSel) stSel.style.display=admin?'inline-block':'none';
+  const bl=document.getElementById('boardLabel');
+  if(bl) bl.textContent=admin?'All listings · admin':'Awaiting a fixer';
+  // My Repairs nav button → fixer or admin (suspended during user-view preview)
   const nav=document.getElementById('navMyRepairs');
   if(nav) nav.style.display=clubMode?'inline-flex':'none';
+  // View-as-user switch (only real admins ever see it)
+  updateViewAsUserUI();
   // If clubMode dropped and we're sitting on My Repairs, bounce home
   if(!clubMode && document.querySelector('#view-myrepairs.on')) showView('home');
+}
+// Reflect the current preview state on the header switch.
+function updateViewAsUserUI(){
+  const sw=document.getElementById('vaSwitch');
+  if(!sw)return;
+  sw.style.display=isAdmin()?'inline-flex':'none';
+  sw.classList.toggle('on',!viewAsUser);            // "on" = admin powers active
+  const txt=sw.querySelector('.va-txt');
+  if(txt) txt.textContent=viewAsUser?'User view':'Admin view';
+}
+// Admin toggle: preview the regular customer experience without changing the saved role.
+function toggleViewAsUser(){
+  if(!isAdmin())return;
+  viewAsUser=!viewAsUser;
+  clubMode=(currentUser && (currentUser.role==='fixer'||currentUser.role==='admin')) && !viewAsUser;
+  renderModeUI();
+  renderItems();
+  if(document.querySelector('#view-fixers.on'))    renderFixers();
+  if(document.querySelector('#view-myitems.on'))   renderMyItems();
+  if(document.querySelector('#view-myrepairs.on')) renderMyRepairs();
+  toast(viewAsUser?'Previewing the user view':'Back to admin view');
 }
 function setFilter(f){filter=f;document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));renderItems();}
 function esc(s){return (s||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -1023,11 +1191,20 @@ function renderItems(){
     </div>`;
   // Home board ONLY shows awaiting items. In-progress and ready items live on My Items / My Repairs.
   const cat=document.getElementById('catSel').value||'all';
-  let list=items.filter(i=>i.status==='awaiting' && (cat==='all'||i.cat===cat));
+  const admin=actingAsAdmin();
+  let list;
+  if(admin){
+    // Admins can browse EVERY listing by status (incl. delisted) to manage them.
+    const stSel=document.getElementById('statusSel');
+    const st=(stSel&&stSel.value)||'awaiting';
+    list=items.filter(i=>(st==='all'|| (st==='delisted'? i.delisted : (i.status===st && !i.delisted))) && (cat==='all'||i.cat===cat));
+  }else{
+    list=items.filter(i=>i.status==='awaiting' && !i.delisted && (cat==='all'||i.cat===cat));
+  }
   list.sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
   const grid=document.getElementById('grid');
   if(!list.length){
-    grid.innerHTML=`<div class="empty"><div class="big">🛠️</div><b>Nothing waiting right now.</b><br>${cat==='all'?'Be the first to submit a broken item.':'No items in this category. Try \"All categories\".'}</div>`;
+    grid.innerHTML=`<div class="empty"><div class="big">🛠️</div><b>Nothing here right now.</b><br>${cat==='all'?'Be the first to submit a broken item.':'No items in this category. Try \"All categories\".'}</div>`;
     return;
   }
   grid.innerHTML=list.map(itemCard).join('');
@@ -1051,7 +1228,23 @@ function itemCard(i){
     block=`<div class="ready-box">✅ Fixed by ${esc(i.fixer)} — ready for pickup!</div>`;
     if(clubMode)block+=`<div class="act"><button class="secondary" onclick="reopen('${i.id}')">Reopen</button></div>`;
   }
-  return `<div class="card">${photo}<div class="body"><span class="catpill">${CAT_ICON[i.cat]||''} ${esc(i.cat)}</span><h3>${esc(i.name)}</h3><div class="note"><span class="nlabel">What's wrong</span>${esc(i.prob)}</div><div class="meta"><span>From ${esc(i.sub)} · ${ago(i.submittedAt)}</span></div>${block}</div></div>`;
+  const delistMark=i.delisted?`<span class="delisted-pill">Delisted</span>`:'';
+  return `<div class="card${i.delisted?' is-delisted':''}">${photo}<div class="body"><span class="catpill">${CAT_ICON[i.cat]||''} ${esc(i.cat)}${delistMark}</span><h3>${esc(i.name)}</h3><div class="note"><span class="nlabel">What's wrong</span>${esc(i.prob)}</div><div class="meta"><span>From ${esc(i.sub)} · ${ago(i.submittedAt)}</span></div>${block}${adminItemStrip(i)}</div></div>`;
+}
+// Admin-only control strip rendered on every board card (edit category, delist, delete).
+function adminItemStrip(i){
+  if(!actingAsAdmin())return '';
+  const opts=CATS.map(c=>`<option ${c===i.cat?'selected':''}>${esc(c)}</option>`).join('');
+  return `<div class="admin-strip">
+    <div class="admin-strip-label">⚙️ Admin · ${STATUS_LABEL[i.status]||i.status}${i.delisted?' · delisted':''}</div>
+    <label class="admin-cat">Category
+      <select onchange="adminSetCategory('${i.id}',this.value)">${opts}</select>
+    </label>
+    <div class="admin-btns">
+      <button class="admin-delist" onclick="adminToggleDelist('${i.id}')">${i.delisted?'Relist':'Delist'}</button>
+      <button class="admin-del" onclick="adminDeleteItem('${i.id}')">Delete</button>
+    </div>
+  </div>`;
 }
 
 /* =========================================================
@@ -1059,7 +1252,7 @@ function itemCard(i){
    ========================================================= */
 function renderMyItems(){
   if(!currentUser)return;
-  const myItems=items.filter(i=>i.submitterId===currentUser.id);
+  const myItems=items.filter(i=>i.submitterId===currentUser.id && (actingAsAdmin()||!i.delisted));
   document.getElementById('myItemsSub').textContent='Your submitted items — track status and chat with your fixer here.';
   const root=document.getElementById('myitems-content');
   if(!myItems.length){
@@ -1079,7 +1272,7 @@ function renderMyItems(){
    ========================================================= */
 function renderMyRepairs(){
   if(!currentUser)return;
-  const myRepairs=items.filter(i=>i.fixerId===currentUser.id);
+  const myRepairs=items.filter(i=>i.fixerId===currentUser.id && (actingAsAdmin()||!i.delisted));
   // Active (in progress) → awaiting pickup confirmation (ready) → completed (verified)
   const order={progress:0,ready:1,verified:2,awaiting:3};
   myRepairs.sort((a,b)=>(order[a.status]??9)-(order[b.status]??9)||(new Date(b.claimedAt||b.submittedAt)-new Date(a.claimedAt||a.submittedAt)));
@@ -1232,7 +1425,7 @@ function renderFixers(){
     const initials=f.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
     const pic=f.photo?`<img src="${f.photo}" alt=""/>`:`<div class="avi" style="background:${f.color||'#1E3A52'}">${esc(initials)}</div>`;
     const stat=done?`🔧 ${done} repair${done>1?'s':''} completed`:inprog?`🛠️ ${inprog} in progress`:`✋ ready for a project`;
-    return `<div class="fcard">${isAdmin()?`<button class="fedit" onclick="openFixer('${f.id}')">Edit</button>`:''}
+    return `<div class="fcard">${actingAsAdmin()?`<button class="fedit" onclick="openFixer('${f.id}')">Edit</button>`:''}
       <div class="pic">${pic}</div><h3>${esc(f.name)}</h3>
       <span class="fspec">${esc(f.spec)}</span>
       <p class="fbio">${esc(f.bio)}</p>
@@ -1249,6 +1442,7 @@ function openSubmit(){
   document.getElementById('photoPreview').style.display='none';
   pendingPhoto=null;aiAnalysis=null;aiAnswers={};
   document.getElementById('summaryBanner').style.display='none';
+  setAssignedCategory('Other');
   setSubStep('entry');open_('submitOverlay');
 }
 function setSubStep(s){document.querySelectorAll('.sst').forEach(el=>el.style.display=el.dataset.step===s?'block':'none');}
@@ -1256,19 +1450,19 @@ document.getElementById('s-photo').addEventListener('change',async e=>{const f=e
 function skipAI(){setSubStep('contact');document.getElementById('summaryBanner').style.display='none';}
 async function startAI(){
   const name=val('s-name');
-  if(!name||!pendingPhoto){document.getElementById('s-err').textContent='Please fill all fields.';return;}
+  if(!name){document.getElementById('s-err').textContent='Please name the item first.';return;}
+  // No model attached yet → skip diagnostics and go straight to manual details,
+  // defaulting the (now AI-owned) category to "Other" so nothing breaks.
+  if(!aiReady()){ setAssignedCategory('Other'); setSubStep('contact'); return; }
   setSubStep('analyzing');
   try{
-    const prompt=`You are the intake assistant for Fixify, a school repair-club platform. Generate 3-5 short diagnostic questions for this broken item: "${name||'unknown'}". Always include a timeline question. Each question needs 2-5 short answer options. Respond ONLY with JSON: {"itemName":"<name>","category":"Electronics"|"Clothing & textiles"|"Bags & zippers"|"Furniture"|"Bikes & wheels"|"Toys & games"|"Jewelry & accessories"|"Other","emoji":"<emoji>","greeting":"<one friendly sentence>","questions":[{"id":"q1","text":"...","options":["...","..."]}]}`;
-    const content=pendingPhoto?[{type:"image",source:{type:"base64",media_type:"image/jpeg",data:pendingPhoto.split(',')[1]}},{type:"text",text:prompt}]:prompt;
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1200,messages:[{role:"user",content}]})});
-    if(!res.ok)throw new Error(res.status);
-    const data=await res.json();
-    const txt=data.content.filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    const system=`You are the intake assistant for Fixify, a school repair-club platform.`;
+    const prompt=`Generate 3-5 short diagnostic questions for this broken item: "${name}". Always include a timeline question. Each question needs 2-5 short answer options. Also classify the item into exactly one category. Respond ONLY with JSON: {"itemName":"<name>","category":"Electronics"|"Clothing & textiles"|"Bags & zippers"|"Furniture"|"Bikes & wheels"|"Toys & games"|"Jewelry & accessories"|"Other","emoji":"<emoji>","greeting":"<one friendly sentence>","questions":[{"id":"q1","text":"...","options":["...","..."]}]}`;
+    const txt=await callAI({ system, messages:[{role:'user',content:prompt}], image:pendingPhoto, maxTokens:1200 });
     const parsed=extractJSON(txt);
     if(!parsed||!parsed.questions)throw new Error('Bad reply');
     aiAnalysis=parsed;aiAnswers={};renderQs();setSubStep('questions');
-  }catch(e){setSubStep('contact');}
+  }catch(e){ setAssignedCategory('Other'); setSubStep('contact'); }
 }
 function extractJSON(t){if(!t)return null;t=t.replace(/```json/gi,'').replace(/```/g,'').trim();try{return JSON.parse(t);}catch(_){}const s=t.indexOf('{'),e=t.lastIndexOf('}');if(s>=0&&e>s){try{return JSON.parse(t.slice(s,e+1));}catch(_){}}return null;}
 function renderQs(){
@@ -1280,15 +1474,19 @@ function pickOpt(qid,opt,btn){aiAnswers[qid]=opt;btn.parentElement.querySelector
 function updateQBtn(){const done=aiAnalysis.questions.every(q=>aiAnswers[q.id]);document.getElementById('qNextBtn').disabled=!done;document.getElementById('qNextBtn').textContent=done?'Continue →':`Answer all ${aiAnalysis.questions.length} questions`;}
 async function submitAnswers(){
   setSubStep('summarizing');
+  // Auto-sort: apply the AI-assigned category (admins can correct it later on the board).
+  setAssignedCategory(aiAnalysis && aiAnalysis.category ? aiAnalysis.category : 'Other');
+  if(aiAnalysis && aiAnalysis.itemName) document.getElementById('s-name').value=aiAnalysis.itemName;
   try{
     const qa=aiAnalysis.questions.map(q=>`Q: ${q.text} A: ${aiAnswers[q.id]}`).join('\n');
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:300,messages:[{role:"user",content:`Item: ${aiAnalysis.itemName}. Answers:\n${qa}\nWrite a clear 1-2 sentence problem description for a repair technician. ONLY JSON: {"summary":"..."}`}]})});
-    const data=await res.json();
-    const parsed=extractJSON(data.content.filter(b=>b.type==='text').map(b=>b.text).join(''));
+    const txt=await callAI({
+      system:'You write concise repair-intake summaries.',
+      messages:[{role:'user',content:`Item: ${aiAnalysis.itemName}. Answers:\n${qa}\nWrite a clear 1-2 sentence problem description for a repair technician. ONLY JSON: {"summary":"..."}`}],
+      maxTokens:300
+    });
+    const parsed=extractJSON(txt);
     if(parsed&&parsed.summary){document.getElementById('s-prob').value=parsed.summary;document.getElementById('summaryBanner').innerHTML=`<b>✨ AI summary</b> — edit if needed.`;document.getElementById('summaryBanner').style.display='block';}
-    if(aiAnalysis.category)document.getElementById('s-cat').value=aiAnalysis.category;
-    if(aiAnalysis.itemName)document.getElementById('s-name').value=aiAnalysis.itemName;
-  }catch(e){toast('Skipped AI summary — fill in manually');}
+  }catch(e){ /* no summary available — the user fills in the problem manually */ }
   setSubStep('contact');
 }
 function backFromContact(){setSubStep(aiAnalysis?'questions':'entry');}
@@ -1368,7 +1566,7 @@ async function verifyReceipt(id){
    FIXER CRUD
    ========================================================= */
 function openFixer(id){
-  if(!isAdmin()){ toast('Only admins can manage fixers'); return; }
+  if(!actingAsAdmin()){ toast('Only admins can manage fixers'); return; }
   editFixerId=id||null;pendingFPhoto=null;
   document.getElementById('f-err').textContent='';
   document.getElementById('fPhotoPreview').style.display='none';
@@ -1391,7 +1589,7 @@ function openFixer(id){
 document.getElementById('f-photo').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{pendingFPhoto=await resizeImage(f,360,.6);document.getElementById('fPhotoPreviewImg').src=pendingFPhoto;document.getElementById('fPhotoPreview').style.display='block';}catch(_){toast("Couldn't read image");}});
 function validEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
 async function saveFixer(){
-  if(!isAdmin()){ toast('Only admins can save fixers'); return; }
+  if(!actingAsAdmin()){ toast('Only admins can save fixers'); return; }
   const name=val('f-name'),spec=val('f-spec'),bio=val('f-bio');
   const email=(val('f-email')||'').toLowerCase();
   const err=document.getElementById('f-err');
@@ -1411,7 +1609,7 @@ async function saveFixer(){
   close_('fixerOverlay');toast(editFixerId?'Fixer updated':'Fixer added 🧰');
 }
 async function removeFixer(){
-  if(!isAdmin()){ toast('Only admins can remove fixers'); return; }
+  if(!actingAsAdmin()){ toast('Only admins can remove fixers'); return; }
   if(!editFixerId)return;
   if(!confirm('Remove this fixer? Their account will lose Club mode access.'))return;
   await deleteFixerDoc(editFixerId);
@@ -1422,7 +1620,13 @@ async function removeFixer(){
    UTILS
    ========================================================= */
 function resizeImage(file,maxDim,q){return new Promise((res,rej)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{const sc=Math.min(1,maxDim/Math.max(img.width,img.height));const w=Math.round(img.width*sc),h=Math.round(img.height*sc);const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',q));};img.onerror=rej;img.src=url;});}
-function fillCatSelects(){document.getElementById('catSel').innerHTML='<option value="all">All categories</option>'+CATS.map(c=>`<option>${c}</option>`).join('');document.getElementById('s-cat').innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');}
+function fillCatSelects(){document.getElementById('catSel').innerHTML='<option value="all">All categories</option>'+CATS.map(c=>`<option>${c}</option>`).join('');}
+// Category is now AI-owned: store it in the hidden #s-cat input and show it read-only.
+function setAssignedCategory(cat){
+  if(!CATS.includes(cat)) cat='Other';
+  const inp=document.getElementById('s-cat'); if(inp) inp.value=cat;
+  const disp=document.getElementById('catDisplay'); if(disp) disp.textContent=`${CAT_ICON[cat]||'🔧'} ${cat}`;
+}
 function val(id){const el=document.getElementById(id);return el?el.value.trim():'';}
 function togglePw(inputId, btnId){
   const input=document.getElementById(inputId);
@@ -1454,7 +1658,8 @@ Object.assign(window,{
   backFromContact, submitItem, close_,
   openClaim, confirmClaim, markReady, reopen, verifyReceipt,
   openFixer, saveFixer, removeFixer,
-  toggleChat, sendMsg
+  toggleChat, sendMsg,
+  toggleViewAsUser, adminToggleDelist, adminDeleteItem, adminSetCategory
 });
 
 // Boot is driven by onAuthStateChanged above — nothing to do here.
