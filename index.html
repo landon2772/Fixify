@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Fixify</title>
-<meta name="description" content="Fixify — the school repair club. Submit a broken item, a fixer claims it, and you chat until it's ready. Repair, don't replace.">
+<meta name="description" content="Fixify — a student repair club. Submit a broken item, a fixer claims it, and you chat until it's ready. Repair, don't replace.">
 <meta name="theme-color" content="#2F5A41">
 <link rel="icon" type="image/png" href="favicon.png?v=3">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
@@ -23,7 +23,7 @@
   --amber:#CF9412;--amber-soft:#F6E8C5;
   --blue:#2E6E9E;--blue-soft:#DBE8F1;
   --green:#4E8D5B;--green-soft:#DEEBDF;--green-deep:#2F5A41;
-  --r:14px;--shadow:0 18px 38px -26px rgba(38,50,60,.6);
+  --r:14px;--shadow:0 18px 38px -26px rgba(38,50,60,.6);--shadow-color:rgba(38,50,60,.6);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -51,7 +51,7 @@ h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
 #boot-screen img{width:64px;height:64px;border-radius:50%}
 #boot-screen .sp{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite}
 
-/* ===== AUTH SCREEN ===== */
+/* ===== LANDING + AUTH SCREEN (signed-out) ===== */
 #auth-screen{
   position:fixed;inset:0;z-index:200;
   background:var(--kraft);
@@ -64,13 +64,30 @@ h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
   background-size:auto,auto,auto,auto,22px 22px;
   background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
   background-attachment:fixed,fixed,fixed,fixed,scroll;
-  display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;
+  overflow-y:auto;
 }
+.landing-wrap{max-width:860px;margin:0 auto;padding:52px 20px 44px;display:flex;flex-direction:column;align-items:center}
+.landing-hero{text-align:center;max-width:640px}
+.landing-logo{width:78px;height:78px;border-radius:50%;box-shadow:0 12px 30px -14px rgba(30,58,82,.55)}
+.landing-hero h1{font-weight:800;font-size:clamp(2rem,6vw,2.9rem);letter-spacing:-.02em;line-height:1.06;margin-top:18px}
+.landing-hero .hl{color:#A8551A}
+.landing-sub{color:#635E50;font-size:1.05rem;margin-top:13px}
+.landing-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.landing-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;width:100%;scroll-margin-top:26px}
+.lstep{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;padding:26px 18px 20px;text-align:center;position:relative;box-shadow:0 10px 22px -20px var(--shadow-color)}
+.lstep .ln{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.lstep .li{font-size:2rem;margin-bottom:8px}
+.lstep h3{font-size:1.08rem;font-weight:700;margin-bottom:6px}
+.lstep p{font-size:.9rem;color:#635E50}
+.landing-green{margin:24px 0 36px;background:var(--green-soft);color:var(--green-deep);border:1px solid #c6dbc7;border-radius:999px;padding:10px 20px;font-weight:700;font-size:.94rem;text-align:center}
+.landing-foot{color:#635E50;font-size:.8rem;margin-top:28px;text-align:center}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:640px){.landing-steps{grid-template-columns:1fr;gap:22px}.landing-wrap{padding-top:40px}}
 .auth-card{
   background:var(--paper);border:1.5px solid var(--line);border-radius:22px;
   padding:36px 32px;width:100%;max-width:440px;
   box-shadow:0 24px 60px -24px rgba(38,50,60,.5);
-  animation:pop .3s ease;
+  animation:pop .3s ease;scroll-margin-top:26px;
 }
 .auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:6px}
 .auth-logo svg{width:44px;height:44px;flex:none}
@@ -87,13 +104,6 @@ h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
 .pwwrap input{padding-right:64px}
 .pweye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;color:var(--navy);padding:6px 9px;border-radius:7px;transition:.14s}
 .pweye:hover{background:var(--navy-soft)}
-.role-pick{display:flex;gap:10px;margin-bottom:16px}
-.role-opt{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:13px;cursor:pointer;text-align:center;transition:.15s;background:#fff}
-.role-opt:hover{border-color:var(--orange-2)}
-.role-opt.on{border-color:var(--orange);background:var(--orange-soft)}
-.role-opt .ri{font-size:1.6rem;display:block;margin-bottom:4px}
-.role-opt .rl{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.9rem;display:block}
-.role-opt .rs{font-size:.77rem;color:var(--muted);display:block;margin-top:2px}
 .google-btn{
   width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
   font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;
@@ -126,9 +136,19 @@ nav.main button.has-unread{opacity:1}
 nav.main button .nav-badge{position:absolute;top:-2px;right:-2px;background:var(--orange);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.66rem;min-width:18px;height:18px;padding:0 5px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--green-deep);line-height:1}
 nav.main button:hover{opacity:1;background:rgba(255,255,255,.16)}
 nav.main button.on{opacity:1;color:var(--green-deep);background:#FCFAF3}
-.user-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border-radius:999px;padding:5px 12px 5px 6px;cursor:pointer}
+.user-wrap{position:relative}
+.user-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:none;border-radius:999px;padding:5px 12px 5px 6px;cursor:pointer;font-family:inherit;transition:.15s}
+.user-chip:hover{background:rgba(255,255,255,.25)}
 .user-chip .av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.76rem;color:#fff;flex:none}
 .user-chip .un{font-size:.82rem;font-weight:700;color:#FCFAF3;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-chip .chev{color:#FCFAF3;opacity:.7;font-size:.62rem}
+.user-menu{position:absolute;right:0;top:calc(100% + 9px);background:var(--paper);border:1.5px solid var(--line);border-radius:13px;box-shadow:0 18px 40px -18px rgba(38,50,60,.55);width:230px;max-width:calc(100vw - 24px);display:none;overflow:hidden;z-index:60}
+.user-menu.open{display:block;animation:pop .16s ease}
+.um-head{display:flex;flex-direction:column;gap:2px;padding:12px 15px;border-bottom:1px solid var(--line)}
+.um-head b{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.94rem;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.um-head span{font-size:.78rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.um-item{width:100%;text-align:left;padding:12px 15px;background:none;border:none;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.9rem;color:var(--navy);cursor:pointer;transition:.13s}
+.um-item:hover{background:var(--kraft)}
 
 /* ===== MAIN ===== */
 main{padding:28px 0 80px;position:relative;z-index:1}
@@ -165,8 +185,8 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .catsel{font-family:inherit;font-size:.85rem;font-weight:600;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:18px}
-.card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 22px -20px var(--shadow);transition:.2s}
-.card:hover{transform:translateY(-3px);box-shadow:0 18px 32px -22px var(--shadow)}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 22px -20px var(--shadow-color);transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 18px 32px -22px var(--shadow-color)}
 .photo{height:152px;background:repeating-linear-gradient(45deg,#efe7d6,#efe7d6 10px,#ece3d0 10px,#ece3d0 20px);display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative;overflow:hidden}
 .photo img{width:100%;height:100%;object-fit:cover}
 .tag{position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:6px;font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px 4px 16px;border-radius:5px;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.18)}
@@ -196,7 +216,7 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .page-head p{color:var(--muted);margin-top:4px;max-width:58ch}
 .fixhead-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:18px 0}
 .fixgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px}
-.fcard{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;text-align:center;box-shadow:0 10px 22px -20px var(--shadow);transition:.2s;position:relative}
+.fcard{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;text-align:center;box-shadow:0 10px 22px -20px var(--shadow-color);transition:.2s;position:relative}
 .fcard:hover{transform:translateY(-3px)}
 .fcard .pic{width:92px;height:92px;border-radius:50%;margin:0 auto 13px;overflow:hidden;border:3px solid var(--paper);box-shadow:0 0 0 3px var(--orange-soft)}
 .fcard .pic img{width:100%;height:100%;object-fit:cover}
@@ -210,7 +230,7 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 
 /* my items */
 .myitems-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:18px}
-.mi-card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 10px 22px -20px var(--shadow)}
+.mi-card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 10px 22px -20px var(--shadow-color)}
 .mi-card .mi-head{padding:16px;border-bottom:1px solid var(--line)}
 .mi-card .mi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
 .mi-card h3{font-size:1.15rem;font-weight:700;line-height:1.1}
@@ -304,7 +324,13 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 .tooldeco{position:fixed;inset:0;pointer-events:none;z-index:0}
 .tool{position:fixed;color:#2c4a63;opacity:.12;pointer-events:none}
 @media(max-width:1140px){.tooldeco{display:none}}
-@media(max-width:580px){.two{grid-template-columns:1fr}.brand small{display:none}nav.main button{padding:6px 8px;font-size:.84rem}.va-switch .va-txt{display:none}}
+@media(max-width:580px){.two{grid-template-columns:1fr}.brand small{display:none}nav.main button{padding:6px 8px;font-size:.84rem}.va-switch .va-txt{display:none}.head-in{gap:6px}
+  /* Collapse the account chip to just the avatar so the header never overflows */
+  .user-chip .un,.user-chip .chev{display:none}
+  .user-chip{padding:5px}
+  /* Anchor the dropdown to the viewport corner so it's always fully on-screen */
+  .user-menu{position:fixed;top:60px;right:10px;left:auto;width:min(230px,calc(100vw - 20px))}
+}
 
 /* ===== LOGO (PNG) ===== */
 .brand-logo{width:36px;height:36px;flex:none;object-fit:contain;border-radius:9px}
@@ -350,9 +376,31 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
   <svg class="tool" style="right:8px;bottom:108px;width:110px;transform:rotate(28deg)" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"><path d="M73 19c-4.6-1.6-10-.6-13.6 3-3.8 3.8-4.7 9.4-2.8 14.1L22.5 70.2c-2 2-2 5.2 0 7.2s5.2 2 7.2 0l34-34c4.7 1.9 10.3 1 14.1-2.8 3.6-3.6 4.6-9 3-13.6l-8.2 8.2-7.6-2-2-7.6z"></path></svg>
 </div>
 
-<!-- AUTH SCREEN -->
-<div id="auth-screen" style="display: flex;">
-  <div class="auth-card">
+<!-- LANDING + AUTH SCREEN (what signed-out visitors see) -->
+<div id="auth-screen" style="display:block">
+  <div class="landing-wrap">
+
+    <div class="landing-hero">
+      <img src="logo.png?v=2" alt="Fixify beaver logo" class="landing-logo">
+      <h1>Something broken?<br>Don't toss it — <span class="hl">Fixify it.</span></h1>
+      <p class="landing-sub">Fixify is our school's student repair club. Bring us busted backpacks, lamps, bikes, and toys — a fixer takes your item on for free, keeps you posted, and hands it back working.</p>
+      <div class="landing-cta">
+        <button class="btn btn-orange" onclick="startSignup()">Get started — it's free</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</button>
+      </div>
+    </div>
+
+    <h2 class="sr-only">How Fixify works</h2>
+    <div class="landing-steps" id="how">
+      <div class="lstep"><div class="ln">1</div><div class="li">📦</div><h3>Post your broken item</h3><p>Name it, snap a photo, and tell us what's wrong. It goes up on the repair board.</p></div>
+      <div class="lstep"><div class="ln">2</div><div class="li">🛠️</div><h3>A fixer claims it</h3><p>A club member takes it on and gives you an estimated timeline.</p></div>
+      <div class="lstep"><div class="ln">3</div><div class="li">💬</div><h3>Chat, then pick it up</h3><p>Message your fixer right on the site. When it's ready, grab it and confirm.</p></div>
+    </div>
+
+    <div class="landing-green">♻️ Every repair keeps one more thing out of the landfill.</div>
+
+  <div class="auth-card" id="signin-card">
+    <h2 class="sr-only">Sign in or create your account</h2>
     <div class="auth-logo">
       <img src="logo.png?v=2" alt="Fixify logo" class="auth-logo-img" onload="this.style.display='';if(this.nextElementSibling)this.nextElementSibling.style.display='none'" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block'" style="display: none;">
       <svg viewBox="0 0 48 48" class="auth-logo-fallback" style="display: block;"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
@@ -400,6 +448,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <div class="auth-switch">Already have an account? <b onclick="switchAuthTab('signin')">Sign in</b></div>
     </div>
   </div>
+
+  <div class="landing-foot">Fixify · a student repair club · repair, don't replace</div>
+  </div>
 </div>
 
 <!-- MAIN APP -->
@@ -421,9 +472,16 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <button class="va-switch" id="vaSwitch" onclick="toggleViewAsUser()" style="display:none" title="Toggle between admin and a preview of the regular user view">
         <span class="va-dot"></span><span class="va-txt">Admin view</span>
       </button>
-      <div class="user-chip" onclick="signOut()" title="Sign out">
-        <div class="av" id="userAv" style="background:#E07D2B">?</div>
-        <span class="un" id="userName">—</span>
+      <div class="user-wrap">
+        <button class="user-chip" id="userChip" onclick="toggleUserMenu(event)" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+          <span class="av" id="userAv" style="background:#E07D2B">?</span>
+          <span class="un" id="userName">—</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="user-menu" id="userMenu">
+          <div class="um-head"><b id="umName">—</b><span id="umEmail"></span></div>
+          <button class="um-item" onclick="signOut()">👋 Sign out</button>
+        </div>
       </div>
     </div>
   </div>
@@ -497,7 +555,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
   </div>
 </main>
-<footer>Fixify · a school repair club · repair, don't replace · <span id="syncNote">data saves to this browser — sign in on the same device to see your items</span></footer>
+<footer>Fixify · a student repair club · repair, don't replace · <span id="syncNote">data saves to this browser — sign in on the same device to see your items</span></footer>
 </div>
 
 <!-- SUBMIT MODAL -->
@@ -716,12 +774,9 @@ function switchAuthTab(t){
   document.getElementById('form-signup').style.display=t==='signup'?'block':'none';
 }
 
-let selectedRole='customer';
-function pickRole(r){
-  selectedRole=r;
-  document.getElementById('role-customer').classList.toggle('on',r==='customer');
-  document.getElementById('role-fixer').classList.toggle('on',r==='fixer');
-}
+// New sign-ups are always plain customers; fixer/admin powers are granted by
+// email (ADMIN_EMAILS / the fixers roster), not chosen at signup.
+const selectedRole='customer';
 
 // Friendly Firebase error messages
 function authErrMsg(e){
@@ -847,8 +902,43 @@ async function googleSignIn(){
 }
 
 async function signOut(){
-  if(!confirm('Sign out of Fixify?'))return;
+  closeUserMenu();
   try{ await fbSignOut(auth); }catch(e){ toast('Sign out failed: '+authErrMsg(e)); }
+}
+
+/* Small account menu on the header chip (replaces click-chip-to-sign-out).
+   A simple disclosure menu: button toggles it, opening moves focus to the
+   first item, Escape / outside-click / focus-leaving all close it. */
+function toggleUserMenu(e){
+  if(e)e.stopPropagation();
+  const m=document.getElementById('userMenu');
+  if(!m)return;
+  const open=m.classList.toggle('open');
+  const chip=document.getElementById('userChip');
+  if(chip)chip.setAttribute('aria-expanded',open?'true':'false');
+  if(open){ const first=m.querySelector('.um-item'); if(first)first.focus(); }
+}
+function closeUserMenu(opts={}){
+  const m=document.getElementById('userMenu');
+  if(!m||!m.classList.contains('open'))return;
+  m.classList.remove('open');
+  const chip=document.getElementById('userChip');
+  if(chip){ chip.setAttribute('aria-expanded','false'); if(opts.focusChip)chip.focus(); }
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('.user-wrap')) closeUserMenu(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeUserMenu({focusChip:true}); });
+document.addEventListener('focusout',e=>{
+  const wrap=document.querySelector('.user-wrap');
+  if(wrap && !wrap.contains(e.relatedTarget)) closeUserMenu();
+});
+
+/* Landing CTA: send new visitors to the Create-account form, then focus it. */
+function startSignup(){
+  switchAuthTab('signup');
+  const card=document.getElementById('signin-card');
+  if(card)card.scrollIntoView({behavior:'smooth'});
+  const name=document.getElementById('su-name');
+  if(name)setTimeout(()=>name.focus(),350);
 }
 
 // Hide the boot spinner once we know whether the user is signed in.
@@ -881,7 +971,7 @@ onAuthStateChanged(auth, async (fbUser)=>{
     if(unsubMsgs){unsubMsgs();unsubMsgs=null;}
     currentUser=null; items=[]; fixers=[]; msgsByCode={};
     document.getElementById('app').style.display='none';
-    document.getElementById('auth-screen').style.display='flex';
+    document.getElementById('auth-screen').style.display='block';
   }
 });
 
@@ -892,11 +982,13 @@ function bootApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app').style.display='block';
   // Header — use the exact name the user entered. CSS truncates if it overflows.
-  const userChip=document.querySelector('.user-chip');
-  if(userChip) userChip.title='Signed in as '+currentUser.name+' · click to sign out';
+  const userChip=document.getElementById('userChip');
+  if(userChip) userChip.title='Signed in as '+currentUser.name;
   document.getElementById('userName').textContent=currentUser.name;
   document.getElementById('userAv').textContent=currentUser.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
   document.getElementById('userAv').style.background=currentUser.color||'#E07D2B';
+  document.getElementById('umName').textContent=currentUser.name;
+  document.getElementById('umEmail').textContent=currentUser.email||'';
   // clubMode is fully derived from role (set by syncUserRole / onAuthStateChanged)
   // — no manual switch in the UI anymore.
   // footer sync note
@@ -936,6 +1028,7 @@ function startListeners(){
     renderFixers();
     // Now that the fixers list is fresh, re-derive whether the current user is a fixer
     syncUserRole();
+    syncFixerRoster();
   },err=>{console.error('fixers listener',err);});
 
   // MESSAGES — scoped to threads the current user is a participant in
@@ -976,8 +1069,8 @@ async function saveItem(it){
   catch(e){ console.error(e); toast('Could not save item: '+e.message); }
 }
 async function updateItem(id, patch){
-  try{ await updateDoc(doc(db,'items',id), patch); }
-  catch(e){ console.error(e); toast('Could not update item: '+e.message); }
+  try{ await updateDoc(doc(db,'items',id), patch); return true; }
+  catch(e){ console.error(e); toast('Could not update item: '+e.message); return false; }
 }
 async function deleteItemDoc(id){
   try{ await deleteDoc(doc(db,'items',id)); }
@@ -1004,6 +1097,20 @@ async function adminSetCategory(id,cat){
   if(!CATS.includes(cat))return;
   await updateItem(id,{cat});
   toast('Category updated');
+}
+/* Mirror the fixer emails into meta/fixers {emails:[...]} so the Firestore
+   security rules can check who is allowed to claim repairs (rules can't query
+   the fixers collection directly). Only admins can write that doc, so this
+   runs — and self-heals — whenever an admin has the site open. */
+async function syncFixerRoster(){
+  if(!isAdmin())return;
+  const emails=[...new Set(fixers.map(f=>(f.email||'').toLowerCase()).filter(Boolean))].sort();
+  try{
+    const ref=doc(db,'meta','fixers');
+    const snap=await getDoc(ref);
+    const cur=snap.exists()?(snap.data().emails||[]).slice().sort():null;
+    if(!cur||JSON.stringify(cur)!==JSON.stringify(emails)) await setDoc(ref,{emails});
+  }catch(e){ console.error('fixer roster sync',e); }
 }
 async function saveFixerDoc(f){
   try{ await setDoc(doc(db,'fixers',f.id), f); }
@@ -1246,12 +1353,12 @@ function itemCard(i){
     const canChat=isMyItem||isMyRepair;
     const chatTarget=isMyItem?'myitems':'myrepairs';
     const acts=[];
-    if(clubMode)acts.push(`<button class="markready" onclick="markReady('${i.id}')">Mark ready</button>`);
+    if(clubMode&&(isMyRepair||actingAsAdmin()))acts.push(`<button class="markready" onclick="markReady('${i.id}')">Mark ready</button>`);
     if(canChat)acts.push(`<button class="chatbtn" onclick="gotoChat('${i.code}','${chatTarget}')">💬 Chat</button>`);
     if(acts.length)block+=`<div class="act">${acts.join('')}</div>`;
   }else{
     block=`<div class="ready-box">✅ Fixed by ${esc(i.fixer)} — ready for pickup!</div>`;
-    if(clubMode)block+=`<div class="act"><button class="secondary" onclick="reopen('${i.id}')">Reopen</button></div>`;
+    if(clubMode&&(isMyRepair||actingAsAdmin()))block+=`<div class="act"><button class="secondary" onclick="reopen('${i.id}')">Reopen</button></div>`;
   }
   const delistMark=i.delisted?`<span class="delisted-pill">Delisted</span>`:'';
   return `<div class="card${i.delisted?' is-delisted':''}">${photo}<div class="body"><span class="catpill">${CAT_ICON[i.cat]||''} ${esc(i.cat)}${delistMark}</span><h3>${esc(i.name)}</h3><div class="note"><span class="nlabel">What's wrong</span>${esc(i.prob)}</div><div class="meta"><span>From ${esc(i.sub)} · ${ago(i.submittedAt)}</span></div>${block}${adminItemStrip(i)}</div></div>`;
@@ -1557,7 +1664,8 @@ async function confirmClaim(){
   const i=items.find(x=>x.id===claimTarget);if(!i)return;
   const timeline=document.getElementById('c-timeline').value;
   const note=val('c-note');
-  await updateItem(i.id,{status:'progress',fixer:currentUser.name,fixerId:currentUser.id,fixerEmail:(currentUser.email||'').toLowerCase(),timeline,claimedAt:new Date().toISOString()});
+  const ok=await updateItem(i.id,{status:'progress',fixer:currentUser.name,fixerId:currentUser.id,fixerEmail:(currentUser.email||'').toLowerCase(),timeline,claimedAt:new Date().toISOString()});
+  if(!ok){ document.getElementById('c-err').textContent='Could not claim this — you may not have fixer access yet. Ask the club admin.'; return; }
   await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · est. ${timeline}`,ts:new Date().toISOString()});
   await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Message me here if you have any questions.`,ts:new Date(Date.now()+500).toISOString()});
   if(note)await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:note,ts:new Date(Date.now()+1000).toISOString()});
@@ -1678,13 +1786,13 @@ document.getElementById('su-pw').addEventListener('keydown',e=>{if(e.key==='Ente
    scope — functions are NOT global by default.)
    ========================================================= */
 Object.assign(window,{
-  switchAuthTab, pickRole, signIn, signUp, googleSignIn, signOut, togglePw,
+  switchAuthTab, signIn, signUp, googleSignIn, signOut, togglePw,
   showView, setFilter, renderItems, gotoChat,
   openSubmit, skipAI, startAI, setSubStep, pickOpt, submitAnswers,
   backFromContact, submitItem, close_,
   openClaim, confirmClaim, markReady, reopen, verifyReceipt,
   openFixer, saveFixer, removeFixer,
-  toggleChat, sendMsg,
+  toggleChat, sendMsg, toggleUserMenu, startSignup,
   toggleViewAsUser, adminToggleDelist, adminDeleteItem, adminSetCategory
 });
 

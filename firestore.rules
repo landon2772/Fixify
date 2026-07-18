@@ -1,0 +1,136 @@
+rules_version = '2';
+
+// Fixify — Firestore security rules
+//
+// These rules are what actually protect the data. The checks inside
+// index.html (isAdmin(), clubMode, etc.) only shape the UI — anyone can
+// bypass them with browser dev tools, so every rule here assumes the
+// client can send anything.
+//
+// To publish: Firebase console → Firestore Database → Rules → paste → Publish.
+// See README.md for details and a one-time bootstrap step.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* ---------- helpers ---------- */
+
+    function signedIn() { return request.auth != null; }
+
+    // A trustworthy, confirmed email. We require email_verified so nobody can
+    // register an email/password account claiming an admin's or fixer's address
+    // before that person signs in. Google sign-in (the club's Workspace domain)
+    // always yields a verified email; an email/password account must confirm.
+    function verifiedEmail() {
+      return signedIn()
+        && request.auth.token.email != null
+        && request.auth.token.email_verified == true;
+    }
+
+    // Keep this list identical to ADMIN_EMAILS in index.html.
+    function isAdmin() {
+      return verifiedEmail()
+        && request.auth.token.email.lower() in [
+          'landon.olson@menloschool.org'
+        ];
+    }
+
+    // The app mirrors fixer emails into meta/fixers whenever an admin is
+    // on the site (rules can't query the fixers collection directly).
+    function isFixer() {
+      return verifiedEmail()
+        && exists(/databases/$(database)/documents/meta/fixers)
+        && request.auth.token.email.lower() in get(/databases/$(database)/documents/meta/fixers).data.emails;
+    }
+
+    /* ---------- user profiles: each person owns theirs ---------- */
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+
+    /* ---------- fixer-roster mirror (used by isFixer above) ---------- */
+    match /meta/fixers {
+      allow read, write: if isAdmin();
+    }
+
+    /* ---------- fixers: signed-in users can view, only admins manage ---------- */
+    match /fixers/{fixerId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* ---------- items (the repair board) ---------- */
+    match /items/{itemId} {
+
+      // Non-admins can never reassign an item's owner or delist/relist it.
+      function sameOwnership() {
+        return request.resource.data.submitterId == resource.data.submitterId
+          && request.resource.data.get('delisted', false) == resource.data.get('delisted', false);
+      }
+      // The assigned fixer must not change (except via the claim path below).
+      function fixerUnchanged() {
+        return request.resource.data.get('fixerId', null) == resource.data.get('fixerId', null);
+      }
+
+      // A fixer taking on an unclaimed item, assigning it to THEMSELVES.
+      function claiming() {
+        return (isFixer() || isAdmin())
+          && resource.data.status == 'awaiting'
+          && resource.data.get('fixerId', null) == null
+          && request.resource.data.fixerId == request.auth.uid;
+      }
+
+      allow read: if signedIn();
+
+      // A new item is always unclaimed and owned by its creator.
+      allow create: if signedIn()
+        && request.resource.data.submitterId == request.auth.uid
+        && request.resource.data.status == 'awaiting'
+        && request.resource.data.get('delisted', false) == false
+        && request.resource.data.get('fixerId', null) == null;
+
+      allow update: if isAdmin() || (
+        signedIn()
+        && sameOwnership()
+        && (
+          // the owner (e.g. confirming pickup) or the assigned fixer
+          // (mark ready / reopen) — neither may reassign the fixer
+          ((resource.data.submitterId == request.auth.uid
+            || resource.data.fixerId == request.auth.uid) && fixerUnchanged())
+          // or a fixer claiming an open item onto themselves
+          || claiming()
+        )
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    /* ---------- chat messages ---------- */
+    match /messages/{msgId} {
+
+      // The sender must be on the item this message belongs to, AND the
+      // participants array may contain only that item's real members — so
+      // nobody can push a message into a stranger's notification feed.
+      function validMessage() {
+        let it = get(/databases/$(database)/documents/items/$(request.resource.data.code)).data;
+        return (request.auth.uid == it.submitterId
+                || request.auth.uid == it.get('fixerId', null))
+          && request.resource.data.participants.hasOnly(
+               [it.submitterId, it.get('fixerId', null), request.auth.uid]);
+      }
+
+      allow read: if signedIn() && request.auth.uid in resource.data.participants;
+
+      allow create: if signedIn()
+        && request.auth.uid in request.resource.data.participants
+        && (isAdmin() || validMessage());
+
+      allow update, delete: if false;
+    }
+
+    /* ---------- everything else: locked ---------- */
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
