@@ -1,7 +1,17 @@
+<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1">
-<title>Fixify — repair, don't replace</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fixify</title>
+<meta name="description" content="Fixify — the school repair club. Submit a broken item, a fixer claims it, and you chat until it's ready. Repair, don't replace.">
+<meta name="theme-color" content="#2F5A41">
+<link rel="icon" type="image/png" href="favicon.png?v=3">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+<meta property="og:title" content="Fixify">
+<meta property="og:description" content="Submit a broken item, a fixer claims it, and you chat until it's ready. Repair, don't replace.">
+<meta property="og:image" content="https://www.fixifyit.org/logo.png">
+<meta property="og:url" content="https://www.fixifyit.org/">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -34,6 +44,12 @@ body{
 .wrap{max-width:920px;margin:0 auto;padding:0 18px}
 h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
 .ruler{height:9px;background:repeating-linear-gradient(90deg,var(--orange) 0 1.5px,transparent 1.5px 14px);opacity:.55;border-radius:2px;margin:10px 0 0}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+
+/* ===== BOOT SCREEN (while Firebase restores the session) ===== */
+#boot-screen{position:fixed;inset:0;z-index:300;background:var(--kraft);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#boot-screen img{width:64px;height:64px;border-radius:50%}
+#boot-screen .sp{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite}
 
 /* ===== AUTH SCREEN ===== */
 #auth-screen{
@@ -318,8 +334,11 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 .cat-display{font-family:inherit;font-size:.95rem;color:var(--ink);padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;background:var(--kraft);font-weight:600}
 </style>
 </head>
-<link rel="icon" type="image/png" href="favicon.png">
 <body>
+
+<!-- BOOT SCREEN — shown until Firebase decides signed-in vs signed-out -->
+<div id="boot-screen"><img src="logo.png?v=2" alt="Fixify"><div class="sp"></div></div>
+<script>setTimeout(function(){var b=document.getElementById('boot-screen');if(b)b.style.display='none';},6000)</script>
 
 <!-- TOOL SKETCHES -->
 <div class="tooldeco" aria-hidden="true">
@@ -483,7 +502,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
 <!-- SUBMIT MODAL -->
 <div class="overlay" id="submitOverlay"><div class="modal">
-  <div class="modal-head"><h3 id="submitTitle">Submit an item</h3><button class="x" onclick="close_('submitOverlay')">×</button></div>
+  <div class="modal-head"><h3 id="submitTitle">Submit an item</h3><button class="x" onclick="close_('submitOverlay')" aria-label="Close">×</button></div>
   <div class="sst" data-step="entry">
     <p class="msub">Name the item and add a photo. We will ask a few diagnostic questions.</p>
     <div class="field"><label>What is it?</label><input id="s-name" placeholder="e.g. desk lamp, backpack, speaker"></div>
@@ -529,7 +548,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
 <!-- CLAIM MODAL -->
 <div class="overlay" id="claimOverlay"><div class="modal">
-  <div class="modal-head"><h3 id="claimTitle">Claim repair</h3><button class="x" onclick="close_('claimOverlay')">×</button></div>
+  <div class="modal-head"><h3 id="claimTitle">Claim repair</h3><button class="x" onclick="close_('claimOverlay')" aria-label="Close">×</button></div>
   <p class="msub">You're taking this on. Give the owner a rough idea of timing — it'll be sent as a message.</p>
   <div class="field"><label>Estimated timeline</label><select id="c-timeline"><option>A few days</option><option>About a week</option><option>1–2 weeks</option><option>2–3 weeks</option><option>Longer / not sure yet</option></select></div>
   <div class="field"><label>Note to the owner <span class="opt">— optional</span></label><textarea id="c-note" placeholder="e.g. Need to order a part first."></textarea></div>
@@ -539,7 +558,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
 <!-- FIXER MODAL -->
 <div class="overlay" id="fixerOverlay"><div class="modal">
-  <div class="modal-head"><h3 id="fixerTitle">Add a fixer</h3><button class="x" onclick="close_('fixerOverlay')">×</button></div>
+  <div class="modal-head"><h3 id="fixerTitle">Add a fixer</h3><button class="x" onclick="close_('fixerOverlay')" aria-label="Close">×</button></div>
   <p class="msub">Add a club member. Their <b>email</b> links this profile to their Fixify account and unlocks Club mode for them.</p>
   <div class="two">
     <div class="field"><label>Name</label><input id="f-name" placeholder="e.g. Sam K."></div>
@@ -832,6 +851,9 @@ async function signOut(){
   try{ await fbSignOut(auth); }catch(e){ toast('Sign out failed: '+authErrMsg(e)); }
 }
 
+// Hide the boot spinner once we know whether the user is signed in.
+function hideBoot(){const b=document.getElementById('boot-screen');if(b)b.style.display='none';}
+
 // Central auth listener — drives the auth screen vs. app screen
 onAuthStateChanged(auth, async (fbUser)=>{
   if(fbUser){
@@ -850,7 +872,9 @@ onAuthStateChanged(auth, async (fbUser)=>{
       console.error(e);
       toast('Could not load your profile: '+authErrMsg(e));
     }
+    hideBoot();
   }else{
+    hideBoot();
     // Signed out — clear listeners and show auth screen
     if(unsubItems){unsubItems();unsubItems=null;}
     if(unsubFixers){unsubFixers();unsubFixers=null;}
@@ -1292,9 +1316,10 @@ function renderMyRepairs(){
   restoreChatInputs(draftInputs);
 }
 function miCard(i){
+  const mineToFix=currentUser && i.fixerId===currentUser.id;
   const statusTxt={
     awaiting: '● Awaiting a fixer',
-    progress: `● In progress with ${i.fixer||'a fixer'}`,
+    progress: mineToFix ? '● In progress — you\'re fixing this' : `● In progress with ${i.fixer||'a fixer'}`,
     ready:    '● Ready for pickup',
     verified: '● Completed'
   }[i.status]||'';
