@@ -1,7 +1,9 @@
 # Fixify 🦫
 
-**Repair, don't replace.** Fixify is a student repair club site: post a broken
-item, a club "fixer" claims it, you chat until it's ready, then pick it up.
+**Repair, don't replace.** Fixify is a repair service site: send a fix
+request (no account needed), a fixer claims it and sends you a bid, you chat
+until it's ready, then pick it up. Fixers work from a hidden portal at
+`/fixer`.
 
 Live at **https://www.fixifyit.org** (GitHub Pages — every push to `main`
 deploys automatically, usually within a minute).
@@ -10,10 +12,24 @@ deploys automatically, usually within a minute).
 
 | File | What it is |
 |---|---|
-| `index.html` | The whole app — landing page, sign-in, repair board, chat. Uses Firebase Auth + Firestore. |
+| `index.html` | The whole app — landing page, fix-request form, My items + chat, and the fixer portal/board. Uses Firebase Auth + Firestore. |
+| `fixer/index.html` | Redirects www.fixifyit.org/fixer to the hidden fixer sign-in. |
 | `firestore.rules` | Security rules for the Firestore database. **Not active until published — see below.** |
 | `logo.png` / `favicon.png` / `apple-touch-icon.png` | The beaver. |
 | `CNAME` | Tells GitHub Pages to serve the site at www.fixifyit.org. |
+
+## ⚠️ Enable anonymous sign-in (one-time, required)
+
+The public site no longer has any sign-in UI. When someone submits a fix
+request, the site silently creates an **anonymous** Firebase session so their
+items and chats stay linked to their browser. For that to work:
+
+1. Open the [Firebase console](https://console.firebase.google.com/) →
+   project **fixify-1** → **Authentication** → **Sign-in method**.
+2. Enable the **Anonymous** provider and save.
+
+Until this is enabled, nobody can submit a fix request (the form will show
+"Could not reach Fixify right now").
 
 ## ⚠️ Publish the security rules (one-time, important)
 
@@ -28,10 +44,10 @@ To publish them (needs access to the Firebase project `fixify-1`):
    project **fixify-1** → **Firestore Database** → **Rules** tab.
 2. Replace everything in the editor with the contents of `firestore.rules`.
 3. Click **Publish**.
-4. **Bootstrap step:** open www.fixifyit.org and sign in as the admin once,
-   using **"Continue with Google"** (see the sign-in note below). The site
-   then writes the fixer roster (`meta/fixers`) that the rules use to decide
-   who may claim repairs. Until that happens, only the admin can claim.
+4. **Bootstrap step:** open www.fixifyit.org/fixer and sign in as the admin
+   once, using **"Continue with Google"** (see the sign-in note below). The
+   site then writes the fixer roster (`meta/fixers`) that the rules use to
+   decide who may claim repairs. Until that happens, only the admin can claim.
 
 That's it. The roster keeps itself up to date automatically whenever an
 admin has the site open and the fixer list changes.
@@ -49,11 +65,12 @@ that claims a fixer's or admin's address before that person signs up.
   claim/admin powers. (The app doesn't send verification emails yet, so
   Google sign-in is the reliable option for the crew.)
 
-Regular submitters are unaffected — they can use email+password freely.
+Regular submitters are unaffected — they never sign in at all.
 
 ### What the rules enforce
 
-- Only signed-in people can see the board, fixers, or send messages.
+- Fix requests (which include the submitter's email and phone number) are
+  readable only by the person who submitted them, the fixer crew, and admins.
 - You can only read chats you're a participant in.
 - Only the item's owner, its claiming fixer, or an admin can update an item —
   and only admins can delete or delist listings, or edit the fixer crew.

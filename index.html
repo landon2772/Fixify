@@ -187,9 +187,11 @@ a.btn{text-decoration:none}
 .lfoot-links a:hover,.lfoot-links button:hover{color:var(--navy);background:rgba(38,50,60,.05)}
 .lfoot-eco{text-align:center;color:#5d5949;font-size:.79rem;padding:0 22px 26px}
 
-/* full-page fix request form (replaces the old submit modal) */
-#submitOverlay{
-  position:fixed;inset:0;z-index:95;display:none;overflow-y:auto;overscroll-behavior:contain;
+/* full-page fix request form + public My items page */
+.fixpage-wide{max-width:780px}
+#submitOverlay,#myItemsPage{
+  /* Above the landing layer (200), below toasts (210) and the portal (220) */
+  position:fixed;inset:0;z-index:205;display:none;overflow-y:auto;overscroll-behavior:contain;
   background:var(--kraft);
   background-image:
     radial-gradient(circle at 10% 0%,rgba(224,125,43,.14),transparent 36%),
@@ -198,7 +200,7 @@ a.btn{text-decoration:none}
   background-size:auto,auto,22px 22px;
   background-repeat:no-repeat,no-repeat,repeat;
 }
-#submitOverlay.show{display:block;animation:fade .25s ease}
+#submitOverlay.show,#myItemsPage.show{display:block;animation:fade .25s ease}
 .fixpage-in{max-width:640px;margin:0 auto;padding:12px 18px 80px}
 .fixpage-top{display:flex;align-items:center;justify-content:space-between;height:64px}
 .fixpage-brand{display:flex;align-items:center;gap:10px}
@@ -536,7 +538,7 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
         <a href="#faq">FAQ</a>
       </nav>
       <div class="lnav-cta">
-        <button class="btn btn-ghost" onclick="openAuth('signin')">Sign in</button>
+        <button class="btn btn-ghost" onclick="openMyItems()">My items</button>
         <button class="btn btn-orange lnav-start" onclick="startFixRequest()">Start a fix request</button>
       </div>
     </div>
@@ -558,7 +560,7 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
       <button class="btn btn-orange btn-lg" onclick="startFixRequest()">Start a fix request</button>
       <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
     </div>
-    <div class="lhero-note rv" style="transition-delay:.24s">Fair bids · Electronics, clothing, bikes, toys &amp; more</div>
+    <div class="lhero-note rv" style="transition-delay:.24s">Fair bids · No account needed · Electronics, bikes, toys &amp; more</div>
   </div>
 
   <!-- workbench photo band -->
@@ -578,7 +580,7 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
       <p class="lede">Fixify has a team of experienced fixers who will fix your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more. Every repair starts with a bid from your fixer, and it will never cost more than replacing the item.</p>
     </div>
     <div class="lsteps">
-      <div class="step-card rv"><span class="num">Step 1</span><h3>Tell us what's broken</h3><p>Fill out a quick fix request: name the item, add a photo, and describe what's wrong. It takes about two minutes.</p></div>
+      <div class="step-card rv"><span class="num">Step 1</span><h3>Tell us what's broken</h3><p>Fill out a quick fix request: name the item, add a photo, describe what's wrong, and leave your contact info. About two minutes, no account needed.</p></div>
       <div class="step-card rv" style="transition-delay:.08s"><span class="num">Step 2</span><h3>A fixer takes it on</h3><p>One of our fixers claims your request, sends you a bid and timeline, and arranges drop-off with you in the built-in chat.</p></div>
       <div class="step-card rv" style="transition-delay:.16s"><span class="num">Step 3</span><h3>Pick it up fixed</h3><p>You'll get a message the moment it's ready. Swing by, grab your item, and get back to using it.</p></div>
     </div>
@@ -631,7 +633,7 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
       <div class="lcta-sub">Find out how to get it fixed.</div>
       <p>First, fill out a fix request: tell us what's broken, snap a photo, and send it in. A fixer will claim it, message you with a bid and timeline, and arrange drop-off. Then all that's left is picking it up fixed.</p>
       <button class="btn btn-orange btn-lg" onclick="startFixRequest()">Fill out a fix request</button>
-      <div class="lcta-note">About 2 minutes · You'll get a bid before any work starts</div>
+      <div class="lcta-note">About 2 minutes · No account needed · You'll get a bid before any work starts</div>
     </div>
   </section>
 
@@ -644,7 +646,8 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
     <div class="lfaq">
       <details class="faq-item rv"><summary><span class="fsum">What does it cost?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Your fixer gives you a bid before any work starts, and it will never be more than the price of buying a replacement. On average we aim for about 40% of the cost of a new one, built on a $5/hour base rate for our fixers. Donations are always welcome too.</div></details>
       <details class="faq-item rv"><summary><span class="fsum">What can I bring?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Electronics, small appliances, clothing and textiles, bikes, jewelry, computers, toys, and more. Not sure if we'd take it? Submit a request anyway. Worst case, we'll point you in the right direction.</div></details>
-      <details class="faq-item rv"><summary><span class="fsum">How do drop-off and pickup work?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Once a fixer claims your request, they'll message you in the built-in chat to arrange drop-off. When the repair is done, you'll get another message that it's ready to pick up.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">How do drop-off and pickup work?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Once a fixer claims your request, they'll message you under My items (top right) to arrange drop-off. When the repair is done, you'll get another message there that it's ready to pick up.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">How do I check on my request?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Open My items in the top corner. Your requests live on the device you sent them from, and every message from your fixer shows up there. You also leave your email and phone number with the request, so your fixer can reach you directly.</div></details>
       <details class="faq-item rv"><summary><span class="fsum">How long does a repair take?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Your fixer gives you a bid and an estimated timeline when they claim your item. Simple fixes take a few days, trickier ones a couple of weeks. You can check in over chat anytime.</div></details>
       <details class="faq-item rv"><summary><span class="fsum">What if it can't be fixed?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Sometimes a thing really is beyond saving. If so, we'll tell you what we found and suggest a plan B: spare parts, recycling, or advice on a replacement. You only pay if we fix it. Either way, you'll know.</div></details>
     </div>
@@ -658,14 +661,14 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
         <a href="#how">How it works</a>
         <a href="#what">What we fix</a>
         <a href="#faq">FAQ</a>
-        <button type="button" onclick="openAuth('signin')">Sign in</button>
+        <button type="button" onclick="openMyItems()">My items</button>
       </nav>
     </div>
     <div class="lfoot-eco">♻️ Every repair keeps one more thing out of the landfill. Donations always welcome.</div>
   </footer>
 
   <!-- auth overlay (sign in / create account) -->
-  <div class="overlay auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-label="Sign in or create your account">
+  <div class="overlay auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-label="Fixer sign-in">
   <div class="auth-card" id="signin-card">
     <button class="auth-x" onclick="closeAuth()" aria-label="Close">×</button>
     <h2 class="sr-only">Sign in or create your account</h2>
@@ -674,7 +677,7 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
       <svg viewBox="0 0 48 48" class="auth-logo-fallback" style="display: block;"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
       <span class="name">Fixify</span>
     </div>
-    <div class="auth-tagline">Repair, don't replace. Submit a broken item or claim a repair.</div>
+    <div class="auth-tagline">Fixer portal. Sign in with your fixer account to see and claim requests.</div>
     <div class="auth-tabs">
       <button id="tab-signin" class="on" onclick="switchAuthTab('signin')">Sign in</button>
       <button id="tab-signup" onclick="switchAuthTab('signup')">Create account</button>
@@ -759,8 +762,8 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
     <!-- HOME -->
     <section class="view on" id="view-home">
       <div class="hero">
-        <h1>Got something broken? We'll fix it.</h1>
-        <p>Post your broken item. A fixer claims it, sends you a bid and timeline, and you chat until it's ready for pickup.</p>
+        <h1>The repair board.</h1>
+        <p>Open fix requests from customers. Claim one, send your bid, and chat with the owner until pickup.</p>
         <div class="ruler"></div>
         <div class="hero-row">
           <button class="btn btn-orange" onclick="openSubmit()">＋ Start a fix request</button>
@@ -862,32 +865,56 @@ footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border
   <div class="sst" data-step="contact" style="display:none">
     <div class="ai-banner" id="summaryBanner" style="display:none"></div>
     <div class="field"><label>What's wrong with it? <span class="opt">(be specific)</span></label><textarea id="s-prob" placeholder="Describe the problem…"></textarea></div>
-    <div class="two">
-      <div class="field"><label>Category <span class="opt">(sorted automatically)</span></label>
-        <div class="cat-display" id="catDisplay">🔧 Other</div>
-        <input type="hidden" id="s-cat" value="Other">
-      </div>
-      <div class="field"><label>Drop-off <span class="opt">(optional)</span></label><input id="s-drop" placeholder="e.g. front office"></div>
+    <div class="field"><label>Category <span class="opt">(sorted automatically)</span></label>
+      <div class="cat-display" id="catDisplay">🔧 Other</div>
+      <input type="hidden" id="s-cat" value="Other">
     </div>
     <div class="err" id="s-err2"></div>
-    <div class="modal-foot"><button class="btn btn-ghost" onclick="backFromContact()">Back</button><button class="btn btn-primary" onclick="submitItem()">Post to board</button></div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="backFromContact()">Back</button><button class="btn btn-orange" onclick="toContactStep()">Continue</button></div>
+  </div>
+  <div class="sst" data-step="contact2" style="display:none">
+    <p class="msub">Almost done. How can your fixer reach you?</p>
+    <div class="two">
+      <div class="field"><label for="s-first">First name</label><input id="s-first" placeholder="e.g. Jordan"></div>
+      <div class="field"><label for="s-last">Last name</label><input id="s-last" placeholder="e.g. Lee"></div>
+    </div>
+    <div class="field"><label for="s-email">Email address</label><input id="s-email" type="email" placeholder="you@email.com"></div>
+    <div class="field"><label for="s-phone">Phone number</label><input id="s-phone" type="tel" placeholder="(555) 123-4567"></div>
+    <div class="err" id="s-err3"></div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="setSubStep('contact')">Back</button><button class="btn btn-orange" onclick="submitItem()">Send my fix request</button></div>
   </div>
   <div class="sst" data-step="success" style="display:none">
     <div class="success-screen">
       <div class="check">✓</div>
-      <h3>Posted!</h3>
-      <p>Your item is live on the board. See it in <b>My Items</b>. Your fixer will message you there when they claim it.</p>
-      <button class="btn btn-primary" style="width:100%" onclick="close_('submitOverlay');showView('myitems')">Go to My Items →</button>
+      <h3>Request sent!</h3>
+      <p>It's saved under <b>My items</b> on this device. When a fixer claims it, they'll message you there with a bid, so check back soon.</p>
+      <button class="btn btn-primary" style="width:100%" onclick="goToMyItems()">Go to My items →</button>
     </div>
   </div>
   </div>
 </div>
 </div>
 
+<!-- MY ITEMS PAGE (public, per-device: requests sent from this browser + chat) -->
+<div id="myItemsPage" role="dialog" aria-modal="true" aria-label="My items">
+<div class="fixpage-in fixpage-wide">
+  <div class="fixpage-top">
+    <div class="fixpage-brand"><img src="logo.png?v=2" alt=""><b>Fixify</b></div>
+    <button class="btn btn-ghost" onclick="closeMyItems()">← Back</button>
+  </div>
+  <div class="fixpage-head">
+    <h2>My items</h2>
+    <p>Fix requests you've sent from this device. When a fixer claims one, chat with them right here.</p>
+  </div>
+  <div id="pub-myitems-content"></div>
+</div>
+</div>
+
 <!-- CLAIM MODAL -->
 <div class="overlay" id="claimOverlay"><div class="modal">
   <div class="modal-head"><h3 id="claimTitle">Claim repair</h3><button class="x" onclick="close_('claimOverlay')" aria-label="Close">×</button></div>
-  <p class="msub">You're taking this on. Give the owner a rough idea of timing. It'll be sent as a message.</p>
+  <p class="msub">You're taking this on. Your bid and timeline will be sent to the owner as a message.</p>
+  <div class="field"><label for="c-bid">Your bid <span class="opt">(never more than a replacement costs)</span></label><input id="c-bid" placeholder="e.g. $12"></div>
   <div class="field"><label>Estimated timeline</label><select id="c-timeline"><option>A few days</option><option>About a week</option><option>1–2 weeks</option><option>2–3 weeks</option><option>Longer / not sure yet</option></select></div>
   <div class="field"><label>Note to the owner <span class="opt">(optional)</span></label><textarea id="c-note" placeholder="e.g. Need to order a part first."></textarea></div>
   <div class="err" id="c-err"></div>
@@ -925,8 +952,6 @@ function openAuth(tab){
   var ov=document.getElementById('authOverlay');
   if(!ov)return;
   var signup=(tab==='signup');
-  // Opening plain sign-in abandons any pending "start a fix request" intent
-  if(!signup){try{sessionStorage.removeItem('fixify:intent');}catch(_){}}
   window.__authReturnFocus=document.activeElement;
   ov.classList.add('show');
   var sc=document.getElementById('auth-screen');
@@ -948,20 +973,44 @@ function closeAuth(){
   ov.classList.remove('show');
   var sc=document.getElementById('auth-screen');
   if(sc)sc.style.overflow='';
-  // Abandoning the dialog cancels a pending fix-request intent
-  try{sessionStorage.removeItem('fixify:intent');}catch(_){}
   var rf=window.__authReturnFocus;
   window.__authReturnFocus=null;
   if(rf&&rf.focus&&document.contains(rf)){try{rf.focus();}catch(_){}}
 }
-/* "Start a fix request" — remember the intent so the submit form
-   opens automatically right after sign-in (consumed in bootApp). */
+/* "Start a fix request" — no account needed, straight into the form. */
 function startFixRequest(){
-  try{sessionStorage.setItem('fixify:intent','submit');}catch(_){}
-  openAuth('signup');
+  closeMyItems();
+  if(window.openSubmit){window.openSubmit();return;}
+  // Module still loading: the form's first step is static HTML, open it anyway
+  var ov=document.getElementById('submitOverlay');
+  if(ov)ov.classList.add('show');
+}
+/* Public My items page (per-device requests + chat). */
+function openMyItems(){
+  var pg=document.getElementById('myItemsPage');
+  if(!pg)return;
+  pg.classList.add('show');
+  if(window.renderMyItems)window.renderMyItems();
+}
+function closeMyItems(){
+  var pg=document.getElementById('myItemsPage');
+  if(pg)pg.classList.remove('show');
+}
+/* Fixer portal lives behind /fixer (redirects to /#fixer). Nothing on the
+   public page links here on purpose. */
+function checkFixerRoute(){
+  if(location.hash==='#fixer')openAuth('signin');
+}
+window.addEventListener('hashchange',checkFixerRoute);
+checkFixerRoute();
+// Public visitors never wait on Firebase: drop the boot screen right away
+// unless this is the fixer route (which needs the auth state first).
+if(location.hash!=='#fixer'){
+  var bootEl=document.getElementById('boot-screen');
+  if(bootEl)bootEl.style.display='none';
 }
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){closeAuth();return;}
+  if(e.key==='Escape'){closeAuth();closeMyItems();return;}
   if(e.key!=='Tab')return;
   // Keep Tab inside the auth dialog while it is open
   var ov=document.getElementById('authOverlay');
@@ -1002,7 +1051,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getAuth, onAuthStateChanged,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  GoogleAuthProvider, signInWithPopup,
+  GoogleAuthProvider, signInWithPopup, signInAnonymously,
   signOut as fbSignOut, updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
@@ -1207,6 +1256,8 @@ function syncUserRole(){
   currentUser.role=next;
   clubMode=nextClub;
   renderModeUI();
+  // The items listener's scope depends on the role, so re-subscribe
+  if(!currentUser.anon) startItemsListener();
   // Lists that depend on clubMode / role need a refresh
   renderItems();
   if(document.querySelector('#view-fixers.on'))   renderFixers();
@@ -1302,7 +1353,7 @@ function hideBoot(){const b=document.getElementById('boot-screen');if(b)b.style.
 
 // Central auth listener — drives the auth screen vs. app screen
 onAuthStateChanged(auth, async (fbUser)=>{
-  if(fbUser){
+  if(fbUser && !fbUser.isAnonymous){
     try{
       // Consume any pending profile info from signUp/googleSignIn so the right
       // name lands in Firestore on first write.
@@ -1320,20 +1371,32 @@ onAuthStateChanged(auth, async (fbUser)=>{
       toast('Could not load your profile: '+authErrMsg(e));
     }
     hideBoot();
+  }else if(fbUser){
+    // Anonymous session: a public visitor whose fix requests live on this
+    // device. No account UI — just their items and chats.
+    hideBoot();
+    let savedName='You';
+    try{ savedName=localStorage.getItem('fixify:name')||'You'; }catch(_){}
+    currentUser={id:fbUser.uid,name:savedName,email:'',role:'customer',color:'#E07D2B',anon:true};
+    document.getElementById('app').style.display='none';
+    document.getElementById('auth-screen').style.display='block';
+    startCustomerListeners();
   }else{
     hideBoot();
-    // Signed out — clear listeners and show auth screen
+    // Signed out — clear listeners and show the public site
     if(unsubItems){unsubItems();unsubItems=null;}
     if(unsubFixers){unsubFixers();unsubFixers=null;}
     if(unsubMsgs){unsubMsgs();unsubMsgs=null;}
     currentUser=null; items=[]; fixers=[]; msgsByCode={};
     document.getElementById('app').style.display='none';
     document.getElementById('auth-screen').style.display='block';
-    // On a real sign-out, land on the marketing page, not a stale auth modal.
-    // Skipped on the initial signed-out resolution: the visitor may already
-    // have the sign-in dialog open while Firebase was still loading.
+    renderMyItems();
+    // On a real sign-out, close the portal dialog. Skipped on the initial
+    // signed-out resolution so a just-opened dialog isn't slammed shut.
     if(wasSignedIn && window.closeAuth)window.closeAuth();
     wasSignedIn=false;
+    // Signed out while on the fixer route: offer the portal sign-in again
+    if(location.hash==='#fixer' && window.openAuth)window.openAuth('signin');
   }
 });
 
@@ -1360,14 +1423,9 @@ function bootApp(){
   startListeners();
   renderModeUI();
   maybeAskForNotifPermission();
-  // Visitor clicked "Start a fix request" on the landing page before
-  // signing in — take them straight into the full-page fix form.
-  try{
-    if(sessionStorage.getItem('fixify:intent')==='submit'){
-      sessionStorage.removeItem('fixify:intent');
-      openSubmit();
-    }
-  }catch(_){}
+  // Arriving via the fixer portal: clear any public-page overlays
+  if(window.closeAuth)window.closeAuth();
+  if(window.closeMyItems)window.closeMyItems();
 }
 
 /* =========================================================
@@ -1379,10 +1437,14 @@ function bootApp(){
      messages  — every chat message, fields {code, role, who, text, ts}
      users     — profile per uid (see ensureUserDoc above)
    ========================================================= */
-function startListeners(){
-  // ITEMS — live board
+function startItemsListener(){
   if(unsubItems)unsubItems();
-  unsubItems=onSnapshot(collection(db,'items'),snap=>{
+  // Fixers and admins see every request; other portal accounts only their own
+  // (the security rules enforce the same split server-side).
+  const src=(clubMode||isAdmin())
+    ? collection(db,'items')
+    : query(collection(db,'items'), where('submitterId','==',currentUser.id));
+  unsubItems=onSnapshot(src,snap=>{
     items=snap.docs.map(d=>d.data());
     renderItems();
     renderFixers();
@@ -1390,6 +1452,37 @@ function startListeners(){
     if(document.querySelector('#view-myrepairs.on'))renderMyRepairs();
     updateNavBadges();
   },err=>{console.error('items listener',err);toast('Could not load items: '+err.message);});
+}
+
+/* Listeners for anonymous visitors: their own items and chats, nothing else. */
+function startCustomerListeners(){
+  if(unsubItems)unsubItems();
+  unsubItems=onSnapshot(query(collection(db,'items'), where('submitterId','==',currentUser.id)),snap=>{
+    items=snap.docs.map(d=>d.data());
+    renderMyItems();
+  },err=>{console.error('customer items listener',err);});
+  if(unsubMsgs)unsubMsgs();
+  const msgQuery=query(collection(db,'messages'), where('participants','array-contains', currentUser.id));
+  unsubMsgs=onSnapshot(msgQuery,snap=>{
+    const next={};
+    const arriving=[];
+    snap.docChanges().forEach(ch=>{ if(ch.type==='added' && msgsBootstrapDone) arriving.push(ch.doc.data()); });
+    snap.docs.forEach(d=>{ const m=d.data(); if(!m.code)return; (next[m.code]=next[m.code]||[]).push(m); });
+    Object.keys(next).forEach(c=>next[c].sort((a,b)=>new Date(a.ts)-new Date(b.ts)));
+    msgsByCode=next;
+    arriving.forEach(m=>{
+      if(m.role==='sys')return;
+      if(currentUser && m.who===currentUser.name)return;
+      if(document.hidden) notifyNewMessage(m);
+    });
+    msgsBootstrapDone=true;
+    renderMyItems();
+  },err=>{console.error('customer messages listener',err);});
+}
+
+function startListeners(){
+  // ITEMS — live board (scoped by role)
+  startItemsListener();
 
   // FIXERS — live crew
   if(unsubFixers)unsubFixers();
@@ -1435,8 +1528,8 @@ function startListeners(){
 
 // Per-record writes — replace the old "save the whole array" model
 async function saveItem(it){
-  try{ await setDoc(doc(db,'items',it.id), it); }
-  catch(e){ console.error(e); toast('Could not save item: '+e.message); }
+  try{ await setDoc(doc(db,'items',it.id), it); return true; }
+  catch(e){ console.error(e); toast('Could not save item: '+e.message); return false; }
 }
 async function updateItem(id, patch){
   try{ await updateDoc(doc(db,'items',id), patch); return true; }
@@ -1580,8 +1673,9 @@ function notifyNewMessage(m){
     const n=new Notification(title,{body:`${m.who}: ${m.text}`, tag:'fixify-'+m.code});
     n.onclick=()=>{
       window.focus();
-      // Jump to the right tab based on whether this message is for a submitter or fixer
-      if(item && currentUser){
+      if(currentUser && currentUser.anon){
+        if(window.openMyItems)window.openMyItems();
+      }else if(item && currentUser){
         if(item.submitterId===currentUser.id) showView('myitems');
         else if(item.fixerId===currentUser.id && clubMode) showView('myrepairs');
       }
@@ -1718,7 +1812,7 @@ function itemCard(i){
   let block='';
   if(i.status==='awaiting')block=clubMode?`<div class="act"><button class="claim" onclick="openClaim('${i.id}')">Claim repair</button></div>`:isMyItem?`<div class="locked">Waiting for a fixer to claim it</div>`:`<div class="locked">Waiting for a fixer</div>`;
   else if(i.status==='progress'){
-    block=`<div class="timeline-box">🛠️ <b>${esc(i.fixer)}</b> is on it · est. <b>${esc(i.timeline)}</b></div>`;
+    block=`<div class="timeline-box">🛠️ <b>${esc(i.fixer)}</b> is on it${i.bid?` · bid <b>${esc(i.bid)}</b>`:''} · est. <b>${esc(i.timeline)}</b></div>`;
     // Only the submitter or the actual fixer should see Chat — they're the only ones who'll find this thread on their list page.
     const canChat=isMyItem||isMyRepair;
     const chatTarget=isMyItem?'myitems':'myrepairs';
@@ -1753,14 +1847,19 @@ function adminItemStrip(i){
    MY ITEMS — always shows items YOU submitted, regardless of role
    ========================================================= */
 function renderMyItems(){
-  if(!currentUser)return;
-  const myItems=items.filter(i=>i.submitterId===currentUser.id && (actingAsAdmin()||!i.delisted));
-  document.getElementById('myItemsSub').textContent='Your submitted items. Track status and chat with your fixer here.';
-  const root=document.getElementById('myitems-content');
-  if(!myItems.length){
-    root.innerHTML=`<div class="no-items"><div class="big">📦</div><b>No items submitted yet.</b><br><span>Submit a broken item using the button on the Home page.</span></div>`;
-    return;
+  const pubMode=!currentUser || !!currentUser.anon;
+  const root=document.getElementById(pubMode?'pub-myitems-content':'myitems-content');
+  if(!root)return;
+  const emptyHtml= pubMode
+    ? `<div class="no-items"><div class="big">📦</div><b>Nothing here yet.</b><br><span>Send a fix request and it will show up here, chat included.</span><div style="margin-top:14px"><button class="btn btn-orange" onclick="closeMyItems();startFixRequest()">Start a fix request</button></div></div>`
+    : `<div class="no-items"><div class="big">📦</div><b>No items submitted yet.</b><br><span>Submit a broken item using the button on the Home page.</span></div>`;
+  if(!currentUser){ root.innerHTML=emptyHtml; return; }
+  if(!pubMode){
+    const sub=document.getElementById('myItemsSub');
+    if(sub)sub.textContent='Your submitted items. Track status and chat with your fixer here.';
   }
+  const myItems=items.filter(i=>i.submitterId===currentUser.id && ((!pubMode&&actingAsAdmin())||!i.delisted));
+  if(!myItems.length){ root.innerHTML=emptyHtml; return; }
   // newest first
   myItems.sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
   const draftInputs=snapshotChatInputs();
@@ -1824,7 +1923,9 @@ function miCard(i){
     <div class="mi-head">
       <div class="mi-top"><h3>${esc(i.name)}</h3></div>
       <div class="mi-stat ${i.status}">${statusTxt}</div>
+      ${i.bid?`<div class="mi-timeline">💰 Bid: ${esc(i.bid)}</div>`:''}
       ${i.timeline?`<div class="mi-timeline">⏱️ Est. ${esc(i.timeline)}</div>`:''}
+      ${(mineToFix&&(i.email||i.phone))?`<div class="mi-timeline">📧 ${esc(i.email||'')}${i.phone?' · 📞 '+esc(i.phone):''}</div>`:''}
       <div class="mi-timeline" style="margin-top:4px">${esc(i.sub)} · submitted ${ago(i.submittedAt)}</div>
     </div>
     ${actionRow}
@@ -1869,8 +1970,10 @@ function toggleChat(code){
   if(!wasOpen) markSeen(code);
   // Re-render the active list — miCard now reads openChats so the panel stays open
   // and refillOpenChats() repopulates the message body. The badge updates naturally.
-  if(document.querySelector('#view-myitems.on'))      renderMyItems();
-  else if(document.querySelector('#view-myrepairs.on')) renderMyRepairs();
+  const pubPage=document.getElementById('myItemsPage');
+  if(pubPage && pubPage.classList.contains('show'))      renderMyItems();
+  else if(document.querySelector('#view-myitems.on'))    renderMyItems();
+  else if(document.querySelector('#view-myrepairs.on'))  renderMyRepairs();
   // After re-render, focus the input. (Enter-to-send is wired globally below.)
   if(!wasOpen){
     const input=document.getElementById('ci-'+code);
@@ -1940,8 +2043,18 @@ function renderFixers(){
    SUBMIT (multi-step + AI)
    ========================================================= */
 function openSubmit(){
-  ['s-name','s-prob','s-drop'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('s-err').textContent='';
+  ['s-name','s-prob','s-first','s-last','s-email','s-phone'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['s-err','s-err2','s-err3'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  // Returning visitor: prefill their contact details from last time
+  try{
+    const c=JSON.parse(localStorage.getItem('fixify:contact')||'null');
+    if(c){
+      if(c.first)document.getElementById('s-first').value=c.first;
+      if(c.last)document.getElementById('s-last').value=c.last;
+      if(c.email)document.getElementById('s-email').value=c.email;
+      if(c.phone)document.getElementById('s-phone').value=c.phone;
+    }
+  }catch(_){}
   document.getElementById('photoPreview').style.display='none';
   pendingPhoto=null;aiAnalysis=null;aiAnswers={};
   document.getElementById('summaryBanner').style.display='none';
@@ -1993,30 +2106,60 @@ async function submitAnswers(){
   setSubStep('contact');
 }
 function backFromContact(){setSubStep(aiAnalysis?'questions':'entry');}
-async function submitItem(){
+function toContactStep(){
   const name=val('s-name'),prob=val('s-prob');
   const err=document.getElementById('s-err2');
   if(!name||!prob){err.textContent='Fill in the item name and the problem.';return;}
+  err.textContent='';
+  setSubStep('contact2');
+}
+async function submitItem(){
+  const first=val('s-first'),last=val('s-last'),email=val('s-email').toLowerCase(),phone=val('s-phone');
+  const err=document.getElementById('s-err3');
+  if(!first||!last||!email||!phone){err.textContent='Fill in your name, email, and phone number.';return;}
+  if(!validEmail(email)){err.textContent='That email doesn\'t look right.';return;}
+  if(phone.replace(/\D/g,'').length<7){err.textContent='That phone number looks too short.';return;}
+  err.textContent='';
+  const name=val('s-name'),prob=val('s-prob');
+  // Invisible per-browser session: keeps this visitor's items and chats
+  // linked to their device with no account needed.
+  if(!auth.currentUser){
+    try{ await signInAnonymously(auth); }
+    catch(e){ console.error(e); err.textContent='Could not reach Fixify right now. Please try again in a minute.'; return; }
+  }
+  const me=auth.currentUser;
+  const displayName=first+' '+(last.trim().charAt(0)||'').toUpperCase()+'.';
+  try{
+    localStorage.setItem('fixify:name',displayName);
+    localStorage.setItem('fixify:contact',JSON.stringify({first,last,email,phone}));
+  }catch(_){}
+  if(!currentUser) currentUser={id:me.uid,name:displayName,email,role:'customer',color:'#E07D2B',anon:me.isAnonymous};
+  else if(currentUser.anon) currentUser.name=displayName;
   const id=uid();
-  // The "code" field is kept for chat-thread linkage but uses the item id —
-  // no separate user-visible code anymore.
   const newItem={
     id, code:id, name,
     cat:document.getElementById('s-cat').value,
     prob,
-    sub:currentUser.name,
-    submitterId:currentUser.id,
-    drop:val('s-drop'),
+    sub:displayName,
+    submitterId:me.uid,
+    firstName:first, lastName:last, email, phone,
+    drop:'',
     photo:pendingPhoto,
-    status:'awaiting',fixer:null,fixerId:null,timeline:null,
+    status:'awaiting',fixer:null,fixerId:null,timeline:null,bid:null,
     submittedAt:new Date().toISOString(),claimedAt:null,readyAt:null
   };
-  await saveItem(newItem);
-  await addMsg(id,{id:uid(),role:'sys',text:'Repair submitted. Your fixer will message you here once they claim it.',ts:new Date().toISOString()});
+  const ok=await saveItem(newItem);
+  if(!ok){err.textContent='Could not send your request. Please try again in a minute.';return;}
+  await addMsg(id,{id:uid(),role:'sys',text:'Fix request sent. Your fixer will message you here with a bid once they claim it.',ts:new Date().toISOString()});
   // The submitter has "seen" the system message they just caused.
   markSeen(id);
+  if(currentUser.anon) startCustomerListeners();
   setSubStep('success');
-  // listener will refresh items list automatically
+}
+function goToMyItems(){
+  close_('submitOverlay');
+  if(currentUser && !currentUser.anon){ showView('myitems'); }
+  else if(window.openMyItems){ window.openMyItems(); }
 }
 
 /* =========================================================
@@ -2026,6 +2169,7 @@ function openClaim(id){
   claimTarget=id;
   const i=items.find(x=>x.id===id);
   document.getElementById('claimTitle').textContent='Claim: '+i.name;
+  document.getElementById('c-bid').value='';
   document.getElementById('c-note').value='';
   document.getElementById('c-err').textContent='';
   open_('claimOverlay');
@@ -2033,11 +2177,13 @@ function openClaim(id){
 async function confirmClaim(){
   const i=items.find(x=>x.id===claimTarget);if(!i)return;
   const timeline=document.getElementById('c-timeline').value;
+  const bidV=val('c-bid');
   const note=val('c-note');
-  const ok=await updateItem(i.id,{status:'progress',fixer:currentUser.name,fixerId:currentUser.id,fixerEmail:(currentUser.email||'').toLowerCase(),timeline,claimedAt:new Date().toISOString()});
+  if(!bidV){ document.getElementById('c-err').textContent='Enter your bid first. It should never be more than a replacement costs.'; return; }
+  const ok=await updateItem(i.id,{status:'progress',fixer:currentUser.name,fixerId:currentUser.id,fixerEmail:(currentUser.email||'').toLowerCase(),timeline,bid:bidV,claimedAt:new Date().toISOString()});
   if(!ok){ document.getElementById('c-err').textContent='Could not claim this. You may not have fixer access yet. Ask the club admin.'; return; }
-  await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · est. ${timeline}`,ts:new Date().toISOString()});
-  await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Message me here if you have any questions.`,ts:new Date(Date.now()+500).toISOString()});
+  await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · bid ${bidV} · est. ${timeline}`,ts:new Date().toISOString()});
+  await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name}. My bid is ${bidV} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Reply here with any questions.`,ts:new Date(Date.now()+500).toISOString()});
   if(note)await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:note,ts:new Date(Date.now()+1000).toISOString()});
   close_('claimOverlay');toast('Claimed. Owner notified via chat');
 }
@@ -2159,7 +2305,7 @@ Object.assign(window,{
   switchAuthTab, signIn, signUp, googleSignIn, signOut, togglePw,
   showView, setFilter, renderItems, gotoChat,
   openSubmit, skipAI, startAI, setSubStep, pickOpt, submitAnswers,
-  backFromContact, submitItem, close_,
+  backFromContact, submitItem, toContactStep, goToMyItems, renderMyItems, close_,
   openClaim, confirmClaim, markReady, reopen, verifyReceipt,
   openFixer, saveFixer, removeFixer,
   toggleChat, sendMsg, toggleUserMenu, startSignup,

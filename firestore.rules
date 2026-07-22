@@ -7,8 +7,15 @@ rules_version = '2';
 // bypass them with browser dev tools, so every rule here assumes the
 // client can send anything.
 //
+// The public site signs visitors in ANONYMOUSLY (no account UI) when they
+// submit a fix request. Fix requests now carry the submitter's name,
+// email, and phone number, so item reads are restricted to the submitter,
+// the fixer crew, and admins — never the general public.
+//
 // To publish: Firebase console → Firestore Database → Rules → paste → Publish.
-// See README.md for details and a one-time bootstrap step.
+// ALSO REQUIRED: Firebase console → Authentication → Sign-in method →
+// enable "Anonymous". Without it, nobody can submit a fix request.
+// See README.md for the one-time admin bootstrap step.
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -17,10 +24,17 @@ service cloud.firestore {
 
     function signedIn() { return request.auth != null; }
 
+    // Anonymous sessions are how the public site works — they can create
+    // and follow their OWN items, nothing else.
+    function isAnon() {
+      return signedIn()
+        && request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
+
     // A trustworthy, confirmed email. We require email_verified so nobody can
     // register an email/password account claiming an admin's or fixer's address
-    // before that person signs in. Google sign-in (the club's Workspace domain)
-    // always yields a verified email; an email/password account must confirm.
+    // before that person signs in. Google sign-in always yields a verified
+    // email; an email/password account must confirm.
     function verifiedEmail() {
       return signedIn()
         && request.auth.token.email != null
@@ -53,13 +67,16 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
-    /* ---------- fixers: signed-in users can view, only admins manage ---------- */
+    /* ---------- fixers: portal accounts can view, only admins manage ----------
+       Not readable by anonymous visitors — fixer profiles include emails. */
     match /fixers/{fixerId} {
-      allow read: if signedIn();
+      allow read: if signedIn() && !isAnon();
       allow create, update, delete: if isAdmin();
     }
 
-    /* ---------- items (the repair board) ---------- */
+    /* ---------- items (fix requests) ----------
+       Items now include the submitter's contact info (email, phone), so
+       reads are limited to the submitter themselves, fixers, and admins. */
     match /items/{itemId} {
 
       // Non-admins can never reassign an item's owner or delist/relist it.
@@ -80,9 +97,14 @@ service cloud.firestore {
           && request.resource.data.fixerId == request.auth.uid;
       }
 
-      allow read: if signedIn();
+      allow read: if signedIn() && (
+        resource.data.submitterId == request.auth.uid
+        || isFixer()
+        || isAdmin()
+      );
 
       // A new item is always unclaimed and owned by its creator.
+      // Anonymous visitors create items this way — that's the whole flow.
       allow create: if signedIn()
         && request.resource.data.submitterId == request.auth.uid
         && request.resource.data.status == 'awaiting'
