@@ -2,13 +2,13 @@
 <html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Fixify</title>
-<meta name="description" content="Fixify — a student repair club. Submit a broken item, a fixer claims it, and you chat until it's ready. Repair, don't replace.">
+<title>Fixify — Drop off your broken items. Pick them up fixed.</title>
+<meta name="description" content="Fixify is a team of experienced fixers who repair your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more — free. Drop off your broken items. Pick them up fixed.">
 <meta name="theme-color" content="#2F5A41">
 <link rel="icon" type="image/png" href="favicon.png?v=3">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
-<meta property="og:title" content="Fixify">
-<meta property="og:description" content="Submit a broken item, a fixer claims it, and you chat until it's ready. Repair, don't replace.">
+<meta property="og:title" content="Fixify — Drop off your broken items. Pick them up fixed.">
+<meta property="og:description" content="A team of experienced fixers repairs your electronics, appliances, clothing, bikes, jewelry, computers, toys, and more — free. Repair, don't replace.">
 <meta property="og:image" content="https://www.fixifyit.org/logo.png">
 <meta property="og:url" content="https://www.fixifyit.org/">
 <meta property="og:type" content="website">
@@ -51,38 +51,141 @@ h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
 #boot-screen img{width:64px;height:64px;border-radius:50%}
 #boot-screen .sp{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite}
 
-/* ===== LANDING + AUTH SCREEN (signed-out) ===== */
+/* ===== LANDING (signed-out marketing page) ===== */
 #auth-screen{
   position:fixed;inset:0;z-index:200;
   background:var(--kraft);
   background-image:
-    radial-gradient(circle at 6% 4%,rgba(224,125,43,.22),transparent 30%),
-    radial-gradient(circle at 94% 3%,rgba(46,110,158,.18),transparent 32%),
-    radial-gradient(circle at 90% 97%,rgba(78,141,91,.22),transparent 34%),
-    radial-gradient(circle at 3% 94%,rgba(207,148,18,.18),transparent 30%),
-    radial-gradient(rgba(38,50,60,.08) 1.4px,transparent 1.4px);
-  background-size:auto,auto,auto,auto,22px 22px;
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
-  background-attachment:fixed,fixed,fixed,fixed,scroll;
-  overflow-y:auto;
+    radial-gradient(circle at 10% 0%,rgba(224,125,43,.14),transparent 36%),
+    radial-gradient(circle at 94% 26%,rgba(46,110,158,.10),transparent 32%),
+    radial-gradient(circle at 8% 88%,rgba(78,141,91,.12),transparent 36%),
+    radial-gradient(rgba(38,50,60,.065) 1.4px,transparent 1.4px);
+  background-size:auto,auto,auto,22px 22px;
+  background-repeat:no-repeat,no-repeat,no-repeat,repeat;
+  background-attachment:fixed,fixed,fixed,scroll;
+  overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;
 }
-.landing-wrap{max-width:860px;margin:0 auto;padding:52px 20px 44px;display:flex;flex-direction:column;align-items:center}
-.landing-hero{text-align:center;max-width:640px}
-.landing-logo{width:78px;height:78px;border-radius:50%;box-shadow:0 12px 30px -14px rgba(30,58,82,.55)}
-.landing-hero h1{font-weight:800;font-size:clamp(2rem,6vw,2.9rem);letter-spacing:-.02em;line-height:1.06;margin-top:18px}
-.landing-hero .hl{color:#A8551A}
-.landing-sub{color:#635E50;font-size:1.05rem;margin-top:13px}
-.landing-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
-.landing-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;width:100%;scroll-margin-top:26px}
-.lstep{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;padding:26px 18px 20px;text-align:center;position:relative;box-shadow:0 10px 22px -20px var(--shadow-color)}
-.lstep .ln{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem}
-.lstep .li{font-size:2rem;margin-bottom:8px}
-.lstep h3{font-size:1.08rem;font-weight:700;margin-bottom:6px}
-.lstep p{font-size:.9rem;color:#635E50}
-.landing-green{margin:24px 0 36px;background:var(--green-soft);color:var(--green-deep);border:1px solid #c6dbc7;border-radius:999px;padding:10px 20px;font-weight:700;font-size:.94rem;text-align:center}
-.landing-foot{color:#635E50;font-size:.8rem;margin-top:28px;text-align:center}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:640px){.landing-steps{grid-template-columns:1fr;gap:22px}.landing-wrap{padding-top:40px}}
+a.btn{text-decoration:none}
+.btn.btn-lg{padding:15px 30px;font-size:1.08rem;border-radius:13px}
+
+/* landing nav */
+.lnav{position:sticky;top:0;z-index:30;background:rgba(243,237,223,.84);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .25s,box-shadow .25s}
+.lnav.scrolled{border-bottom-color:var(--line);box-shadow:0 12px 30px -26px rgba(38,50,60,.55)}
+.lnav-in{max-width:1120px;margin:0 auto;padding:0 22px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.lnav-brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.lnav-brand img{width:38px;height:38px;border-radius:50%;box-shadow:0 6px 16px -8px rgba(30,58,82,.5)}
+.lnav-brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
+.lnav-links{display:flex;gap:4px}
+.lnav-links a{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:.95rem;color:var(--ink);opacity:.72;text-decoration:none;padding:8px 13px;border-radius:9px;transition:.15s}
+.lnav-links a:hover{opacity:1;background:rgba(38,50,60,.06)}
+.lnav-cta{display:flex;gap:10px;align-items:center}
+.lnav-cta .btn{padding:10px 18px;font-size:.95rem;white-space:nowrap}
+
+/* hero */
+.lhero{position:relative;max-width:1120px;margin:0 auto;padding:96px 22px 110px;text-align:center;scroll-margin-top:80px}
+.lhero-badge{display:inline-flex;align-items:center;gap:9px;background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:7px 17px 7px 8px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.87rem;color:var(--ink);box-shadow:0 10px 22px -16px var(--shadow-color)}
+.lhero-badge img{width:27px;height:27px;border-radius:50%}
+.lhero h1{font-weight:800;font-size:clamp(2.7rem,7.4vw,5.1rem);line-height:1.02;letter-spacing:-.03em;margin:28px auto 0;max-width:15ch}
+.swash{position:relative;display:inline-block;color:var(--orange-2)}
+.swash svg{position:absolute;left:-2%;bottom:-.13em;width:104%;height:.3em;color:var(--orange);overflow:visible}
+.swash svg path{stroke:currentColor;stroke-width:8;fill:none;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;animation:draw .9s .5s cubic-bezier(.4,0,.3,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lhero-sub{color:#5d5949;font-size:clamp(1.02rem,1.6vw,1.2rem);line-height:1.68;max-width:56ch;margin:24px auto 0}
+.lhero-cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.lhero-note{margin-top:18px;font-size:.86rem;color:#5d5949;font-weight:600}
+.lhero-tools{position:absolute;inset:0;pointer-events:none}
+.ltool{position:absolute;color:#2c4a63;opacity:.13;animation:drift 9s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateY(-8px) rotate(var(--rot,0deg))}to{transform:translateY(9px) rotate(var(--rot,0deg))}}
+@media(max-width:760px){.ltool{display:none}}
+
+/* sections */
+.lsec{max-width:1120px;margin:0 auto;padding:74px 22px;scroll-margin-top:80px}
+.lsec-head{text-align:center;max-width:780px;margin:0 auto 46px}
+.leyebrow{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#A8551A}
+.lsec-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.85rem,3.7vw,2.7rem);letter-spacing:-.02em;line-height:1.1;margin-top:10px}
+.lsec-head .lede{color:#5d5949;font-size:1.06rem;line-height:1.68;margin-top:15px}
+
+/* how-it-works steps */
+.lsteps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step-card{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:28px 24px;box-shadow:0 16px 32px -28px var(--shadow-color);transition:transform .2s,box-shadow .2s}
+.step-card:hover{transform:translateY(-4px);box-shadow:0 24px 44px -28px var(--shadow-color)}
+.step-card .num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;color:#fff;background:var(--navy);display:inline-flex;padding:5px 13px;border-radius:999px}
+.step-card:nth-child(2) .num{background:var(--orange)}
+.step-card:nth-child(3) .num{background:var(--green)}
+.step-card h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.28rem;letter-spacing:-.01em;margin-top:17px}
+.step-card p{color:#5d5949;font-size:.96rem;line-height:1.62;margin-top:8px}
+@media(max-width:820px){.lsteps{grid-template-columns:1fr}}
+
+/* what-we-fix grid */
+.fixwrap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.fixtile{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;padding:24px 16px 20px;text-align:center;box-shadow:0 12px 26px -26px var(--shadow-color);transition:transform .18s,border-color .18s,box-shadow .18s}
+.fixtile:hover{transform:translateY(-3px);border-color:var(--tile,var(--orange));box-shadow:0 18px 34px -26px var(--shadow-color)}
+.fixtile .fic{width:54px;height:54px;margin:0 auto 13px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:var(--tint,var(--orange-soft))}
+.fixtile .fic svg{width:28px;height:28px;color:var(--tile,var(--orange));stroke-width:1.8}
+.fixtile b{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.01rem;display:block;letter-spacing:-.01em}
+.fixtile span{display:block;font-size:.8rem;color:#5d5949;margin-top:4px;line-height:1.4}
+@media(max-width:860px){.fixwrap{grid-template-columns:repeat(2,1fr)}}
+
+/* statement strip */
+.lstrip{background:var(--green-deep);color:#FCFAF3;padding:66px 22px;text-align:center;position:relative;overflow:hidden}
+.lstrip::before{content:"";position:absolute;inset:0;background:radial-gradient(rgba(252,250,243,.07) 1.4px,transparent 1.4px);background-size:22px 22px}
+.lstrip .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,4.2vw,2.8rem);letter-spacing:-.02em;line-height:1.16;position:relative}
+.lstrip .big em{font-style:normal;color:#EFD9A6}
+.lstrip p{position:relative;color:#DEEBDF;margin:13px auto 0;font-size:1.03rem;max-width:52ch}
+
+/* fix-request CTA */
+.lcta{max-width:1120px;margin:0 auto;padding:84px 22px;scroll-margin-top:80px}
+.lcta-card{background:var(--paper);border:1.5px solid var(--line);border-radius:26px;padding:clamp(38px,6vw,66px) clamp(22px,5vw,60px);text-align:center;box-shadow:0 34px 64px -44px rgba(38,50,60,.6);position:relative;overflow:hidden}
+.lcta-card::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--navy),var(--blue) 28%,var(--green) 52%,var(--amber) 74%,var(--orange))}
+.lcta-card h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.95rem,4.6vw,3.1rem);letter-spacing:-.02em;line-height:1.06}
+.lcta-sub{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.1rem,2vw,1.35rem);color:#A8551A;margin-top:8px}
+.lcta-card>p{color:#5d5949;font-size:1.04rem;line-height:1.68;max-width:56ch;margin:18px auto 0}
+.lcta-card .btn{margin-top:28px}
+.lcta-note{margin-top:15px;font-size:.85rem;color:#5d5949;font-weight:600}
+
+/* FAQ */
+.lfaq{max-width:740px;margin:0 auto}
+.faq-item{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .18s}
+.faq-item[open]{border-color:#cdbf9f}
+.faq-item summary{list-style:none;cursor:pointer;padding:17px 20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.02rem}
+.faq-item summary::-webkit-details-marker{display:none}
+/* flex lives on an inner span: Safari <17.4 ignores display on <summary> itself */
+.faq-item .fsum{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.faq-item summary .pm{flex:none;width:27px;height:27px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--orange-2);font-weight:800;font-family:'Hanken Grotesk',sans-serif;transition:transform .2s,background .2s,border-color .2s}
+.faq-item[open] summary .pm{transform:rotate(45deg);background:var(--orange-soft);border-color:var(--orange)}
+.faq-item .fa{padding:0 20px 18px;color:#5d5949;font-size:.95rem;line-height:1.66}
+
+/* landing footer */
+.lfoot{border-top:2px solid var(--line);background:rgba(252,250,243,.6);padding:0;text-align:left;font-size:1rem;color:var(--ink)}
+.lfoot-in{max-width:1120px;margin:0 auto;padding:32px 22px 26px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.lfoot-brand{display:flex;align-items:center;gap:11px}
+.lfoot-brand img{width:36px;height:36px;border-radius:50%}
+.lfoot-brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;display:block;line-height:1.2}
+.lfoot-brand small{display:block;color:#5d5949;font-size:.78rem}
+.lfoot-links{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.lfoot-links a,.lfoot-links button{color:#5d5949;font-size:.89rem;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:8px;transition:.15s;background:none;border:none;cursor:pointer;font-family:inherit}
+.lfoot-links a:hover,.lfoot-links button:hover{color:var(--navy);background:rgba(38,50,60,.05)}
+.lfoot-eco{text-align:center;color:#5d5949;font-size:.79rem;padding:0 22px 26px}
+
+/* auth overlay (reuses .overlay show/hide from the app styles) */
+.overlay.auth-overlay{z-index:220;padding:18px;overflow-y:auto;overscroll-behavior:contain}
+.overlay.auth-overlay .auth-card{position:relative;margin:auto}
+.auth-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:var(--kraft);border:1.5px solid var(--line);font-size:1.1rem;line-height:1;cursor:pointer;color:var(--muted);transition:.15s}
+.auth-x:hover{color:var(--ink);border-color:#c0b8a8}
+
+/* scroll reveals (subtle) */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .65s cubic-bezier(.2,.6,.2,1),transform .65s cubic-bezier(.2,.6,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  .ltool{animation:none}
+  .swash svg path{animation:none;stroke-dashoffset:0}
+  html,#auth-screen{scroll-behavior:auto}
+}
+@media(max-width:780px){.lnav-links{display:none}}
+@media(max-width:580px){.lnav-cta .btn.lnav-start{display:none}}
+@media(max-width:600px){.lhero{padding:64px 18px 78px}.lsec{padding:52px 18px}.lcta{padding:64px 18px}}
 .auth-card{
   background:var(--paper);border:1.5px solid var(--line);border-radius:22px;
   padding:36px 32px;width:100%;max-width:440px;
@@ -274,7 +377,7 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .no-items .big{font-size:2.2rem;margin-bottom:8px}
 
 /* modal */
-.overlay{position:fixed;inset:0;background:rgba(38,50,60,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90;padding:16px}
+.overlay{position:fixed;inset:0;background:rgba(38,50,60,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:90;padding:16px}
 .overlay.show{display:flex}
 .modal{background:var(--paper);border-radius:18px;width:100%;max-width:510px;max-height:92vh;overflow-y:auto;padding:24px;animation:pop .25s ease;box-shadow:var(--shadow);border-top:5px solid var(--orange)}
 .modal-head{display:flex;align-items:center;justify-content:space-between}
@@ -317,8 +420,8 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .code-display .cval{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2rem;letter-spacing:.22em;color:var(--ink)}
 .code-display .copy{font-family:inherit;font-size:.82rem;font-weight:700;background:none;border:none;cursor:pointer;color:var(--navy);margin-top:7px}
 
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(150%);background:var(--ink);color:var(--kraft);padding:12px 22px;border-radius:12px;font-weight:600;font-size:.9rem;z-index:210;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:var(--shadow)}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(150%);visibility:hidden;background:var(--ink);color:var(--kraft);padding:12px 22px;border-radius:12px;font-weight:600;font-size:.9rem;z-index:210;transition:transform .35s cubic-bezier(.2,.9,.3,1.2),visibility .35s;box-shadow:var(--shadow)}
+.toast.show{transform:translateX(-50%) translateY(0);visibility:visible}
 footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border-top:2px solid var(--line)}
 
 .tooldeco{position:fixed;inset:0;pointer-events:none;z-index:0}
@@ -365,6 +468,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <!-- BOOT SCREEN — shown until Firebase decides signed-in vs signed-out -->
 <div id="boot-screen"><img src="logo.png?v=2" alt="Fixify"><div class="sp"></div></div>
 <script>setTimeout(function(){var b=document.getElementById('boot-screen');if(b)b.style.display='none';},6000)</script>
+<noscript><style>#boot-screen{display:none}.rv{opacity:1;transform:none}</style></noscript>
 
 <!-- TOOL SKETCHES -->
 <div class="tooldeco" aria-hidden="true">
@@ -378,28 +482,125 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
 <!-- LANDING + AUTH SCREEN (what signed-out visitors see) -->
 <div id="auth-screen" style="display:block">
-  <div class="landing-wrap">
 
-    <div class="landing-hero">
-      <img src="logo.png?v=2" alt="Fixify beaver logo" class="landing-logo">
-      <h1>Something broken?<br>Don't toss it — <span class="hl">Fixify it.</span></h1>
-      <p class="landing-sub">Fixify is our school's student repair club. Bring us busted backpacks, lamps, bikes, and toys — a fixer takes your item on for free, keeps you posted, and hands it back working.</p>
-      <div class="landing-cta">
-        <button class="btn btn-orange" onclick="startSignup()">Get started — it's free</button>
-        <button class="btn btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</button>
+  <!-- landing nav -->
+  <div class="lnav" id="lnav">
+    <div class="lnav-in">
+      <a class="lnav-brand" href="#top"><img src="logo.png?v=2" alt="Fixify logo"><b>Fixify</b></a>
+      <nav class="lnav-links" aria-label="Homepage sections">
+        <a href="#how">How it works</a>
+        <a href="#what">What we fix</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="lnav-cta">
+        <button class="btn btn-ghost" onclick="openAuth('signin')">Sign in</button>
+        <button class="btn btn-orange lnav-start" onclick="startFixRequest()">Start a fix request</button>
       </div>
     </div>
+  </div>
 
-    <h2 class="sr-only">How Fixify works</h2>
-    <div class="landing-steps" id="how">
-      <div class="lstep"><div class="ln">1</div><div class="li">📦</div><h3>Post your broken item</h3><p>Name it, snap a photo, and tell us what's wrong. It goes up on the repair board.</p></div>
-      <div class="lstep"><div class="ln">2</div><div class="li">🛠️</div><h3>A fixer claims it</h3><p>A club member takes it on and gives you an estimated timeline.</p></div>
-      <div class="lstep"><div class="ln">3</div><div class="li">💬</div><h3>Chat, then pick it up</h3><p>Message your fixer right on the site. When it's ready, grab it and confirm.</p></div>
+  <!-- hero / about -->
+  <div class="lhero" id="top">
+    <div class="lhero-tools" aria-hidden="true">
+      <svg class="ltool" style="left:2%;top:16%;width:118px;--rot:-8deg;animation-duration:9s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"><path d="M73 19c-4.6-1.6-10-.6-13.6 3-3.8 3.8-4.7 9.4-2.8 14.1L22.5 70.2c-2 2-2 5.2 0 7.2s5.2 2 7.2 0l34-34c4.7 1.9 10.3 1 14.1-2.8 3.6-3.6 4.6-9 3-13.6l-8.2 8.2-7.6-2-2-7.6z"></path></svg>
+      <svg class="ltool" style="right:4%;top:12%;width:88px;--rot:14deg;animation-duration:11s;animation-delay:.8s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="19"></circle><circle cx="50" cy="50" r="7"></circle><path d="M50 23V13M50 87V77M23 50H13M87 50H77M31 31l-7-7M69 31l7-7M31 69l-7 7M69 69l7 7"></path></svg>
+      <svg class="ltool" style="left:6%;bottom:9%;width:96px;--rot:12deg;animation-duration:8s;animation-delay:1.6s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"><rect x="60" y="14" width="16" height="28" rx="6" transform="rotate(45 68 28)"></rect><path d="M59 35 33 61"></path><path d="M30 58l-7 13 13-7z"></path></svg>
+      <svg class="ltool" style="right:7%;bottom:18%;width:72px;--rot:-6deg;animation-duration:10s;animation-delay:.4s" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linejoin="round"><polygon points="50,20 76,35 76,65 50,80 24,65 24,35"></polygon><circle cx="50" cy="50" r="11"></circle></svg>
+      <svg class="ltool" style="right:16%;top:44%;width:64px;--rot:24deg;animation-duration:7.5s;animation-delay:1.2s" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M20 12 58 50"></path><ellipse cx="25" cy="17" rx="4" ry="7" transform="rotate(-45 25 17)"></ellipse><path d="M58 50c8 10-4 20-14 14"></path></svg>
     </div>
+    <div class="lhero-badge rv"><img src="logo.png?v=2" alt=""><span>Fixify · Repair, don't replace</span></div>
+    <h1 class="rv" style="transition-delay:.06s">Drop off your broken items.<br>Pick them up <span class="swash">fixed.<svg viewBox="0 0 200 14" aria-hidden="true"><path d="M4 10.5 C 58 3.5, 142 3.5, 196 8.5" pathLength="220"></path></svg></span></h1>
+    <p class="lhero-sub rv" style="transition-delay:.12s">Fixify is a team of experienced fixers who bring broken things back to life — completely free. Tell us what's wrong, drop it off, and pick it up working again.</p>
+    <div class="lhero-cta rv" style="transition-delay:.18s">
+      <button class="btn btn-orange btn-lg" onclick="startFixRequest()">Start a fix request</button>
+      <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
+    </div>
+    <div class="lhero-note rv" style="transition-delay:.24s">Free repairs · Electronics, clothing, bikes, toys &amp; more</div>
+  </div>
 
-    <div class="landing-green">♻️ Every repair keeps one more thing out of the landfill.</div>
+  <!-- how it works -->
+  <section class="lsec" id="how">
+    <div class="lsec-head rv">
+      <div class="leyebrow">How it works</div>
+      <h2>Broken doesn't mean done.</h2>
+      <p class="lede">Fixify has a team of experienced fixers who will fix your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more — and it won't cost you a thing.</p>
+    </div>
+    <div class="lsteps">
+      <div class="step-card rv"><span class="num">Step 1</span><h3>Tell us what's broken</h3><p>Fill out a quick fix request — name the item, add a photo, and describe what's wrong. It takes about two minutes.</p></div>
+      <div class="step-card rv" style="transition-delay:.08s"><span class="num">Step 2</span><h3>A fixer takes it on</h3><p>One of our fixers claims your request, gives you an estimated timeline, and arranges drop-off with you in the built-in chat.</p></div>
+      <div class="step-card rv" style="transition-delay:.16s"><span class="num">Step 3</span><h3>Pick it up fixed</h3><p>You'll get a message the moment it's ready. Swing by, grab your item, and get back to using it.</p></div>
+    </div>
+  </section>
 
+  <!-- what we fix -->
+  <section class="lsec" id="what">
+    <div class="lsec-head rv">
+      <div class="leyebrow">What we fix</div>
+      <h2>If you can carry it in, we'll take a look.</h2>
+      <p class="lede">From dead speakers to ripped backpacks — our fixers love a challenge.</p>
+    </div>
+    <div class="fixwrap">
+      <div class="fixtile rv" style="--tile:var(--orange);--tint:var(--orange-soft)"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.5v4M15 2.5v4"></path><path d="M6.5 6.5h11V11a5.5 5.5 0 0 1-11 0z"></path><path d="M12 16.5v5"></path></svg></div><b>Electronics</b><span>Speakers, lamps, chargers</span></div>
+      <div class="fixtile rv" style="--tile:var(--blue);--tint:var(--blue-soft);transition-delay:.05s"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="8.5" rx="2.5"></rect><path d="M7 9V6.5A2.5 2.5 0 0 1 9.5 4h5A2.5 2.5 0 0 1 17 6.5V9"></path><path d="M8.5 13.2h2.2M13.3 13.2h2.2"></path></svg></div><b>Small appliances</b><span>Toasters, kettles, fans</span></div>
+      <div class="fixtile rv" style="--tile:var(--green);--tint:var(--green-soft);transition-delay:.1s"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4 3.5 7.5l2 3L8 9v10.5h8V9l2.5 1.5 2-3L16 4a4 4 0 0 1-8 0z"></path></svg></div><b>Clothing &amp; textiles</b><span>Tears, zippers, hems</span></div>
+      <div class="fixtile rv" style="--tile:var(--amber);--tint:var(--amber-soft);transition-delay:.15s"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="16.5" r="3.5"></circle><circle cx="18" cy="16.5" r="3.5"></circle><path d="M6 16.5 9.5 9h5.5l3 7.5M9.5 9 12 16.5H6M11 6.5h4"></path></svg></div><b>Bikes</b><span>Brakes, tubes, gears</span></div>
+      <div class="fixtile rv" style="--tile:var(--navy);--tint:var(--navy-soft)"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14.5" r="5.5"></circle><path d="m9.5 6 2.5-3 2.5 3L12 9z"></path></svg></div><b>Jewelry</b><span>Clasps, chains, settings</span></div>
+      <div class="fixtile rv" style="--tile:var(--blue);--tint:var(--blue-soft);transition-delay:.05s"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4.5" width="15" height="10" rx="1.6"></rect><path d="M2.5 19.5h19M5 14.5l-1.5 5M19 14.5l1.5 5"></path></svg></div><b>Computers</b><span>Won't start, broken keys</span></div>
+      <div class="fixtile rv" style="--tile:var(--orange);--tint:var(--orange-soft);transition-delay:.1s"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.5" r="6"></circle><circle cx="6.5" cy="7" r="2.5"></circle><circle cx="17.5" cy="7" r="2.5"></circle><path d="M10 12.8h.01M14 12.8h.01M10.6 15.6c.9.7 1.9.7 2.8 0"></path></svg></div><b>Toys &amp; games</b><span>Loose parts, dead sounds</span></div>
+      <div class="fixtile rv" style="--tile:var(--green);--tint:var(--green-soft);transition-delay:.15s"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.5l1.5 4.2 4.2 1.5-4.2 1.5L11 15.9l-1.5-4.2-4.2-1.5 4.2-1.5z"></path><path d="M17.8 14.8l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"></path></svg></div><b>…and more</b><span>Not sure? Ask us anyway</span></div>
+    </div>
+  </section>
+
+  <!-- statement strip -->
+  <div class="lstrip rv">
+    <div class="big">Free repairs. Real fixers.<br><em>Nothing goes to waste.</em></div>
+    <p>Every repair keeps one more thing out of the landfill — and one more favorite thing in your life.</p>
+  </div>
+
+  <!-- fix request CTA -->
+  <section class="lcta" id="request">
+    <div class="lcta-card rv">
+      <h2>Have something broken?</h2>
+      <div class="lcta-sub">Find out how to get it fixed.</div>
+      <p>First, fill out a fix request — tell us what's broken, snap a photo, and send it in. A fixer will claim it, message you with a timeline, and arrange drop-off. Then all that's left is picking it up fixed.</p>
+      <button class="btn btn-orange btn-lg" onclick="startFixRequest()">Fill out a fix request</button>
+      <div class="lcta-note">Free · About 2 minutes · Sign in or create an account to start</div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="lsec" id="faq">
+    <div class="lsec-head rv">
+      <div class="leyebrow">FAQ</div>
+      <h2>Good questions, quick answers.</h2>
+    </div>
+    <div class="lfaq">
+      <details class="faq-item rv"><summary><span class="fsum">Does it cost anything?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">No. Repairs are completely free — that's the whole point. Fix it, don't toss it.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">What can I bring?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Electronics, small appliances, clothing and textiles, bikes, jewelry, computers, toys, and more. Not sure if we'd take it? Submit a request anyway — worst case, we'll point you in the right direction.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">How do drop-off and pickup work?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Once a fixer claims your request, they'll message you in the built-in chat to arrange drop-off. When the repair is done, you'll get another message that it's ready to pick up.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">How long does a repair take?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Your fixer gives you an estimated timeline when they claim your item — simple fixes take a few days, trickier ones a couple of weeks. You can check in over chat anytime.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">What if it can't be fixed?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Sometimes a thing really is beyond saving. If so, we'll tell you what we found and suggest a plan B — spare parts, recycling, or advice on a replacement. Either way, you'll know.</div></details>
+    </div>
+  </section>
+
+  <!-- landing footer -->
+  <footer class="lfoot">
+    <div class="lfoot-in">
+      <div class="lfoot-brand"><img src="logo.png?v=2" alt=""><div><b>Fixify</b><small>Repair, don't replace</small></div></div>
+      <nav class="lfoot-links" aria-label="Footer">
+        <a href="#how">How it works</a>
+        <a href="#what">What we fix</a>
+        <a href="#faq">FAQ</a>
+        <button type="button" onclick="openAuth('signin')">Sign in</button>
+      </nav>
+    </div>
+    <div class="lfoot-eco">♻️ Every repair keeps one more thing out of the landfill.</div>
+  </footer>
+
+  <!-- auth overlay (sign in / create account) -->
+  <div class="overlay auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-label="Sign in or create your account">
   <div class="auth-card" id="signin-card">
+    <button class="auth-x" onclick="closeAuth()" aria-label="Close">×</button>
     <h2 class="sr-only">Sign in or create your account</h2>
     <div class="auth-logo">
       <img src="logo.png?v=2" alt="Fixify logo" class="auth-logo-img" onload="this.style.display='';if(this.nextElementSibling)this.nextElementSibling.style.display='none'" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block'" style="display: none;">
@@ -421,8 +622,8 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
     <!-- Sign in form -->
     <div id="form-signin">
-      <div class="afield"><label>Email</label><input type="email" id="si-email" placeholder="you@email.com"></div>
-      <div class="afield"><label>Password</label>
+      <div class="afield"><label for="si-email">Email</label><input type="email" id="si-email" placeholder="you@email.com"></div>
+      <div class="afield"><label for="si-pw">Password</label>
         <div class="pwwrap">
           <input type="password" id="si-pw" placeholder="••••••••">
           <button type="button" class="pweye" id="si-pw-eye" onclick="togglePw('si-pw','si-pw-eye')" aria-label="Show password">Show</button>
@@ -435,9 +636,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
     <!-- Sign up form -->
     <div id="form-signup" style="display:none">
-      <div class="afield"><label>Your name</label><input type="text" id="su-name" placeholder="e.g. Jordan Lee"></div>
-      <div class="afield"><label>Email</label><input type="email" id="su-email" placeholder="you@email.com"></div>
-      <div class="afield"><label>Password</label>
+      <div class="afield"><label for="su-name">Your name</label><input type="text" id="su-name" placeholder="e.g. Jordan Lee"></div>
+      <div class="afield"><label for="su-email">Email</label><input type="email" id="su-email" placeholder="you@email.com"></div>
+      <div class="afield"><label for="su-pw">Password</label>
         <div class="pwwrap">
           <input type="password" id="su-pw" placeholder="Create a password">
           <button type="button" class="pweye" id="su-pw-eye" onclick="togglePw('su-pw','su-pw-eye')" aria-label="Show password">Show</button>
@@ -448,8 +649,6 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <div class="auth-switch">Already have an account? <b onclick="switchAuthTab('signin')">Sign in</b></div>
     </div>
   </div>
-
-  <div class="landing-foot">Fixify · a student repair club · repair, don't replace</div>
   </div>
 </div>
 
@@ -635,6 +834,85 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
 <div class="toast" id="toast"></div>
 
+<script>
+/* =========================================================
+   LANDING PAGE BEHAVIORS (plain script — no Firebase needed,
+   so the marketing page is fully interactive even before the
+   module below finishes loading)
+   ========================================================= */
+function openAuth(tab){
+  var ov=document.getElementById('authOverlay');
+  if(!ov)return;
+  var signup=(tab==='signup');
+  // Opening plain sign-in abandons any pending "start a fix request" intent
+  if(!signup){try{sessionStorage.removeItem('fixify:intent');}catch(_){}}
+  window.__authReturnFocus=document.activeElement;
+  ov.classList.add('show');
+  var sc=document.getElementById('auth-screen');
+  if(sc)sc.style.overflow='hidden';
+  // Pure-DOM tab switch (mirrors the module's switchAuthTab) so the right
+  // form shows even before the Firebase module finishes loading.
+  document.getElementById('tab-signin').classList.toggle('on',!signup);
+  document.getElementById('tab-signup').classList.toggle('on',signup);
+  document.getElementById('form-signin').style.display=signup?'none':'block';
+  document.getElementById('form-signup').style.display=signup?'block':'none';
+  setTimeout(function(){
+    var el=document.getElementById(signup?'su-name':'si-email');
+    if(el)el.focus();
+  },260);
+}
+function closeAuth(){
+  var ov=document.getElementById('authOverlay');
+  if(!ov||!ov.classList.contains('show'))return;
+  ov.classList.remove('show');
+  var sc=document.getElementById('auth-screen');
+  if(sc)sc.style.overflow='';
+  // Abandoning the dialog cancels a pending fix-request intent
+  try{sessionStorage.removeItem('fixify:intent');}catch(_){}
+  var rf=window.__authReturnFocus;
+  window.__authReturnFocus=null;
+  if(rf&&rf.focus&&document.contains(rf)){try{rf.focus();}catch(_){}}
+}
+/* "Start a fix request" — remember the intent so the submit form
+   opens automatically right after sign-in (consumed in bootApp). */
+function startFixRequest(){
+  try{sessionStorage.setItem('fixify:intent','submit');}catch(_){}
+  openAuth('signup');
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){closeAuth();return;}
+  if(e.key!=='Tab')return;
+  // Keep Tab inside the auth dialog while it is open
+  var ov=document.getElementById('authOverlay');
+  if(!ov||!ov.classList.contains('show'))return;
+  var f=Array.prototype.filter.call(
+    ov.querySelectorAll('button,input,[tabindex]'),
+    function(el){return el.offsetParent!==null && !el.disabled;});
+  if(!f.length)return;
+  var first=f[0],last=f[f.length-1],a=document.activeElement;
+  if(e.shiftKey && a===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey && a===last){e.preventDefault();first.focus();}
+  else if(!ov.contains(a)){e.preventDefault();first.focus();}
+});
+(function(){
+  var ov=document.getElementById('authOverlay');
+  if(ov)ov.addEventListener('click',function(e){if(e.target===ov)closeAuth();});
+  // sticky-nav hairline + shadow once the landing scrolls
+  var sc=document.getElementById('auth-screen');
+  var nav=document.getElementById('lnav');
+  if(sc&&nav)sc.addEventListener('scroll',function(){nav.classList.toggle('scrolled',sc.scrollTop>8);},{passive:true});
+  // subtle scroll reveals
+  var els=document.querySelectorAll('#auth-screen .rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(el){el.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+    });
+  },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>
+
 <script type="module">
 /* =========================================================
    FIREBASE SETUP
@@ -756,6 +1034,7 @@ function isFixerRole(){
 }
 
 let currentUser=null; // {id,name,email,role,color}
+let wasSignedIn=false; // distinguishes a real sign-out from the initial signed-out resolution
 let items=[],fixers=[],filter='all',clubMode=false;
 let claimTarget=null,pendingPhoto=null,pendingFPhoto=null,editFixerId=null;
 let aiAnalysis=null,aiAnswers={};
@@ -932,13 +1211,9 @@ document.addEventListener('focusout',e=>{
   if(wrap && !wrap.contains(e.relatedTarget)) closeUserMenu();
 });
 
-/* Landing CTA: send new visitors to the Create-account form, then focus it. */
+/* Landing CTA: open the auth overlay on the Create-account tab. */
 function startSignup(){
-  switchAuthTab('signup');
-  const card=document.getElementById('signin-card');
-  if(card)card.scrollIntoView({behavior:'smooth'});
-  const name=document.getElementById('su-name');
-  if(name)setTimeout(()=>name.focus(),350);
+  if(window.openAuth)window.openAuth('signup');
 }
 
 // Hide the boot spinner once we know whether the user is signed in.
@@ -957,6 +1232,7 @@ onAuthStateChanged(auth, async (fbUser)=>{
       // Derive role from ADMIN_EMAILS (fixers list will refine this once the listener fires)
       if(ADMIN_EMAILS.includes((currentUser.email||'').toLowerCase())) currentUser.role='admin';
       clubMode=(currentUser.role==='fixer'||currentUser.role==='admin');
+      wasSignedIn=true;
       bootApp();
     }catch(e){
       console.error(e);
@@ -972,6 +1248,11 @@ onAuthStateChanged(auth, async (fbUser)=>{
     currentUser=null; items=[]; fixers=[]; msgsByCode={};
     document.getElementById('app').style.display='none';
     document.getElementById('auth-screen').style.display='block';
+    // On a real sign-out, land on the marketing page, not a stale auth modal.
+    // Skipped on the initial signed-out resolution: the visitor may already
+    // have the sign-in dialog open while Firebase was still loading.
+    if(wasSignedIn && window.closeAuth)window.closeAuth();
+    wasSignedIn=false;
   }
 });
 
@@ -998,6 +1279,14 @@ function bootApp(){
   startListeners();
   renderModeUI();
   maybeAskForNotifPermission();
+  // Visitor clicked "Start a fix request" on the landing page before
+  // signing in — take them straight into the submit form.
+  try{
+    if(sessionStorage.getItem('fixify:intent')==='submit'){
+      sessionStorage.removeItem('fixify:intent');
+      setTimeout(openSubmit,450);
+    }
+  }catch(_){}
 }
 
 /* =========================================================
