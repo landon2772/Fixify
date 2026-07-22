@@ -2,13 +2,13 @@
 <html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Fixify — Drop off your broken items. Pick them up fixed.</title>
-<meta name="description" content="Fixify is a team of experienced fixers who repair your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more — free. Drop off your broken items. Pick them up fixed.">
+<title>Fixify | Drop off your broken items. Pick them up fixed.</title>
+<meta name="description" content="Fixify is a team of experienced fixers who repair your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more. Fair bids, never more than the cost of a replacement. Drop off your broken items. Pick them up fixed.">
 <meta name="theme-color" content="#2F5A41">
 <link rel="icon" type="image/png" href="favicon.png?v=3">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
-<meta property="og:title" content="Fixify — Drop off your broken items. Pick them up fixed.">
-<meta property="og:description" content="A team of experienced fixers repairs your electronics, appliances, clothing, bikes, jewelry, computers, toys, and more — free. Repair, don't replace.">
+<meta property="og:title" content="Fixify | Drop off your broken items. Pick them up fixed.">
+<meta property="og:description" content="A team of experienced fixers repairs your electronics, appliances, clothing, bikes, jewelry, computers, toys, and more. Fair bids, never more than replacing it. Repair, don't replace.">
 <meta property="og:image" content="https://www.fixifyit.org/logo.png">
 <meta property="og:url" content="https://www.fixifyit.org/">
 <meta property="og:type" content="website">
@@ -98,6 +98,25 @@ a.btn{text-decoration:none}
 .ltool{position:absolute;color:#2c4a63;opacity:.13;animation:drift 9s ease-in-out infinite alternate}
 @keyframes drift{from{transform:translateY(-8px) rotate(var(--rot,0deg))}to{transform:translateY(9px) rotate(var(--rot,0deg))}}
 @media(max-width:760px){.ltool{display:none}}
+
+/* full-bleed workbench photo band (below the hero) */
+.lband{position:relative;padding:clamp(96px,15vw,168px) 22px;text-align:center;background:#26323C url('img/fix-wiring.jpg') center 42%/cover no-repeat;overflow:hidden}
+.lband::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(38,50,60,.66),rgba(47,90,65,.78))}
+.lband-in{position:relative;max-width:780px;margin:0 auto;color:#FCFAF3}
+.lband .leyebrow{color:#EFD9A6}
+.lband h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.02em;line-height:1.1;margin-top:10px}
+.lband p{color:#E6EFE2;font-size:1.05rem;line-height:1.65;margin:13px auto 0;max-width:52ch}
+
+/* workbench photo gallery */
+.lgallery{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start}
+.lshot{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:10px 10px 12px;box-shadow:0 18px 32px -26px var(--shadow-color);transition:transform .2s,box-shadow .2s;margin:0}
+.lshot:nth-child(odd){transform:rotate(-1.3deg)}
+.lshot:nth-child(even){transform:rotate(1.2deg)}
+.lshot:hover{transform:rotate(0deg) translateY(-4px);box-shadow:0 26px 44px -28px var(--shadow-color)}
+.lshot img{width:100%;height:150px;object-fit:cover;border-radius:7px;display:block}
+.lshot figcaption{font-family:'Bricolage Grotesque',sans-serif;font-size:.82rem;color:#5d5949;font-weight:700;margin-top:9px;text-align:center}
+@media(max-width:860px){.lgallery{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){.lshot,.lshot:hover{transform:none}}
 
 /* sections */
 .lsec{max-width:1120px;margin:0 auto;padding:74px 22px;scroll-margin-top:80px}
@@ -510,24 +529,33 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     </div>
     <div class="lhero-badge rv"><img src="logo.png?v=2" alt=""><span>Fixify · Repair, don't replace</span></div>
     <h1 class="rv" style="transition-delay:.06s">Drop off your broken items.<br>Pick them up <span class="swash">fixed.<svg viewBox="0 0 200 14" aria-hidden="true"><path d="M4 10.5 C 58 3.5, 142 3.5, 196 8.5" pathLength="220"></path></svg></span></h1>
-    <p class="lhero-sub rv" style="transition-delay:.12s">Fixify is a team of experienced fixers who bring broken things back to life — completely free. Tell us what's wrong, drop it off, and pick it up working again.</p>
+    <p class="lhero-sub rv" style="transition-delay:.12s">Fixify is a team of experienced fixers who bring broken things back to life, for a fair price. Tell us what's wrong, get a bid, and pick it up working again.</p>
     <div class="lhero-cta rv" style="transition-delay:.18s">
       <button class="btn btn-orange btn-lg" onclick="startFixRequest()">Start a fix request</button>
       <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
     </div>
-    <div class="lhero-note rv" style="transition-delay:.24s">Free repairs · Electronics, clothing, bikes, toys &amp; more</div>
+    <div class="lhero-note rv" style="transition-delay:.24s">Fair bids · Electronics, clothing, bikes, toys &amp; more</div>
   </div>
+
+  <!-- workbench photo band -->
+  <section class="lband" aria-label="A repair in progress at the Fixify workbench">
+    <div class="lband-in rv">
+      <div class="leyebrow">At the workbench</div>
+      <h2>Real things, really fixed.</h2>
+      <p>Every week our fixers bring dead speakers, tired toasters, and torn backpacks back to life. Yours could be next.</p>
+    </div>
+  </section>
 
   <!-- how it works -->
   <section class="lsec" id="how">
     <div class="lsec-head rv">
       <div class="leyebrow">How it works</div>
       <h2>Broken doesn't mean done.</h2>
-      <p class="lede">Fixify has a team of experienced fixers who will fix your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more — and it won't cost you a thing.</p>
+      <p class="lede">Fixify has a team of experienced fixers who will fix your broken electronics, small appliances, clothing, bikes, jewelry, computers, toys, and more. Every repair starts with a bid from your fixer, and it will never cost more than replacing the item.</p>
     </div>
     <div class="lsteps">
-      <div class="step-card rv"><span class="num">Step 1</span><h3>Tell us what's broken</h3><p>Fill out a quick fix request — name the item, add a photo, and describe what's wrong. It takes about two minutes.</p></div>
-      <div class="step-card rv" style="transition-delay:.08s"><span class="num">Step 2</span><h3>A fixer takes it on</h3><p>One of our fixers claims your request, gives you an estimated timeline, and arranges drop-off with you in the built-in chat.</p></div>
+      <div class="step-card rv"><span class="num">Step 1</span><h3>Tell us what's broken</h3><p>Fill out a quick fix request: name the item, add a photo, and describe what's wrong. It takes about two minutes.</p></div>
+      <div class="step-card rv" style="transition-delay:.08s"><span class="num">Step 2</span><h3>A fixer takes it on</h3><p>One of our fixers claims your request, sends you a bid and timeline, and arranges drop-off with you in the built-in chat.</p></div>
       <div class="step-card rv" style="transition-delay:.16s"><span class="num">Step 3</span><h3>Pick it up fixed</h3><p>You'll get a message the moment it's ready. Swing by, grab your item, and get back to using it.</p></div>
     </div>
   </section>
@@ -537,7 +565,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="lsec-head rv">
       <div class="leyebrow">What we fix</div>
       <h2>If you can carry it in, we'll take a look.</h2>
-      <p class="lede">From dead speakers to ripped backpacks — our fixers love a challenge.</p>
+      <p class="lede">From dead speakers to ripped backpacks, our fixers love a challenge.</p>
     </div>
     <div class="fixwrap">
       <div class="fixtile rv" style="--tile:var(--orange);--tint:var(--orange-soft)"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.5v4M15 2.5v4"></path><path d="M6.5 6.5h11V11a5.5 5.5 0 0 1-11 0z"></path><path d="M12 16.5v5"></path></svg></div><b>Electronics</b><span>Speakers, lamps, chargers</span></div>
@@ -551,10 +579,25 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     </div>
   </section>
 
+  <!-- workbench gallery -->
+  <section class="lsec" id="workbench">
+    <div class="lsec-head rv">
+      <div class="leyebrow">From the workbench</div>
+      <h2>Fresh off the bench.</h2>
+      <p class="lede">A few recent repairs, caught mid-fix.</p>
+    </div>
+    <div class="lgallery rv">
+      <figure class="lshot"><img src="img/fix-pressure-washer.jpg" alt="A fixer rebuilding a pressure washer engine"><figcaption>Pressure washer, engine rebuild</figcaption></figure>
+      <figure class="lshot"><img src="img/fix-soldering.jpg" alt="Soldering a display driver board inside a monitor"><figcaption>Display board, fresh solder</figcaption></figure>
+      <figure class="lshot"><img src="img/fix-toaster.jpg" alt="A toaster opened up on the bench next to a multimeter"><figcaption>Toaster, opened up</figcaption></figure>
+      <figure class="lshot"><img src="img/fix-scooter-battery.jpg" alt="Rewiring a scooter battery controller"><figcaption>Scooter battery, rewired</figcaption></figure>
+    </div>
+  </section>
+
   <!-- statement strip -->
   <div class="lstrip rv">
-    <div class="big">Free repairs. Real fixers.<br><em>Nothing goes to waste.</em></div>
-    <p>Every repair keeps one more thing out of the landfill — and one more favorite thing in your life.</p>
+    <div class="big">Fair bids. Real fixers.<br><em>Nothing goes to waste.</em></div>
+    <p>Every repair keeps one more thing out of the landfill, and one more favorite thing in your life.</p>
   </div>
 
   <!-- fix request CTA -->
@@ -562,9 +605,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="lcta-card rv">
       <h2>Have something broken?</h2>
       <div class="lcta-sub">Find out how to get it fixed.</div>
-      <p>First, fill out a fix request — tell us what's broken, snap a photo, and send it in. A fixer will claim it, message you with a timeline, and arrange drop-off. Then all that's left is picking it up fixed.</p>
+      <p>First, fill out a fix request: tell us what's broken, snap a photo, and send it in. A fixer will claim it, message you with a bid and timeline, and arrange drop-off. Then all that's left is picking it up fixed.</p>
       <button class="btn btn-orange btn-lg" onclick="startFixRequest()">Fill out a fix request</button>
-      <div class="lcta-note">Free · About 2 minutes · Sign in or create an account to start</div>
+      <div class="lcta-note">About 2 minutes · You'll get a bid before any work starts</div>
     </div>
   </section>
 
@@ -575,11 +618,11 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <h2>Good questions, quick answers.</h2>
     </div>
     <div class="lfaq">
-      <details class="faq-item rv"><summary><span class="fsum">Does it cost anything?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">No. Repairs are completely free — that's the whole point. Fix it, don't toss it.</div></details>
-      <details class="faq-item rv"><summary><span class="fsum">What can I bring?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Electronics, small appliances, clothing and textiles, bikes, jewelry, computers, toys, and more. Not sure if we'd take it? Submit a request anyway — worst case, we'll point you in the right direction.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">What does it cost?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Your fixer gives you a bid before any work starts, and it will never be more than the price of buying a replacement. On average we aim for about 40% of the cost of a new one, built on a $5/hour base rate for our fixers. Donations are always welcome too.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">What can I bring?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Electronics, small appliances, clothing and textiles, bikes, jewelry, computers, toys, and more. Not sure if we'd take it? Submit a request anyway. Worst case, we'll point you in the right direction.</div></details>
       <details class="faq-item rv"><summary><span class="fsum">How do drop-off and pickup work?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Once a fixer claims your request, they'll message you in the built-in chat to arrange drop-off. When the repair is done, you'll get another message that it's ready to pick up.</div></details>
-      <details class="faq-item rv"><summary><span class="fsum">How long does a repair take?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Your fixer gives you an estimated timeline when they claim your item — simple fixes take a few days, trickier ones a couple of weeks. You can check in over chat anytime.</div></details>
-      <details class="faq-item rv"><summary><span class="fsum">What if it can't be fixed?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Sometimes a thing really is beyond saving. If so, we'll tell you what we found and suggest a plan B — spare parts, recycling, or advice on a replacement. Either way, you'll know.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">How long does a repair take?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Your fixer gives you a bid and an estimated timeline when they claim your item. Simple fixes take a few days, trickier ones a couple of weeks. You can check in over chat anytime.</div></details>
+      <details class="faq-item rv"><summary><span class="fsum">What if it can't be fixed?<span class="pm" aria-hidden="true">+</span></span></summary><div class="fa">Sometimes a thing really is beyond saving. If so, we'll tell you what we found and suggest a plan B: spare parts, recycling, or advice on a replacement. You only pay if we fix it. Either way, you'll know.</div></details>
     </div>
   </section>
 
@@ -594,7 +637,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <button type="button" onclick="openAuth('signin')">Sign in</button>
       </nav>
     </div>
-    <div class="lfoot-eco">♻️ Every repair keeps one more thing out of the landfill.</div>
+    <div class="lfoot-eco">♻️ Every repair keeps one more thing out of the landfill. Donations always welcome.</div>
   </footer>
 
   <!-- auth overlay (sign in / create account) -->
@@ -607,7 +650,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <svg viewBox="0 0 48 48" class="auth-logo-fallback" style="display: block;"><rect x="2" y="2" width="44" height="44" rx="12" fill="#1E3A52"></rect><polygon points="24,13 32.7,18 32.7,28 24,33 15.3,28 15.3,18" fill="none" stroke="#FCFAF3" stroke-width="3" stroke-linejoin="round"></polygon><circle cx="24" cy="23" r="4.3" fill="#FCFAF3"></circle><path d="M24 13c.1-3.6 2.7-6.2 6.4-6.5-.1 3.7-2.7 6.3-6.4 6.5z" fill="#6BBE85"></path><circle cx="33" cy="9.6" r="1.7" fill="#E07D2B"></circle></svg>
       <span class="name">Fixify</span>
     </div>
-    <div class="auth-tagline">Repair, don't replace — submit a broken item or claim a repair.</div>
+    <div class="auth-tagline">Repair, don't replace. Submit a broken item or claim a repair.</div>
     <div class="auth-tabs">
       <button id="tab-signin" class="on" onclick="switchAuthTab('signin')">Sign in</button>
       <button id="tab-signup" onclick="switchAuthTab('signup')">Create account</button>
@@ -674,11 +717,11 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <div class="user-wrap">
         <button class="user-chip" id="userChip" onclick="toggleUserMenu(event)" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
           <span class="av" id="userAv" style="background:#E07D2B">?</span>
-          <span class="un" id="userName">—</span>
+          <span class="un" id="userName">…</span>
           <span class="chev" aria-hidden="true">▾</span>
         </button>
         <div class="user-menu" id="userMenu">
-          <div class="um-head"><b id="umName">—</b><span id="umEmail"></span></div>
+          <div class="um-head"><b id="umName">…</b><span id="umEmail"></span></div>
           <button class="um-item" onclick="signOut()">👋 Sign out</button>
         </div>
       </div>
@@ -746,7 +789,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <section class="view" id="view-myrepairs">
       <div class="page-head">
         <h2>My Repairs</h2>
-        <p id="myRepairsSub">Items you've claimed — chat with the owners here.</p>
+        <p id="myRepairsSub">Items you've claimed. Chat with the owners here.</p>
         <div class="ruler"></div>
       </div>
       <div id="myrepairs-content"></div>
@@ -754,7 +797,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
   </div>
 </main>
-<footer>Fixify · a student repair club · repair, don't replace · <span id="syncNote">data saves to this browser — sign in on the same device to see your items</span></footer>
+<footer>Fixify · a student repair club · repair, don't replace · <span id="syncNote">data saves to this browser. Sign in on the same device to see your items</span></footer>
 </div>
 
 <!-- SUBMIT MODAL -->
@@ -763,7 +806,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
   <div class="sst" data-step="entry">
     <p class="msub">Name the item and add a photo. We will ask a few diagnostic questions.</p>
     <div class="field"><label>What is it?</label><input id="s-name" placeholder="e.g. desk lamp, backpack, speaker"></div>
-    <div class="field"><label>Photo <span class="opt">— optional, helps a lot</span></label>
+    <div class="field"><label>Photo <span class="opt">(optional, helps a lot)</span></label>
       <label class="photo-pick"><input type="file" accept="image/*" id="s-photo">📷 Add a photo</label>
       <div class="photo-preview" id="photoPreview"><img id="photoPreviewImg" alt=""></div>
     </div>
@@ -782,13 +825,13 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
   <div class="sst" data-step="summarizing" style="display:none"><div class="ai-loading"><div class="sp"></div><b>Writing up your repair…</b><span>Summarizing your answers</span></div></div>
   <div class="sst" data-step="contact" style="display:none">
     <div class="ai-banner" id="summaryBanner" style="display:none"></div>
-    <div class="field"><label>What's wrong with it? <span class="opt">— Be specific</span></label><textarea id="s-prob" placeholder="Describe the problem…"></textarea></div>
+    <div class="field"><label>What's wrong with it? <span class="opt">(be specific)</span></label><textarea id="s-prob" placeholder="Describe the problem…"></textarea></div>
     <div class="two">
-      <div class="field"><label>Category <span class="opt">— sorted automatically</span></label>
+      <div class="field"><label>Category <span class="opt">(sorted automatically)</span></label>
         <div class="cat-display" id="catDisplay">🔧 Other</div>
         <input type="hidden" id="s-cat" value="Other">
       </div>
-      <div class="field"><label>Drop-off <span class="opt">— optional</span></label><input id="s-drop" placeholder="e.g. front office"></div>
+      <div class="field"><label>Drop-off <span class="opt">(optional)</span></label><input id="s-drop" placeholder="e.g. front office"></div>
     </div>
     <div class="err" id="s-err2"></div>
     <div class="modal-foot"><button class="btn btn-ghost" onclick="backFromContact()">Back</button><button class="btn btn-primary" onclick="submitItem()">Post to board</button></div>
@@ -797,7 +840,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="success-screen">
       <div class="check">✓</div>
       <h3>Posted!</h3>
-      <p>Your item is live on the board. See it in <b>My Items</b> — your fixer will message you there when they claim it.</p>
+      <p>Your item is live on the board. See it in <b>My Items</b>. Your fixer will message you there when they claim it.</p>
       <button class="btn btn-primary" style="width:100%" onclick="close_('submitOverlay');showView('myitems')">Go to My Items →</button>
     </div>
   </div>
@@ -806,9 +849,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <!-- CLAIM MODAL -->
 <div class="overlay" id="claimOverlay"><div class="modal">
   <div class="modal-head"><h3 id="claimTitle">Claim repair</h3><button class="x" onclick="close_('claimOverlay')" aria-label="Close">×</button></div>
-  <p class="msub">You're taking this on. Give the owner a rough idea of timing — it'll be sent as a message.</p>
+  <p class="msub">You're taking this on. Give the owner a rough idea of timing. It'll be sent as a message.</p>
   <div class="field"><label>Estimated timeline</label><select id="c-timeline"><option>A few days</option><option>About a week</option><option>1–2 weeks</option><option>2–3 weeks</option><option>Longer / not sure yet</option></select></div>
-  <div class="field"><label>Note to the owner <span class="opt">— optional</span></label><textarea id="c-note" placeholder="e.g. Need to order a part first."></textarea></div>
+  <div class="field"><label>Note to the owner <span class="opt">(optional)</span></label><textarea id="c-note" placeholder="e.g. Need to order a part first."></textarea></div>
   <div class="err" id="c-err"></div>
   <div class="modal-foot"><button class="btn btn-ghost" onclick="close_('claimOverlay')">Cancel</button><button class="btn btn-primary" onclick="confirmClaim()">Claim &amp; message owner</button></div>
 </div></div>
@@ -821,9 +864,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <div class="field"><label>Name</label><input id="f-name" placeholder="e.g. Sam K."></div>
     <div class="field"><label>Specialty</label><input id="f-spec" placeholder="e.g. Electronics"></div>
   </div>
-  <div class="field"><label>Email <span class="opt">— must match their sign-in email</span></label><input id="f-email" type="email" placeholder="sam@example.com"></div>
+  <div class="field"><label>Email <span class="opt">(must match their sign-in email)</span></label><input id="f-email" type="email" placeholder="sam@example.com"></div>
   <div class="field"><label>Bio</label><textarea id="f-bio" placeholder="What they're good at fixing…"></textarea></div>
-  <div class="field"><label>Photo <span class="opt">— optional</span></label>
+  <div class="field"><label>Photo <span class="opt">(optional)</span></label>
     <label class="photo-pick"><input type="file" accept="image/*" id="f-photo">📷 Add photo</label>
     <div class="photo-preview" id="fPhotoPreview"><img id="fPhotoPreviewImg" alt=""></div>
   </div>
@@ -1065,7 +1108,7 @@ function authErrMsg(e){
   if(c.includes('invalid-email'))return 'That doesn\'t look like a valid email.';
   if(c.includes('weak-password'))return 'Password must be at least 6 characters.';
   if(c.includes('popup-closed-by-user'))return 'Google sign-in cancelled.';
-  if(c.includes('network-request-failed'))return 'Network error — check your connection.';
+  if(c.includes('network-request-failed'))return 'Network error. Check your connection.';
   return (e&&e.message)||'Something went wrong. Try again.';
 }
 
@@ -1541,15 +1584,15 @@ function renderModeUI(){
   // Home page hint — explains how club access works now
   const hint=document.getElementById('modeHint');
   if(hint){
-    if(admin)            hint.innerHTML='Signed in as <b>admin</b> — you can manage fixers, listings, and claim repairs.';
-    else if(clubMode)    hint.innerHTML='Signed in as a <b>fixer</b> — you can claim repairs and chat with submitters.';
-    else if(isAdmin())   hint.innerHTML='Previewing the <b>user view</b> — use the switch up top to return to admin.';
+    if(admin)            hint.innerHTML='Signed in as <b>admin</b>. You can manage fixers, listings, and claim repairs.';
+    else if(clubMode)    hint.innerHTML='Signed in as a <b>fixer</b>. You can claim repairs and chat with submitters.';
+    else if(isAdmin())   hint.innerHTML='Previewing the <b>user view</b>. Use the switch up top to return to admin.';
     else                 hint.innerHTML='Submit broken items and let the Fixify crew take it from there.';
   }
   // Fixers tab hint
   const fixHint=document.getElementById('fixHint');
   if(fixHint){
-    if(admin)         fixHint.innerHTML='You\'re an <b>admin</b> — add or edit fixers below.';
+    if(admin)         fixHint.innerHTML='You\'re an <b>admin</b>. Add or edit fixers below.';
     else if(clubMode) fixHint.innerHTML='You\'re a <b>fixer</b> on this crew.';
     else              fixHint.innerHTML='Meet the crew. Want to join? Ask the club admin to add you.';
   }
@@ -1646,7 +1689,7 @@ function itemCard(i){
     if(canChat)acts.push(`<button class="chatbtn" onclick="gotoChat('${i.code}','${chatTarget}')">💬 Chat</button>`);
     if(acts.length)block+=`<div class="act">${acts.join('')}</div>`;
   }else{
-    block=`<div class="ready-box">✅ Fixed by ${esc(i.fixer)} — ready for pickup!</div>`;
+    block=`<div class="ready-box">✅ Fixed by ${esc(i.fixer)}, ready for pickup!</div>`;
     if(clubMode&&(isMyRepair||actingAsAdmin()))block+=`<div class="act"><button class="secondary" onclick="reopen('${i.id}')">Reopen</button></div>`;
   }
   const delistMark=i.delisted?`<span class="delisted-pill">Delisted</span>`:'';
@@ -1674,7 +1717,7 @@ function adminItemStrip(i){
 function renderMyItems(){
   if(!currentUser)return;
   const myItems=items.filter(i=>i.submitterId===currentUser.id && (actingAsAdmin()||!i.delisted));
-  document.getElementById('myItemsSub').textContent='Your submitted items — track status and chat with your fixer here.';
+  document.getElementById('myItemsSub').textContent='Your submitted items. Track status and chat with your fixer here.';
   const root=document.getElementById('myitems-content');
   if(!myItems.length){
     root.innerHTML=`<div class="no-items"><div class="big">📦</div><b>No items submitted yet.</b><br><span>Submit a broken item using the button on the Home page.</span></div>`;
@@ -1700,7 +1743,7 @@ function renderMyRepairs(){
   const active=myRepairs.filter(i=>i.status==='progress').length;
   const pending=myRepairs.filter(i=>i.status==='ready').length;
   const done=myRepairs.filter(i=>i.status==='verified').length;
-  document.getElementById('myRepairsSub').innerHTML=`Items you've claimed — chat with the owners here. <b>${active}</b> in progress · <b>${pending}</b> awaiting confirmation · <b>${done}</b> completed.`;
+  document.getElementById('myRepairsSub').innerHTML=`Items you've claimed. Chat with the owners here. <b>${active}</b> in progress · <b>${pending}</b> awaiting confirmation · <b>${done}</b> completed.`;
   const root=document.getElementById('myrepairs-content');
   if(!myRepairs.length){
     root.innerHTML=`<div class="no-items"><div class="big">🔧</div><b>No repairs claimed yet.</b><br><span>Head to the Home board and claim a repair.</span></div>`;
@@ -1715,7 +1758,7 @@ function miCard(i){
   const mineToFix=currentUser && i.fixerId===currentUser.id;
   const statusTxt={
     awaiting: '● Awaiting a fixer',
-    progress: mineToFix ? '● In progress — you\'re fixing this' : `● In progress with ${i.fixer||'a fixer'}`,
+    progress: mineToFix ? '● In progress. You\'re fixing this' : `● In progress with ${i.fixer||'a fixer'}`,
     ready:    '● Ready for pickup',
     verified: '● Completed'
   }[i.status]||'';
@@ -1735,9 +1778,9 @@ function miCard(i){
   } else if(isMyFixerCard && i.status==='verified'){
     actionRow=`<div class="mi-actions"><div class="mi-done">🎉 Repair completed and confirmed!</div></div>`;
   } else if(isMySubmitterCard && i.status==='ready'){
-    actionRow=`<div class="mi-actions"><button class="mi-verify" onclick="verifyReceipt('${i.id}')">✓ I got it — confirm receipt</button></div>`;
+    actionRow=`<div class="mi-actions"><button class="mi-verify" onclick="verifyReceipt('${i.id}')">✓ I got it, confirm receipt</button></div>`;
   } else if(isMySubmitterCard && i.status==='verified'){
-    actionRow=`<div class="mi-actions"><div class="mi-done">🎉 Repair confirmed — thanks, ${esc(i.fixer||'fixer')}!</div></div>`;
+    actionRow=`<div class="mi-actions"><div class="mi-done">🎉 Repair confirmed. Thanks, ${esc(i.fixer||'fixer')}!</div></div>`;
   }
   return `<div class="mi-card">
     <div class="mi-head">
@@ -1811,7 +1854,7 @@ function renderMsgs(code){
   const msgs=loadMsgs(code);
   const body=document.getElementById('cm-'+code);
   if(!body)return;
-  if(!msgs.length){body.innerHTML=`<div class="msg sys">No messages yet — once a fixer claims this, they'll say hi here.</div>`;return;}
+  if(!msgs.length){body.innerHTML=`<div class="msg sys">No messages yet. Once a fixer claims this, they'll say hi here.</div>`;return;}
   body.innerHTML=msgs.map(m=>{
     if(m.role==='sys')return `<div class="msg sys">${esc(m.text)}</div>`;
     const cls=m.role==='fixer'?'fixer':'sub';
@@ -1907,7 +1950,7 @@ async function submitAnswers(){
       maxTokens:300
     });
     const parsed=extractJSON(txt);
-    if(parsed&&parsed.summary){document.getElementById('s-prob').value=parsed.summary;document.getElementById('summaryBanner').innerHTML=`<b>✨ AI summary</b> — edit if needed.`;document.getElementById('summaryBanner').style.display='block';}
+    if(parsed&&parsed.summary){document.getElementById('s-prob').value=parsed.summary;document.getElementById('summaryBanner').innerHTML=`<b>✨ AI summary</b>. Edit if needed.`;document.getElementById('summaryBanner').style.display='block';}
   }catch(e){ /* no summary available — the user fills in the problem manually */ }
   setSubStep('contact');
 }
@@ -1954,11 +1997,11 @@ async function confirmClaim(){
   const timeline=document.getElementById('c-timeline').value;
   const note=val('c-note');
   const ok=await updateItem(i.id,{status:'progress',fixer:currentUser.name,fixerId:currentUser.id,fixerEmail:(currentUser.email||'').toLowerCase(),timeline,claimedAt:new Date().toISOString()});
-  if(!ok){ document.getElementById('c-err').textContent='Could not claim this — you may not have fixer access yet. Ask the club admin.'; return; }
+  if(!ok){ document.getElementById('c-err').textContent='Could not claim this. You may not have fixer access yet. Ask the club admin.'; return; }
   await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} claimed this repair · est. ${timeline}`,ts:new Date().toISOString()});
   await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:`Hi! I picked up your ${i.name} and I'm planning to have it back to you in about ${timeline.toLowerCase()}. Message me here if you have any questions.`,ts:new Date(Date.now()+500).toISOString()});
   if(note)await addMsg(i.code,{id:uid(),role:'fixer',who:currentUser.name,text:note,ts:new Date(Date.now()+1000).toISOString()});
-  close_('claimOverlay');toast('Claimed — owner notified via chat');
+  close_('claimOverlay');toast('Claimed. Owner notified via chat');
 }
 async function markReady(id){
   const i=items.find(x=>x.id===id);if(!i)return;
@@ -1981,8 +2024,8 @@ async function verifyReceipt(id){
   }
   if(!confirm(`Confirm you've received your repaired ${i.name}? This finalizes the repair and credits ${i.fixer||'the fixer'}.`))return;
   await updateItem(i.id,{status:'verified',verifiedAt:new Date().toISOString()});
-  await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} confirmed receipt — repair complete! 🎉`,ts:new Date().toISOString()});
-  toast('Repair confirmed — thanks!');
+  await addMsg(i.code,{id:uid(),role:'sys',text:`${currentUser.name} confirmed receipt. Repair complete! 🎉`,ts:new Date().toISOString()});
+  toast('Repair confirmed. Thanks!');
 }
 
 /* =========================================================
