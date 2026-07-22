@@ -187,6 +187,29 @@ a.btn{text-decoration:none}
 .lfoot-links a:hover,.lfoot-links button:hover{color:var(--navy);background:rgba(38,50,60,.05)}
 .lfoot-eco{text-align:center;color:#5d5949;font-size:.79rem;padding:0 22px 26px}
 
+/* full-page fix request form (replaces the old submit modal) */
+#submitOverlay{
+  position:fixed;inset:0;z-index:95;display:none;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--kraft);
+  background-image:
+    radial-gradient(circle at 10% 0%,rgba(224,125,43,.14),transparent 36%),
+    radial-gradient(circle at 94% 26%,rgba(46,110,158,.10),transparent 32%),
+    radial-gradient(rgba(38,50,60,.065) 1.4px,transparent 1.4px);
+  background-size:auto,auto,22px 22px;
+  background-repeat:no-repeat,no-repeat,repeat;
+}
+#submitOverlay.show{display:block;animation:fade .25s ease}
+.fixpage-in{max-width:640px;margin:0 auto;padding:12px 18px 80px}
+.fixpage-top{display:flex;align-items:center;justify-content:space-between;height:64px}
+.fixpage-brand{display:flex;align-items:center;gap:10px}
+.fixpage-brand img{width:34px;height:34px;border-radius:50%}
+.fixpage-brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+.fixpage-top .btn{padding:9px 16px;font-size:.92rem}
+.fixpage-head{text-align:center;margin:16px 0 22px}
+.fixpage-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.7rem,5vw,2.4rem);letter-spacing:-.02em;line-height:1.1}
+.fixpage-head p{color:#5d5949;margin:9px auto 0;font-size:.98rem;line-height:1.6;max-width:46ch}
+.modal.fixpage-card{max-width:none;max-height:none;overflow:visible;animation:none}
+
 /* auth overlay (reuses .overlay show/hide from the app styles) */
 .overlay.auth-overlay{z-index:220;padding:18px;overflow-y:auto;overscroll-behavior:contain}
 .overlay.auth-overlay .auth-card{position:relative;margin:auto}
@@ -739,7 +762,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
         <p>Post your broken item. The Fixify crew claims repairs, gives you a timeline, and you can chat directly until it's ready.</p>
         <div class="ruler"></div>
         <div class="hero-row">
-          <button class="btn btn-primary" onclick="openSubmit()">＋ Submit an item</button>
+          <button class="btn btn-primary" onclick="openSubmit()">＋ Start a fix request</button>
           <span class="clubhint" id="modeHint"></span>
         </div>
       </div>
@@ -800,9 +823,18 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 <footer>Fixify · a student repair club · repair, don't replace · <span id="syncNote">data saves to this browser. Sign in on the same device to see your items</span></footer>
 </div>
 
-<!-- SUBMIT MODAL -->
-<div class="overlay" id="submitOverlay"><div class="modal">
-  <div class="modal-head"><h3 id="submitTitle">Submit an item</h3><button class="x" onclick="close_('submitOverlay')" aria-label="Close">×</button></div>
+<!-- FIX REQUEST PAGE (full page, opened from the landing CTA and the app board) -->
+<div id="submitOverlay" role="dialog" aria-modal="true" aria-label="Start a fix request">
+<div class="fixpage-in">
+  <div class="fixpage-top">
+    <div class="fixpage-brand"><img src="logo.png?v=2" alt=""><b>Fixify</b></div>
+    <button class="btn btn-ghost" onclick="close_('submitOverlay')">← Back</button>
+  </div>
+  <div class="fixpage-head">
+    <h2>Start a fix request</h2>
+    <p>Tell us what's broken. A fixer will claim it and send you a bid before any work starts.</p>
+  </div>
+  <div class="modal fixpage-card">
   <div class="sst" data-step="entry">
     <p class="msub">Name the item and add a photo. We will ask a few diagnostic questions.</p>
     <div class="field"><label>What is it?</label><input id="s-name" placeholder="e.g. desk lamp, backpack, speaker"></div>
@@ -844,7 +876,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
       <button class="btn btn-primary" style="width:100%" onclick="close_('submitOverlay');showView('myitems')">Go to My Items →</button>
     </div>
   </div>
-</div></div>
+  </div>
+</div>
+</div>
 
 <!-- CLAIM MODAL -->
 <div class="overlay" id="claimOverlay"><div class="modal">
@@ -1323,11 +1357,11 @@ function bootApp(){
   renderModeUI();
   maybeAskForNotifPermission();
   // Visitor clicked "Start a fix request" on the landing page before
-  // signing in — take them straight into the submit form.
+  // signing in — take them straight into the full-page fix form.
   try{
     if(sessionStorage.getItem('fixify:intent')==='submit'){
       sessionStorage.removeItem('fixify:intent');
-      setTimeout(openSubmit,450);
+      openSubmit();
     }
   }catch(_){}
 }
