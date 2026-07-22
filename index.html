@@ -23,7 +23,7 @@
   --amber:#CF9412;--amber-soft:#F6E8C5;
   --blue:#2E6E9E;--blue-soft:#DBE8F1;
   --green:#4E8D5B;--green-soft:#DEEBDF;--green-deep:#2F5A41;
-  --r:14px;--shadow:0 18px 38px -26px rgba(38,50,60,.6);--shadow-color:rgba(38,50,60,.6);
+  --r:16px;--shadow:0 18px 38px -26px rgba(38,50,60,.6);--shadow-color:rgba(38,50,60,.6);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -41,7 +41,7 @@ body{
   background-attachment:fixed,fixed,fixed,fixed,scroll;
   line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;
 }
-.wrap{max-width:920px;margin:0 auto;padding:0 18px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
 h1,h2,h3,.slab{font-family:'Bricolage Grotesque',sans-serif}
 .ruler{height:9px;background:repeating-linear-gradient(90deg,var(--orange) 0 1.5px,transparent 1.5px 14px);opacity:.55;border-radius:2px;margin:10px 0 0}
 :focus-visible{outline:2px solid var(--orange);outline-offset:2px}
@@ -267,26 +267,27 @@ a.btn{text-decoration:none}
 .auth-switch b:hover{text-decoration:underline}
 
 /* ===== HEADER ===== */
-header{position:sticky;top:0;z-index:40;background:var(--green-deep);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.18)}
-header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--blue) 28%,var(--green) 52%,var(--amber) 74%,var(--orange));opacity:.95}
-.head-in{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:920px;margin:0 auto;padding:0 18px;gap:10px}
+header{position:sticky;top:0;z-index:40;background:rgba(243,237,223,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:linear-gradient(90deg,var(--navy),var(--blue) 28%,var(--green) 52%,var(--amber) 74%,var(--orange));opacity:.85}
+.head-in{display:flex;align-items:center;justify-content:space-between;height:70px;max-width:1080px;margin:0 auto;padding:0 18px;gap:10px}
 .brand{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
 .brand svg{width:36px;height:36px;flex:none}
-.brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:#FCFAF3}
-.brand small{font-size:.65rem;color:#EFD9A6;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.brand b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:var(--ink)}
+.brand small{display:block;font-size:.6rem;color:#A8551A;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-top:1px}
+.brand b{display:block;line-height:1.05}
 .head-right{display:flex;align-items:center;gap:10px}
 nav.main{display:flex;gap:2px}
-nav.main button{position:relative;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:.9rem;color:#FCFAF3;background:none;border:none;cursor:pointer;padding:7px 11px;border-radius:9px;transition:.15s;opacity:.78}
+nav.main button{position:relative;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:.9rem;color:var(--ink);background:none;border:none;cursor:pointer;padding:7px 11px;border-radius:9px;transition:.15s;opacity:.72}
 nav.main button.has-unread{opacity:1}
-nav.main button .nav-badge{position:absolute;top:-2px;right:-2px;background:var(--orange);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.66rem;min-width:18px;height:18px;padding:0 5px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--green-deep);line-height:1}
-nav.main button:hover{opacity:1;background:rgba(255,255,255,.16)}
-nav.main button.on{opacity:1;color:var(--green-deep);background:#FCFAF3}
+nav.main button .nav-badge{position:absolute;top:-2px;right:-2px;background:var(--orange);color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.66rem;min-width:18px;height:18px;padding:0 5px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--paper);line-height:1}
+nav.main button:hover{opacity:1;background:rgba(38,50,60,.07)}
+nav.main button.on{opacity:1;color:var(--kraft);background:var(--ink)}
 .user-wrap{position:relative}
-.user-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:none;border-radius:999px;padding:5px 12px 5px 6px;cursor:pointer;font-family:inherit;transition:.15s}
-.user-chip:hover{background:rgba(255,255,255,.25)}
+.user-chip{display:flex;align-items:center;gap:7px;background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:4px 11px 4px 5px;cursor:pointer;font-family:inherit;transition:.15s}
+.user-chip:hover{border-color:#c0b8a8}
 .user-chip .av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.76rem;color:#fff;flex:none}
-.user-chip .un{font-size:.82rem;font-weight:700;color:#FCFAF3;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.user-chip .chev{color:#FCFAF3;opacity:.7;font-size:.62rem}
+.user-chip .un{font-size:.82rem;font-weight:700;color:var(--ink);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-chip .chev{color:var(--ink);opacity:.55;font-size:.62rem}
 .user-menu{position:absolute;right:0;top:calc(100% + 9px);background:var(--paper);border:1.5px solid var(--line);border-radius:13px;box-shadow:0 18px 40px -18px rgba(38,50,60,.55);width:230px;max-width:calc(100vw - 24px);display:none;overflow:hidden;z-index:60}
 .user-menu.open{display:block;animation:pop .16s ease}
 .um-head{display:flex;flex-direction:column;gap:2px;padding:12px 15px;border-bottom:1px solid var(--line)}
@@ -301,8 +302,8 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
 @keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
 
-.hero h1{font-weight:800;font-size:clamp(1.9rem,5.5vw,2.7rem);letter-spacing:-.02em;line-height:1.04;max-width:17ch}
-.hero p{color:var(--muted);font-size:1.04rem;margin-top:9px;max-width:56ch}
+.hero h1{font-weight:800;font-size:clamp(2.1rem,5.5vw,3rem);letter-spacing:-.025em;line-height:1.04;max-width:17ch}
+.hero p{color:#5d5949;font-size:1.05rem;line-height:1.6;margin-top:10px;max-width:56ch}
 .hero-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
 .btn{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;border:none;padding:12px 22px;border-radius:11px;transition:.16s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn-primary{background:var(--navy);color:#fff;box-shadow:0 9px 20px -8px rgba(30,58,82,.65)}
@@ -310,22 +311,22 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .btn-orange{background:var(--orange);color:#fff}.btn-orange:hover{background:var(--orange-2)}
 .btn-ghost{background:var(--paper);color:var(--navy);border:1.5px solid var(--line)}.btn-ghost:hover{border-color:var(--navy)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.clubhint{font-size:.84rem;color:var(--muted)}.clubhint b{color:var(--orange-2)}
+.clubhint{font-size:.84rem;color:#5d5949}.clubhint b{color:var(--orange-2)}
 
 .impact{display:flex;gap:10px;margin:22px 0;flex-wrap:wrap}
 .istat{flex:1;min-width:110px;background:var(--paper);border:1.5px solid var(--line);border-radius:13px;padding:14px 16px}
 .istat .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.8rem;line-height:1}
-.istat .l{font-size:.77rem;color:var(--muted);font-weight:600;margin-top:4px}
+.istat .l{font-size:.77rem;color:#5d5949;font-weight:600;margin-top:4px}
 .istat.amber .n{color:var(--amber)}.istat.blue .n{color:var(--blue)}.istat.green .n{color:var(--green)}
 .istat.hero{display:flex;align-items:center;gap:16px;padding:18px 22px;background:linear-gradient(135deg,var(--green-soft),var(--paper));border-color:#c6dbc7}
 .istat.hero .n{font-size:2.6rem;color:var(--green-deep)}
 .istat.hero .l{font-size:.92rem;color:var(--green-deep);font-weight:700;margin-top:6px;letter-spacing:.01em}
 .istat.hero .ico{font-size:2.2rem}
-.board-label{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.92rem;color:var(--muted);letter-spacing:.01em;text-transform:uppercase}
+.board-label{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.85rem;color:#A8551A;letter-spacing:.1em;text-transform:uppercase}
 
 .filterbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
-.tabs button{font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--muted);transition:.15s}
+.tabs button{font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:#5d5949;transition:.15s}
 .tabs button:hover{border-color:#cdbf9f}.tabs button.on{background:var(--ink);color:var(--kraft);border-color:var(--ink)}
 .catsel{font-family:inherit;font-size:.85rem;font-weight:600;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink)}
 
@@ -338,11 +339,11 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 .tag::before{content:"";position:absolute;left:6px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.85)}
 .tag.awaiting{background:var(--amber)}.tag.progress{background:var(--blue)}.tag.ready{background:var(--green)}
 .body{padding:14px 15px 15px;display:flex;flex-direction:column;gap:9px;flex:1}
-.catpill{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.catpill{font-size:.72rem;font-weight:800;color:#A8551A;letter-spacing:.06em;text-transform:uppercase}
 .card h3{font-size:1.15rem;font-weight:700;line-height:1.1}
 .note{background:#E7EFD6;border:1px dashed #C2D2A0;border-left:4px solid #79A23C;border-radius:8px;padding:9px 11px;font-size:.88rem;color:#3f4a32;flex:1}
 .note .nlabel{font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5f7e2c;display:block;margin-bottom:2px}
-.meta{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.meta{font-size:.8rem;color:#5d5949;display:flex;flex-direction:column;gap:3px}
 .timeline-box{background:var(--blue-soft);border-radius:9px;padding:8px 11px;font-size:.82rem}.timeline-box b{color:#1f5179}
 .ready-box{background:var(--green-soft);border-radius:9px;padding:8px 11px;font-size:.82rem;color:#316b3d;font-weight:600}
 .act{display:flex;gap:7px;flex-wrap:wrap}
@@ -357,17 +358,17 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 
 /* fixers */
 .page-head{margin-bottom:6px}
-.page-head h2{font-size:2rem;font-weight:800;letter-spacing:-.02em}
-.page-head p{color:var(--muted);margin-top:4px;max-width:58ch}
+.page-head h2{font-size:clamp(1.8rem,3.4vw,2.4rem);font-weight:800;letter-spacing:-.025em}
+.page-head p{color:#5d5949;margin-top:6px;max-width:58ch;line-height:1.6}
 .fixhead-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:18px 0}
 .fixgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px}
-.fcard{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;text-align:center;box-shadow:0 10px 22px -20px var(--shadow-color);transition:.2s;position:relative}
+.fcard{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:22px 20px;text-align:center;box-shadow:0 14px 28px -24px var(--shadow-color);transition:.2s;position:relative}
 .fcard:hover{transform:translateY(-3px)}
 .fcard .pic{width:92px;height:92px;border-radius:50%;margin:0 auto 13px;overflow:hidden;border:3px solid var(--paper);box-shadow:0 0 0 3px var(--orange-soft)}
 .fcard .pic img{width:100%;height:100%;object-fit:cover}
 .avi{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2rem}
 .fcard h3{font-size:1.2rem;font-weight:700}
-.fspec{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--orange-2);background:var(--orange-soft);padding:4px 11px;border-radius:999px;margin:6px 0 10px}
+.fspec{display:inline-block;font-size:.73rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#A8551A;background:var(--orange-soft);padding:4px 11px;border-radius:999px;margin:6px 0 10px}
 .fbio{font-size:.9rem;color:#4a4f52;text-align:left}
 .fstat{margin-top:12px;font-size:.82rem;font-weight:700;color:var(--green);display:flex;align-items:center;justify-content:center;gap:6px}
 .fedit{position:absolute;top:12px;right:12px;background:var(--kraft);border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:.75rem;font-weight:700;color:var(--muted);cursor:pointer;padding:5px 9px;transition:.15s}
@@ -464,7 +465,7 @@ main{padding:28px 0 80px;position:relative;z-index:1}
 
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(150%);visibility:hidden;background:var(--ink);color:var(--kraft);padding:12px 22px;border-radius:12px;font-weight:600;font-size:.9rem;z-index:210;transition:transform .35s cubic-bezier(.2,.9,.3,1.2),visibility .35s;box-shadow:var(--shadow)}
 .toast.show{transform:translateX(-50%) translateY(0);visibility:visible}
-footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border-top:2px solid var(--line)}
+footer{text-align:center;color:#5d5949;font-size:.79rem;padding:24px 18px;border-top:2px solid var(--line)}
 
 .tooldeco{position:fixed;inset:0;pointer-events:none;z-index:0}
 .tool{position:fixed;color:#2c4a63;opacity:.12;pointer-events:none}
@@ -474,7 +475,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
   .user-chip .un,.user-chip .chev{display:none}
   .user-chip{padding:5px}
   /* Anchor the dropdown to the viewport corner so it's always fully on-screen */
-  .user-menu{position:fixed;top:60px;right:10px;left:auto;width:min(230px,calc(100vw - 20px))}
+  .user-menu{position:fixed;top:74px;right:10px;left:auto;width:min(230px,calc(100vw - 20px))}
 }
 
 /* ===== LOGO (PNG) ===== */
@@ -484,8 +485,8 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 .auth-logo-fallback{width:44px;height:44px;flex:none}
 
 /* ===== ADMIN "VIEW AS USER" SWITCH ===== */
-.va-switch{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);color:#FCFAF3;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;padding:6px 11px;border-radius:999px;cursor:pointer;transition:.15s}
-.va-switch:hover{background:rgba(255,255,255,.26)}
+.va-switch{display:inline-flex;align-items:center;gap:7px;background:var(--paper);border:1.5px solid var(--line);color:var(--ink);font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;padding:6px 11px;border-radius:999px;cursor:pointer;transition:.15s}
+.va-switch:hover{border-color:#c0b8a8}
 .va-switch .va-dot{width:9px;height:9px;border-radius:50%;background:#9aa6ad;transition:.15s;flex:none}
 .va-switch.on .va-dot{background:#6BBE85;box-shadow:0 0 0 3px rgba(107,190,133,.3)}
 
@@ -759,10 +760,10 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <section class="view on" id="view-home">
       <div class="hero">
         <h1>Got something broken? We'll fix it.</h1>
-        <p>Post your broken item. The Fixify crew claims repairs, gives you a timeline, and you can chat directly until it's ready.</p>
+        <p>Post your broken item. A fixer claims it, sends you a bid and timeline, and you chat until it's ready for pickup.</p>
         <div class="ruler"></div>
         <div class="hero-row">
-          <button class="btn btn-primary" onclick="openSubmit()">＋ Start a fix request</button>
+          <button class="btn btn-orange" onclick="openSubmit()">＋ Start a fix request</button>
           <span class="clubhint" id="modeHint"></span>
         </div>
       </div>
@@ -787,6 +788,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <!-- FIXERS -->
     <section class="view" id="view-fixers">
       <div class="page-head">
+        <div class="leyebrow">The crew</div>
         <h2>Meet the Fixers</h2>
         <p>The crew behind the bench. Submit under the right category and the right fixer will grab it.</p>
         <div class="ruler"></div>
@@ -801,6 +803,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <!-- MY ITEMS -->
     <section class="view" id="view-myitems">
       <div class="page-head">
+        <div class="leyebrow">Your stuff</div>
         <h2>My Items</h2>
         <p id="myItemsSub"></p>
         <div class="ruler"></div>
@@ -811,6 +814,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
     <!-- MY REPAIRS (club mode only) -->
     <section class="view" id="view-myrepairs">
       <div class="page-head">
+        <div class="leyebrow">Your bench</div>
         <h2>My Repairs</h2>
         <p id="myRepairsSub">Items you've claimed. Chat with the owners here.</p>
         <div class="ruler"></div>
@@ -820,7 +824,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;padding:22px;border
 
   </div>
 </main>
-<footer>Fixify · a student repair club · repair, don't replace · <span id="syncNote">data saves to this browser. Sign in on the same device to see your items</span></footer>
+<footer>Fixify · Repair, don't replace · <span id="syncNote">data saves to this browser. Sign in on the same device to see your items</span></footer>
 </div>
 
 <!-- FIX REQUEST PAGE (full page, opened from the landing CTA and the app board) -->
@@ -1712,7 +1716,7 @@ function itemCard(i){
   const isMyItem=currentUser&&(i.submitterId===currentUser.id);
   const isMyRepair=currentUser&&(i.fixerId===currentUser.id);
   let block='';
-  if(i.status==='awaiting')block=clubMode?`<div class="act"><button class="claim" onclick="openClaim('${i.id}')">Claim repair</button></div>`:isMyItem?`<div class="locked">Waiting for a fixer to claim it</div>`:`<div class="locked">Awaiting a club member</div>`;
+  if(i.status==='awaiting')block=clubMode?`<div class="act"><button class="claim" onclick="openClaim('${i.id}')">Claim repair</button></div>`:isMyItem?`<div class="locked">Waiting for a fixer to claim it</div>`:`<div class="locked">Waiting for a fixer</div>`;
   else if(i.status==='progress'){
     block=`<div class="timeline-box">🛠️ <b>${esc(i.fixer)}</b> is on it · est. <b>${esc(i.timeline)}</b></div>`;
     // Only the submitter or the actual fixer should see Chat — they're the only ones who'll find this thread on their list page.
